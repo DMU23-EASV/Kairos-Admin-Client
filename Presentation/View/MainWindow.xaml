@@ -1,0 +1,63 @@
+﻿<Window
+    Background="{StaticResource BackgroundBrush}"
+    Height="600"
+    Icon="../Resources/images/appIcon.png"
+    Title="ArbejdPlus"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="WPF_MVVM_TEMPLATE.Presentation.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.ViewModel"
+    xmlns:views="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Window.Resources>
+
+        <DataTemplate DataType="{x:Type viewModels:AdminPanelViewModel}" x:Name="AdminPanelTemplate">
+            <views:AdminPanelView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}" x:Name="SettingsViewTemplate">
+            <views:SettingsView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:HomeViewModel}" x:Name="HomeViewTemplate">
+            <views:HomeView />
+        </DataTemplate>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <views:TopBar/>
+        
+        <Grid Grid.Row="1">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <views:NavigationDrawer/>
+
+            <ContentControl
+                Grid.Column="1"
+                Content="{Binding CurrentViewModel}" 
+                HorizontalAlignment="Stretch" />
+            
+        </Grid>
+        
+    </Grid>
+
+</Window>

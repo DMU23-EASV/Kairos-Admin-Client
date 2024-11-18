@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="WPF_MVVM_TEMPLATE.Presentation.View.TopBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+             mc:Ignorable="d"
+             d:DesignHeight="80" d:DesignWidth="300">
+    <StackPanel Orientation="Horizontal" Background="{StaticResource HeaderColorBrush}">
+        
+        <Button
+            Foreground="{StaticResource PrimaryForegroundBrush}"
+            Content="ArbejdPlus"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            FontWeight="Bold"
+            VerticalAlignment="Center"
+            FontSize="30"
+            Margin="16 0 0 0"
+            Click="Navigate_Home">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        
+    </StackPanel>
+</UserControl>

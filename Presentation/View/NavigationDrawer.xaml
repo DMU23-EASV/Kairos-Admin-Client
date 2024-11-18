@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="WPF_MVVM_TEMPLATE.Presentation.View.NavigationDrawer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="300">
+    <Grid>
+        <Border BorderBrush="{StaticResource MenuDrawColorBrush}" BorderThickness="0 0 2 0">
+            <StackPanel>
+                
+                
+                <RadioButton
+                    Content="Home"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="home"
+                    Width="180" 
+                    Click="HomeNav_OnClick"/>
+                
+                <Label Content="Tasks"/>     
+                <RadioButton
+                    Content="Dashboard"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Dashboard"
+                    Width="180" />
+                
+                <RadioButton
+                    Content="Create"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="PlusCircle"
+                    Width="180" />
+                
+                <RadioButton
+                    Content="Edit"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Edit"
+                    Width="180" />
+                
+                
+                <Label Content="Users"/>        
+                <RadioButton
+                    Content="Create"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="UserPlus"
+                    Width="180" />
+
+                <RadioButton
+                    Content="manage"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Users"
+                    Width="180" />
+                
+                <Label Content="Misc"/>        
+                <RadioButton
+                    Content="Settings"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="gear"
+                    Width="180" 
+                    Click="SettingsNav_OnClick"/>
+
+                <RadioButton
+                    Content="Export"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Upload"
+                    Width="180" />
+                
+            </StackPanel>
+        </Border>
+    </Grid>
+    
+</UserControl>

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="WPF_MVVM_TEMPLATE.Presentation.View.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="400" d:DesignWidth="600">
+    <StackPanel
+        HorizontalAlignment="Center"
+        Width="auto">
+        
+        <Label Content="Username"></Label>
+        <TextBox Text="Magnus1249"
+                 Width="300"/>
+        
+        <Label Content="Email"></Label>
+        <TextBox Text="mag@easv365.dk"></TextBox>
+        
+        <Label Content="Land"></Label>
+        <ComboBox 
+            ItemsSource="{Binding Countries}"
+            SelectedIndex="0"/>
+        
+        
+        <Label Content="By"></Label>
+        <TextBox Text="Sønderborg"></TextBox>
+        
+        <Label Content="Adresse"></Label>
+        <TextBox Text="Mørkevej 22A"></TextBox>
+        
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Save" Style="{StaticResource ButtonBase}"/>
+            <Button Content="Back" 
+                    Style="{StaticResource ButtonBase}" 
+                    Command="{Binding NavigateBackCommand}"/>
+        </WrapPanel>
+        
+    </StackPanel>
+</UserControl>
