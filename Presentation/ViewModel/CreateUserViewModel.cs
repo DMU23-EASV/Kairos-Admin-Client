@@ -6,32 +6,49 @@ namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
 public class CreateUserViewModel : ViewModelBase
 {
-    private string _username;
-    
-  
-
-    public string TextBoxUsername
+    private readonly Dictionary<string, string> _fields = new()
     {
-        get => _username;
+        { "TextBoxFirstName", "" },
+        { "TextBoxLastName", "" },
+        { "TextBoxEmail", "" },
+        { "TextBoxPhoneCode", "" },
+        { "TextBoxPhoneNumber", "" },
+        { "TextBoxUsername", "" },
+        { "TextBoxPassword1", "" },
+        { "TextBoxPassword2", "" },
+        { "TextBoxRole", "" },
+        { "TextBoxStatus", "" },
+        { "TextBoxDepartment", "" },
+        { "TextBoxComment", "" }
+    };
+    
+    public string this[string field]
+    {
+        get => _fields.ContainsKey(field) ? _fields[field] : "";
         set
         {
-            if (_username != value)
+            if (_fields.ContainsKey(field) && _fields[field] != value)
             {
-                _username = value;
-                OnPropertyChanged(nameof(TextBoxUsername));
+                _fields[field] = value;
+                OnPropertyChanged(field);
             }
         }
     }
 
     private void SavePerson(object obj)
     {
-        if (!string.IsNullOrWhiteSpace(TextBoxUsername))
+        var emptyFields = _fields.Where(field => string.IsNullOrWhiteSpace(field.Value))
+            .Select(field => field.Key)
+            .ToList();
+
+        if (emptyFields.Any())
         {
-            Console.Out.WriteLine($"IM A PRETEND OBJECT :-D - Username: {TextBoxUsername}");
+            Console.WriteLine($"The following fields are empty: {string.Join(", ", emptyFields)}");
         }
         else
         {
-            Console.Out.WriteLine($"Username is empty");
+            Console.WriteLine("All fields are valid!");
+            // Perform save logic
         }
     }
 
