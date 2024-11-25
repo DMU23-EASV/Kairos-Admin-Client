@@ -37,25 +37,25 @@
         <!-- ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 -->
         <local:LabelTextBoxWithClear Grid.Row="1" Grid.Column="0"
                                      LabelContent="Fornavn" 
-                                     TextBoxContent="{Binding TextBoxFirstName, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxFirstName], Mode=TwoWay}"
                                      />
         <local:LabelTextBoxWithClear Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
                                      LabelContent="Efternavn" 
-                                     TextBoxContent="{Binding TextBoxLastName, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxLastName], Mode=TwoWay}"
                                      />
         <!-- ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 -->
         <local:LabelTextBoxWithClear Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
                                      LabelContent="Email"
-                                     TextBoxContent="{Binding TextBoxEmail, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxEmail], Mode=TwoWay}"
                                      />
         <!-- ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 -->
         <local:LabelTextBoxWithClear Grid.Row="3" Grid.Column="0"
                                      LabelContent="Lande Kode"
-                                     TextBoxContent="{Binding TextBoxPhoneCode, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxPhoneCode], Mode=TwoWay}"
                                      />
         <local:LabelTextBoxWithClear Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
                                      LabelContent="Telefon Nr."
-                                     TextBoxContent="{Binding TextBoxPhoneNumber, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxPhoneNumber], Mode=TwoWay}"
                                      />
         <!-- ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 -->
         <Label Grid.Row="4" 
@@ -67,43 +67,45 @@
         <!-- ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 -->
         <local:LabelTextBoxWithClear Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
                                      LabelContent="Brugernavn"
-                                     TextBoxContent="{Binding TextBoxUsername, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxUsername], Mode=TwoWay}"
         />
         <local:LabelTextBoxWithClear Grid.Row="5" Grid.Column="4"
                                      LabelContent="Password"
-                                     TextBoxContent="{Binding TextBoxPassword1, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxPassword1], Mode=TwoWay}"
                                      />
         <!-- ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 -->
         <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="0"
                                      LabelContent="Role"
-                                     TextBoxContent="{Binding TextBoxRole, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxRole], Mode=TwoWay}"
                                      />
         <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="1"
                                      LabelContent="Status"
-                                     TextBoxContent="{Binding TextBoxStatus, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxStatus], Mode=TwoWay}"
                                      />
         <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="2"
                                      LabelContent="Afdeling"
-                                     TextBoxContent="{Binding TextBoxDepartment, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxDepartment], Mode=TwoWay}"
                                      />
         <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
                                      LabelContent="Gentage Password"
-                                     TextBoxContent="{Binding TextBoxPassword2, Mode=TwoWay}"
+                                     TextBoxContent="{Binding [TextBoxPassword2], Mode=TwoWay}"
                                      />
         <local:LabelTextBoxWithClear Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5"
                                      LabelContent="Kommentar"
-                                     TextBoxContent="{Binding TextBoxComment, Mode=TwoWay}"/>
+                                     TextBoxContent="{Binding [TextBoxComment], Mode=TwoWay}"/>
     </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Command="{Binding SavePersonCommand}">
-                Opret
+            
+            <Button Grid.Column="0"
+                    Style="{StaticResource ButtonBaseIcon}" 
+                    Tag="check"
+                    Command="{Binding SavePersonCommand}"
+                    Width="130">
+                Opret Bruger
             </Button>
-            <Button Grid.Column="1">Tilbage</Button>
         </Grid>
     </StackPanel>
 </UserControl>
