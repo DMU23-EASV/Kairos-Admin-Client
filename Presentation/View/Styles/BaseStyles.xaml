@@ -16,7 +16,7 @@
         <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColorBrush}"></Setter>
     </Style>
     
-    <Style TargetType="TextBox">
+    <Style TargetType="TextBox" x:Key="TextBoxBase">
         <!--  Basic settings for alignment and height  -->
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Height" Value="28" />
@@ -63,10 +63,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-
-
-
 
 </ResourceDictionary>   

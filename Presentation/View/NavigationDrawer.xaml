@@ -44,7 +44,8 @@
                     Content="Create"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="UserPlus"
-                    Width="180" />
+                    Width="180"
+                    Click="CreateUserNav_OnClick"/>
 
                 <RadioButton
                     Content="manage"
