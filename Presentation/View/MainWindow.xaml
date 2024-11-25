@@ -56,6 +56,7 @@
             <views:NavigationDrawer/>
 
             <ContentControl
+                Margin="10,0,10,0"
                 Grid.Column="1"
                 Content="{Binding CurrentViewModel}" 
                 HorizontalAlignment="Stretch" />
