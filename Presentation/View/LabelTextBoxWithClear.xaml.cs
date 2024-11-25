@@ -6,6 +6,12 @@ namespace WPF_MVVM_TEMPLATE.Presentation.View;
 
 public partial class LabelTextBoxWithClear : UserControl
 {
+    private static void OnTextBoxContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (LabelTextBoxWithClear)d;
+        Console.WriteLine($"TextBoxContent changed from '{e.OldValue}' to '{e.NewValue}'");
+        // Additional logic, if needed
+    }
     public string LabelContent
     {
         get { return (string)GetValue(LabelContentProperty); }
@@ -13,7 +19,11 @@ public partial class LabelTextBoxWithClear : UserControl
     }
 
     public static readonly DependencyProperty LabelContentProperty =
-        DependencyProperty.Register(nameof(LabelContent), typeof(string), typeof(LabelTextBoxWithClear), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(
+            nameof(LabelContent), 
+            typeof(string), 
+            typeof(LabelTextBoxWithClear), 
+            new PropertyMetadata(string.Empty));
 
     public string TextBoxContent
     {
@@ -26,7 +36,11 @@ public partial class LabelTextBoxWithClear : UserControl
     }
 
     public static readonly DependencyProperty TextBoxContentProperty =
-        DependencyProperty.Register(nameof(TextBoxContent), typeof(string), typeof(LabelTextBoxWithClear), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(
+            nameof(TextBoxContent), 
+            typeof(string),
+            typeof(LabelTextBoxWithClear), 
+            new PropertyMetadata(string.Empty, OnTextBoxContentChanged));
 
     //public ICommand ClearCommand { get; set; }
 

@@ -51,14 +51,35 @@ public class CreateUserViewModel : ViewModelBase
         if (emptyFields.Any())
         {
             Console.WriteLine($"The following fields are empty :D {string.Join(", ", emptyFields)}");
+            ForceResetFields();
         }
         else
         {
             Console.WriteLine("All fields are valid! :-)");
+            Console.WriteLine($"The following fields have been saved :D {string.Join(", ", emptyFields)}");
+            ResetFields();
+            
             // Perform save logic
         }
     }
     //Our ICommand, required to make connection between View and ViewModel 
     public ICommand SavePersonCommand => new CommandBase(SavePerson);
+
+    private void ResetFields()
+    {
+        _fields["TextBoxFirstName"] = "Reset Test";
+        OnPropertyChanged("TextBoxFirstName");
+        foreach (var key in _fields.Keys.ToList())
+        {
+            _fields[key] = string.Empty;
+            OnPropertyChanged(key); // Notify for the indexer
+        }
+        Console.WriteLine($"All fields cleared");
+    }
+
+    private void ForceResetFields()
+    {
+        this["TextBoxFirstName"] = "Test Value";
+    }
     
 }

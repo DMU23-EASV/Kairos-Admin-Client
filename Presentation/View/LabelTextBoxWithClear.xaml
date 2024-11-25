@@ -17,7 +17,7 @@
                    />
             <Grid MinWidth="120">
                 <!-- Bind to the UserControl's TextBoxContent -->
-                <TextBox Text="{Binding TextBoxContent, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                <TextBox Text="{Binding TextBoxContent, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          BorderThickness="0"
                          Margin="3,0,0,0"
                          Background="Transparent"
