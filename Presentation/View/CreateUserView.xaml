@@ -3,125 +3,111 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="600">
     <StackPanel>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <!-- ROW 0 -->
-        <Label Grid.Row="0" 
-               Grid.Column="0"
-               Grid.ColumnSpan="5"
-               FontSize="24">
-            Person Information
-        </Label>
-        <!-- ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 ROW 1 -->
-        <local:LabelTextBoxWithClear Grid.Row="1" Grid.Column="0"
-                                     LabelContent="Fornavn" 
-                                     TextBoxContent="{Binding [TextBoxFirstName], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <local:LabelTextBoxWithClear Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
-                                     LabelContent="Efternavn" 
-                                     TextBoxContent="{Binding [TextBoxLastName], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <!-- ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 ROW 2 -->
-        <local:LabelTextBoxWithClear Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
-                                     LabelContent="Email"
-                                     TextBoxContent="{Binding [TextBoxEmail], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <!-- ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 ROW 3 -->
-        <local:LabelTextBoxWithClear Grid.Row="3" Grid.Column="0"
-                                     LabelContent="Lande Kode"
-                                     TextBoxContent="{Binding [TextBoxPhoneCode], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <local:LabelTextBoxWithClear Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
-                                     LabelContent="Telefon Nr."
-                                     TextBoxContent="{Binding [TextBoxPhoneNumber], 
-                                     Mode=TwoWay}"
-                                     />
-        <!-- ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 ROW 4 -->
-        <Label Grid.Row="4" 
-               Grid.Column="0"
-               Grid.ColumnSpan="5"
-               FontSize="24">
-            Medarbejder Information
-        </Label>
-        <!-- ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 ROW 5 -->
-        <local:LabelTextBoxWithClear Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
-                                     LabelContent="Brugernavn"
-                                     TextBoxContent="{Binding [TextBoxUsername], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-        />
-        <local:LabelTextBoxWithClear Grid.Row="5" Grid.Column="4"
-                                     LabelContent="Password"
-                                     TextBoxContent="{Binding [TextBoxPassword1], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <!-- ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 ROW 6 -->
-        <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="0"
-                                     LabelContent="Role"
-                                     TextBoxContent="{Binding [TextBoxRole], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="1"
-                                     LabelContent="Status"
-                                     TextBoxContent="{Binding [TextBoxStatus], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="2"
-                                     LabelContent="Afdeling"
-                                     TextBoxContent="{Binding [TextBoxDepartment],
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <local:LabelTextBoxWithClear Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
-                                     LabelContent="Gentage Password"
-                                     TextBoxContent="{Binding [TextBoxPassword2], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                                     />
-        <local:LabelTextBoxWithClear Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5"
-                                     LabelContent="Kommentar"
-                                     TextBoxContent="{Binding [TextBoxComment], 
-                                     Mode=TwoWay, 
-                                     UpdateSourceTrigger=PropertyChanged}"/>
-    </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- ROW 0 -->
+            <Label Grid.Row="0" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="5"
+                   FontSize="24">
+                Person Information
+            </Label>
+
+            <!-- ROW 1 -->
+            <ContentControl Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Fornavn" 
+                            Content="{Binding [TextBoxFirstName], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ContentControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Efternavn" 
+                            Content="{Binding TextBoxLastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 2 -->
+            <ContentControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Email" 
+                            Content="{Binding TextBoxEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 3 -->
+            <ContentControl Grid.Row="3" Grid.Column="0"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Lande Kode" 
+                            Content="{Binding TextBoxPhoneCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ContentControl Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Telefon Nr." 
+                            Content="{Binding TextBoxPhoneNumber, Mode=TwoWay}" />
+
+            <!-- ROW 4 -->
+            <Label Grid.Row="4" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="5"
+                   FontSize="24">
+                Medarbejder Information
+            </Label>
+
+            <!-- ROW 5 -->
+            <ContentControl Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Brugernavn" 
+                            Content="{Binding TextBoxUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ContentControl Grid.Row="5" Grid.Column="4"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Password" 
+                            Content="{Binding TextBoxPassword1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 6 -->
+            <ContentControl Grid.Row="6" Grid.Column="0"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Role" 
+                            Content="{Binding TextBoxRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ContentControl Grid.Row="6" Grid.Column="1"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Status" 
+                            Content="{Binding TextBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ContentControl Grid.Row="6" Grid.Column="2"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Afdeling" 
+                            Content="{Binding TextBoxDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ContentControl Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Gentage Password" 
+                            Content="{Binding TextBoxPassword2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 7 -->
+            <ContentControl Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Kommentar" 
+                            Content="{Binding TextBoxComment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <!-- Button Section -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
                     Style="{StaticResource ButtonBaseIcon}" 
                     Tag="check"

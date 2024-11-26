@@ -79,6 +79,7 @@ public class CreateUserViewModel : ViewModelBase
 
     private void ForceResetFields()
     {
+        Console.WriteLine($"Force Reset Fields");
         this["TextBoxFirstName"] = "Test Value";
     }
     
