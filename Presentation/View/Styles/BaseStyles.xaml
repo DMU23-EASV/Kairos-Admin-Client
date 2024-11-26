@@ -53,7 +53,7 @@
                             <Setter Property="BorderBrush" TargetName="Border" Value="#005A9E" />
                             <Setter Property="BorderThickness" TargetName="Border" Value="2" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
+                        <Trigger Property="IsEnabled" Value="True">
                             <Setter Property="Background" TargetName="Border" Value="#EEEEEE" />
                             <Setter Property="BorderBrush" TargetName="Border" Value="#AAAAAA" />
                             <Setter Property="Foreground" Value="#888888" />
@@ -64,10 +64,10 @@
         </Setter>
     </Style>
     
-    <Style x:Key="LabeledTextBoxStyle" TargetType="ContentControl">
+    <Style x:Key="LabeledTextBoxStyle" TargetType="TextBox">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
+                <ControlTemplate TargetType="TextBox">
                     <StackPanel Orientation="Vertical" MinWidth="120">
                         <!-- Label -->
                         <Label Content="{TemplateBinding Tag}"
@@ -76,11 +76,15 @@
                                FontWeight="Medium" />
 
                         <!-- TextBox -->
-                        <TextBox Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBox Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                  Style="{StaticResource TextBoxBase}"
                                  BorderThickness="0"
                                  Margin="3,0,0,0"
-                                 Background="Transparent" />
+                                 Background="Transparent" 
+                                 Focusable="True"
+                                 TabIndex="0"
+                                 CaretBrush="Black"
+                                 />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

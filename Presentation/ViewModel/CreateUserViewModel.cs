@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Entitys;
@@ -137,7 +139,40 @@ public class CreateUserViewModel : ViewModelBase
         }
     }
     #endregion
-
+    
+    #region TextBox Validation
+    
+    private bool ValidateNumber(string value)
+    {
+        string pattern = @"^\d$";
+        if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
+        {
+            return false;
+        }
+        return true;
+    }
     
     
+    private bool ValidateEmail(string value)
+    {
+        string pattern = @"^[^@]+@[^@]+\.[^@]+$";
+        if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    private bool ValidateLettersAndSpaces(string value)
+    {
+        // Regex to allow only letters (A-Z, a-z) and spaces
+        string pattern = @"^[a-zA-Z]+$";
+        if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
+        {
+            return false; 
+        }
+        return true; 
+    }
+    
+    #endregion
 }
