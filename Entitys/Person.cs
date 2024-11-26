@@ -2,13 +2,17 @@ namespace WPF_MVVM_TEMPLATE.Entitys;
 
 public class Person
 {
+    public string id { get; set; }
     
-    string username { get; set; }
-    string name { get; set; }
-    string surname { get; set; }
-    string phone { get; set; }
-    string department { get; set; }
-    string description { get; set; }
+    public string email { get; set; }
+    public string password { get; set; }
+    public string role { get; set; }
+    public string status { get; set; }
     
-
+    public string username { get; set; }
+    public string firstName { get; set; }
+    public string lastName { get; set; }
+    public string phoneNumber { get; set; }
+    public string department { get; set; }
+    public string comment { get; set; }
 }

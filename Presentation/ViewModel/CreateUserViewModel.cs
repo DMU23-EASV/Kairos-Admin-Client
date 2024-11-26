@@ -5,82 +5,139 @@ using WPF_MVVM_TEMPLATE.Entitys;
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 /*
  * CreateUserViewModel Contains the form for creation of new users.
- * We use a dictionary to hold all the textboxes, this is to ensure we dont repeat our selves more than needed.
  * 
  */
 public class CreateUserViewModel : ViewModelBase
 {
-    //Our Dictionary with all our Textboxes, initialized to get a valid bind.
-    private readonly Dictionary<string, string> _fields = new()
+    #region Getter & Setter
+    private string _TextBoxFirstName;
+    public string TextBoxFirstName
     {
-        { "TextBoxFirstName", "" },
-        { "TextBoxLastName", "" },
-        { "TextBoxEmail", "" },
-        { "TextBoxPhoneCode", "" },
-        { "TextBoxPhoneNumber", "" },
-        { "TextBoxUsername", "" },
-        { "TextBoxPassword1", "" },
-        { "TextBoxPassword2", "" },
-        { "TextBoxRole", "" },
-        { "TextBoxStatus", "" },
-        { "TextBoxDepartment", "" },
-        { "TextBoxComment", "" }
-    };
-    
-    //Our generalized getter and setter for our fields. We validate through our dictionary
-    public string this[string field]
-    {
-        get => _fields.ContainsKey(field) ? _fields[field] : "";
+        get { return _TextBoxFirstName; }
         set
         {
-            if (_fields.ContainsKey(field) && _fields[field] != value)
-            {
-                _fields[field] = value;
-                OnPropertyChanged(field);
-            }
+            _TextBoxFirstName = value; 
+            OnPropertyChanged();
         }
     }
-
-    //Our savePerson method, we check to see if any fields are empty and if they are we save them to keep track of which.
-    private void SavePerson(object obj)
+    private string _TextBoxLastName;
+    public string TextBoxLastName
     {
-        var emptyFields = _fields.Where(field => string.IsNullOrWhiteSpace(field.Value))
-            .Select(field => field.Key)
-            .ToList();
-
-        if (emptyFields.Any())
+        get { return _TextBoxLastName; }
+        set
         {
-            Console.WriteLine($"The following fields are empty :D {string.Join(", ", emptyFields)}");
-            ForceResetFields();
-        }
-        else
-        {
-            Console.WriteLine("All fields are valid! :-)");
-            Console.WriteLine($"The following fields have been saved :D {string.Join(", ", emptyFields)}");
-            ResetFields();
-            
-            // Perform save logic
+            _TextBoxLastName = value;
+            OnPropertyChanged();
         }
     }
-    //Our ICommand, required to make connection between View and ViewModel 
-    public ICommand SavePersonCommand => new CommandBase(SavePerson);
-
-    private void ResetFields()
+    private string _TextBoxEmail;
+    public string TextBoxEmail
     {
-        _fields["TextBoxFirstName"] = "Reset Test";
-        OnPropertyChanged("TextBoxFirstName");
-        foreach (var key in _fields.Keys.ToList())
+        get { return _TextBoxEmail; }
+        set
         {
-            _fields[key] = string.Empty;
-            OnPropertyChanged(key); // Notify for the indexer
+            _TextBoxEmail = value;
+            OnPropertyChanged();
         }
-        Console.WriteLine($"All fields cleared");
     }
 
-    private void ForceResetFields()
+    private string _TextBoxPhoneCode;
+    public string TextBoxPhoneCode
     {
-        Console.WriteLine($"Force Reset Fields");
-        this["TextBoxFirstName"] = "Test Value";
+        get { return _TextBoxPhoneCode; }
+        set
+        {
+            _TextBoxPhoneCode = value;
+            OnPropertyChanged();
+        }
     }
+    private string _TextBoxPhoneNumber;
+    public string TextBoxPhoneNumber
+    {
+        get { return _TextBoxPhoneNumber; }
+        set
+        {
+            _TextBoxPhoneNumber = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _TextBoxUsername;
+    public string TextBoxUsername
+    {
+        get { return _TextBoxUsername; }
+        set
+        {
+            _TextBoxUsername = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _TextBoxPassword1;
+    public string TextBoxPassword1
+    {
+        get { return _TextBoxPassword1; }
+        set
+        {
+            _TextBoxPassword1 = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _TextBoxPassword2;
+
+    public string TextBoxPassword2
+    {
+        get { return _TextBoxPassword2; }
+        set
+        {
+            _TextBoxPassword2 = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _TextBoxRole;
+
+    public string TextBoxRole
+    {
+        get { return _TextBoxRole; }
+        set
+        {
+            _TextBoxRole = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _TextBoxStatus;
+    public string TextBoxStatus
+    {
+        get { return _TextBoxStatus; }
+        set
+        {
+            _TextBoxStatus = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _TextBoxDepartment;
+
+    public string TextBoxDepartment
+    {
+        get { return _TextBoxDepartment; }
+        set
+        {
+            _TextBoxDepartment = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _TextBoxComment;
+
+    public string TextBoxComment
+    {
+        get { return _TextBoxComment; }
+        set
+        {
+            _TextBoxComment = value;
+            OnPropertyChanged();
+        }
+    }
+    #endregion
+
+    
     
 }
