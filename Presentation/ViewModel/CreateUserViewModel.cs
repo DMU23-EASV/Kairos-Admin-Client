@@ -6,8 +6,9 @@ using WPF_MVVM_TEMPLATE.Entitys;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 /*
- * CreateUserViewModel Contains the form for creation of new users.
- * 
+ * View : CreateUserView
+ * CreateUserViewModel Contains logic for the form used for creation of new users.
+ * It handles validation on the user side and sends a Person onwards to be handled by the API.
  */
 public class CreateUserViewModel : ViewModelBase
 {
@@ -140,10 +141,13 @@ public class CreateUserViewModel : ViewModelBase
     }
     #endregion
     
-    #region TextBox Validation
-    
+    #region Regex Validation
+    /*
+     * All of our validation use Regex for its flexiblity
+     */
     private bool ValidateNumber(string value)
     {
+        //Regex check for numbers only (0-9) 
         string pattern = @"^\d$";
         if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
         {
@@ -152,9 +156,9 @@ public class CreateUserViewModel : ViewModelBase
         return true;
     }
     
-    
     private bool ValidateEmail(string value)
     {
+        //Regex check for 1 (@) and 1 OR more .
         string pattern = @"^[^@]+@[^@]+\.[^@]+$";
         if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
         {
@@ -175,4 +179,7 @@ public class CreateUserViewModel : ViewModelBase
     }
     
     #endregion
+    
+    
+    
 }
