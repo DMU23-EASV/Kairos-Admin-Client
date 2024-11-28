@@ -1,18 +1,22 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.Application.Utility;
 using WPF_MVVM_TEMPLATE.Entitys;
+using WPF_MVVM_TEMPLATE.Entitys.DTOs;
+using WPF_MVVM_TEMPLATE.Infrastructure;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 /*
  * View : CreateUserView
  * CreateUserViewModel Contains logic for the form used for creation of new users.
- * It handles validation on the user side and sends a Person onwards to be handled by the API.
+ * It handles validation on the user side and sends a User onwards to be handled by the API.
  */
 public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
@@ -39,14 +43,39 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     private string defaultError = "Field is required";
     public bool IsSubmitButtonEnabled => !_validationManager.HasErrors;
     
+    
+    
     public CreateUserViewModel()
     { 
         _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
         InitializeErrors(); // Call on startup to populate errors
     }
+    public ICommand CreateUserCommand => new CommandBase(CreateUserLogic);
+    private void CreateUserLogic(object o)
+    {
+        Console.WriteLine("HELLO WORLD??!?");
+        CreateUserDTO userDTO = new();
+        userDTO.username = TextBoxUsername;
+        userDTO.password = TextBoxPassword2;
+        userDTO.firstName = TextBoxFirstName;
+        userDTO.lastName = TextBoxLastName;
+        userDTO.phoneNumber = Convert.ToInt32(TextBoxPhoneNumber);
+        userDTO.contryCode = TextBoxPhoneCode;
+        userDTO.email = TextBoxEmail;
+        userDTO.status = Convert.ToInt32(TextBoxStatus);
+        userDTO.department = TextBoxDepartment;
+        userDTO.comment = TextBoxComment;
+        userDTO.role = Convert.ToInt32(TextBoxRole);
+        
+        CreateUserUseCase create = new CreateUserUseCase(new ApiService(new HttpClient()));
+        
+        //TODO: Handle response?
+        Console.WriteLine(create.CreateUser(userDTO));
+    }
     
     #region Getter & Setter
+    
     private string _textBoxFirstName;
     public string TextBoxFirstName
     {
@@ -97,7 +126,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         get { return _textBoxEmail; }
         set
         {
-            // Log the new email value to the console
+            // Log the new Email value to the console
             Console.WriteLine($"Setting TextBoxEmail to: {value}");
 
             _textBoxEmail = value;
@@ -107,7 +136,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             Console.WriteLine("Clearing previous errors for TextBoxEmail.");
             _validationManager.ClearErrors(nameof(TextBoxEmail));
 
-            // Perform validation (email validation in this case)
+            // Perform validation (Email validation in this case)
             var validationResult = new EmailRule().Validate(value, CultureInfo.CurrentCulture);
             Console.WriteLine($"Validation result: IsValid = {validationResult.IsValid}, ErrorContent = {validationResult.ErrorContent}");
 

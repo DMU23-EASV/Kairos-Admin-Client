@@ -34,7 +34,7 @@
                    Grid.Column="0"
                    Grid.ColumnSpan="5"
                    FontSize="24">
-                Person Information
+                User Information
             </Label>
 
             <!-- ROW 1 -->
@@ -120,7 +120,7 @@
             <Button Grid.Column="0"
                     Style="{StaticResource ButtonBaseIcon}" 
                     Tag="check"
-                    Command="{Binding SavePersonCommand}"
+                    Command="{Binding CreateUserCommand}"
                     IsEnabled="{Binding IsSubmitButtonEnabled}"                    
                     Width="130">
                 Opret Bruger

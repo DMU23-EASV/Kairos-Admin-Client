@@ -36,7 +36,7 @@ public static class ValidationRegex
     }
 
     /// <summary>
-    /// Returns TRUE if email is valid otherwise FALSE 
+    /// Returns TRUE if Email is valid otherwise FALSE 
     /// </summary>
     /// <param name="value"></param>
     /// <returns>bool</returns>

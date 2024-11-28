@@ -15,7 +15,7 @@ public class PasswordRule: ValidationRule
         string? password = value as string;
         const int minimumLength = 8;
 
-        // Check if the password is null or empty
+        // Check if the Password is null or empty
         if (string.IsNullOrEmpty(password))
         {
             return new ValidationResult(false, "Password cannot be empty.");

@@ -1,8 +1,8 @@
 namespace WPF_MVVM_TEMPLATE.Entitys.DTOs;
 /*
- * A FullPerson Object that is API "safe" no password is exposed.
+ * A FullPerson Object that is API "safe" no Password is exposed.
  */
-public class FullPersonDto
+public class FullUserDTO
 {
     public string Id { get; set; }
     public string Email { get; set; }
