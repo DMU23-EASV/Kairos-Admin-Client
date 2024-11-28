@@ -47,7 +47,7 @@
                     Width="180" />
 
                 <RadioButton
-                    Content="manage"
+                    Content="Medlemmer"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Users"
                     Width="180" 

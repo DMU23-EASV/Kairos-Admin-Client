@@ -23,7 +23,7 @@
     
     
     <Border CornerRadius="30"
-            Background = "#F6F6F6"
+            Background = "{StaticResource HeaderColorBrush}"
             Margin="20 20 20 20">
     
         <Grid  
@@ -57,7 +57,7 @@
                     <Button x:Name="Refresh"  Tag="Refresh" 
                             Style="{StaticResource ButtonBaseIcon}"
                             ToolTip="Genindlæs medarbejder"
-                            Command="{Binding LoadUsers}"
+                            Command="{Binding LoadUsersCommand}"
                             />
                     <Button x:Name="Add"  Tag="Plus"
                             Style="{StaticResource ButtonBaseIcon}"
