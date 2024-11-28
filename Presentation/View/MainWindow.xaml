@@ -27,6 +27,11 @@
         <DataTemplate DataType="{x:Type viewModels:HomeViewModel}" x:Name="HomeViewTemplate">
             <views:HomeView />
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModels:ManageUserViewModel}" x:Name="ManageUsersViewTemplate">
+            <views:ManageUsersView/>
+        </DataTemplate>
+        
 
     </Window.Resources>
 
