@@ -1,7 +1,11 @@
+using System.Collections;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using WPF_MVVM_TEMPLATE.Application.Utility;
 using WPF_MVVM_TEMPLATE.Entitys;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
@@ -10,176 +14,334 @@ namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
  * CreateUserViewModel Contains logic for the form used for creation of new users.
  * It handles validation on the user side and sends a Person onwards to be handled by the API.
  */
-public class CreateUserViewModel : ViewModelBase
+public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
+    private readonly ValidationManager _validationManager = new();
+    
+    // List of all text box property names
+    private List<string> _textBoxes = new List<string>
+    {
+        "TextBoxFirstName",
+        "TextBoxLastName",
+        "TextBoxEmail",
+        "TextBoxPhoneCode",
+        "TextBoxPhoneNumber",
+        "TextBoxUsername",
+        "TextBoxPassword1",
+        "TextBoxPassword2",
+        "TextBoxRole",
+        "TextBoxStatus",
+        "TextBoxDepartment",
+        "TextBoxComment"
+    };
+    
+    
+    private string defaultError = "Field is required";
+    public bool IsSubmitButtonEnabled => !_validationManager.HasErrors;
+    
+    public CreateUserViewModel()
+    { 
+        _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
+        _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
+        InitializeErrors(); // Call on startup to populate errors
+    }
+    
     #region Getter & Setter
-    private string _TextBoxFirstName;
+    private string _textBoxFirstName;
     public string TextBoxFirstName
     {
-        get { return _TextBoxFirstName; }
+        get { return _textBoxFirstName; }
         set
         {
-            _TextBoxFirstName = value; 
+            _textBoxFirstName = value; 
+            
             OnPropertyChanged();
+            
+            var validationResult = new LettersAndSpacesRule().Validate(value, CultureInfo.CurrentCulture);
+
+            if (validationResult.IsValid)
+            {
+                _validationManager.ClearErrors(nameof(TextBoxFirstName));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxFirstName), validationResult.ErrorContent.ToString());
+            }
         }
     }
-    private string _TextBoxLastName;
+    private string _textBoxLastName;
     public string TextBoxLastName
     {
-        get { return _TextBoxLastName; }
+        get { return _textBoxLastName; }
         set
         {
-            _TextBoxLastName = value;
+            _textBoxLastName = value;
+
             OnPropertyChanged();
+            
+            var validationResult = new LettersAndSpacesRule().Validate(value, CultureInfo.CurrentCulture);
+
+            if (validationResult.IsValid)
+            {
+                _validationManager.ClearErrors(nameof(TextBoxLastName));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxLastName), validationResult.ErrorContent.ToString());
+            }
         }
     }
-    private string _TextBoxEmail;
+    private string _textBoxEmail;
     public string TextBoxEmail
     {
-        get { return _TextBoxEmail; }
+        get { return _textBoxEmail; }
         set
         {
-            _TextBoxEmail = value;
+            // Log the new email value to the console
+            Console.WriteLine($"Setting TextBoxEmail to: {value}");
+
+            _textBoxEmail = value;
             OnPropertyChanged();
+
+            // Clear any previous errors
+            Console.WriteLine("Clearing previous errors for TextBoxEmail.");
+            _validationManager.ClearErrors(nameof(TextBoxEmail));
+
+            // Perform validation (email validation in this case)
+            var validationResult = new EmailRule().Validate(value, CultureInfo.CurrentCulture);
+            Console.WriteLine($"Validation result: IsValid = {validationResult.IsValid}, ErrorContent = {validationResult.ErrorContent}");
+
+            if (!validationResult.IsValid)
+            {
+                // Add error if validation fails
+                Console.WriteLine($"Adding error for TextBoxEmail: {validationResult.ErrorContent}"); 
+                _validationManager.AddError(nameof(TextBoxEmail), validationResult.ErrorContent.ToString());            }
+            else
+            {
+                // Ensure the error is cleared if the validation passes
+                Console.WriteLine("Validation passed. No errors for TextBoxEmail.");
+                _validationManager.ClearErrors(nameof(TextBoxEmail));
+            }
         }
     }
 
-    private string _TextBoxPhoneCode;
+    //TODO: Change to something else? Drop down box??
+    private string _textBoxPhoneCode;
     public string TextBoxPhoneCode
     {
-        get { return _TextBoxPhoneCode; }
+        get { return _textBoxPhoneCode; }
         set
         {
-            _TextBoxPhoneCode = value;
+            _textBoxPhoneCode = value;
+
             OnPropertyChanged();
+            var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
+
+            if (validationResult.IsValid)
+            {
+                _validationManager.ClearErrors(nameof(TextBoxPhoneCode));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxPhoneCode), validationResult.ErrorContent.ToString());
+            }
+            
         }
     }
-    private string _TextBoxPhoneNumber;
+    private string _textBoxPhoneNumber;
     public string TextBoxPhoneNumber
     {
-        get { return _TextBoxPhoneNumber; }
+        get { return _textBoxPhoneNumber; }
         set
         {
-            _TextBoxPhoneNumber = value;
+            _textBoxPhoneNumber = value;
+
             OnPropertyChanged();
+            var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
+
+            if (validationResult.IsValid)
+            {
+                _validationManager.ClearErrors(nameof(TextBoxPhoneNumber));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxPhoneNumber), validationResult.ErrorContent.ToString());
+            }
         }
     }
-    private string _TextBoxUsername;
+    private string _textBoxUsername;
     public string TextBoxUsername
     {
-        get { return _TextBoxUsername; }
+        get { return _textBoxUsername; }
         set
         {
-            _TextBoxUsername = value;
+            _textBoxUsername = value;
+
             OnPropertyChanged();
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxUsername), defaultError);
+            }
         }
     }
 
-    private string _TextBoxPassword1;
+    private string _textBoxPassword1;
     public string TextBoxPassword1
     {
-        get { return _TextBoxPassword1; }
+        get { return _textBoxPassword1; }
         set
         {
-            _TextBoxPassword1 = value;
+            _textBoxPassword1 = value;
+
             OnPropertyChanged();
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _validationManager.ClearErrors(nameof(TextBoxPassword1));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxPassword1), defaultError);
+            }
+            
         }
     }
-    private string _TextBoxPassword2;
+    private string _textBoxPassword2;
 
     public string TextBoxPassword2
     {
-        get { return _TextBoxPassword2; }
+        get { return _textBoxPassword2; }
         set
         {
-            _TextBoxPassword2 = value;
+            _textBoxPassword2 = value;
+
             OnPropertyChanged();
+            if (!string.IsNullOrWhiteSpace(value) && TextBoxPassword1 == value)
+            {
+                _validationManager.ClearErrors(nameof(TextBoxPassword2));
+            }
+            else
+            {
+                _validationManager.AddError(nameof(TextBoxPassword2), defaultError);
+            }
         }
+        
     }
-    private string _TextBoxRole;
+    private string _textBoxRole;
 
     public string TextBoxRole
     {
-        get { return _TextBoxRole; }
+        get { return _textBoxRole; }
         set
         {
-            _TextBoxRole = value;
+            _textBoxRole = value;
+
             OnPropertyChanged();
+            _validationManager.ClearErrors(nameof(TextBoxRole));
+
         }
     }
-    private string _TextBoxStatus;
+    
+    //TODO: NO VALIDATION, NEED TO KNOW WHAT WE WANT TO DO HERE
+    private string _textBoxStatus;
     public string TextBoxStatus
     {
-        get { return _TextBoxStatus; }
+        get { return _textBoxStatus; }
         set
         {
-            _TextBoxStatus = value;
+            _textBoxStatus = value;
+
             OnPropertyChanged();
+            _validationManager.ClearErrors(nameof(TextBoxStatus));
+
         }
     }
-    private string _TextBoxDepartment;
-
+    
+    //TODO: NO VALIDATION NEED TO KNOW WHAT TO DO HERE
+    private string _textBoxDepartment;
     public string TextBoxDepartment
     {
-        get { return _TextBoxDepartment; }
+        get { return _textBoxDepartment; }
         set
         {
-            _TextBoxDepartment = value;
+            _textBoxDepartment = value;
+
             OnPropertyChanged();
+            _validationManager.ClearErrors(nameof(TextBoxDepartment));
+
         }
     }
-    private string _TextBoxComment;
-
+    //TODO: NO VALIDATION NEED TO KNOW WHAT TO DO HERE
+    private string _textBoxComment;
     public string TextBoxComment
     {
-        get { return _TextBoxComment; }
+        get { return _textBoxComment; }
         set
         {
-            _TextBoxComment = value;
+            _textBoxComment = value;
+
             OnPropertyChanged();
+            _validationManager.ClearErrors(nameof(TextBoxComment));
+
         }
     }
-    #endregion
-    
-    #region Regex Validation
-    /*
-     * All of our validation use Regex for its flexiblity
-     */
-    private bool ValidateNumber(string value)
-    {
-        //Regex check for numbers only (0-9) 
-        string pattern = @"^\d$";
-        if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
-        {
-            return false;
-        }
-        return true;
-    }
-    
-    private bool ValidateEmail(string value)
-    {
-        //Regex check for 1 (@) and 1 OR more .
-        string pattern = @"^[^@]+@[^@]+\.[^@]+$";
-        if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
-        {
-            return false;
-        }
-        return true;
-    }
-    
-    private bool ValidateLettersAndSpaces(string value)
-    {
-        // Regex to allow only letters (A-Z, a-z) and spaces
-        string pattern = @"^[a-zA-Z]+$";
-        if (string.IsNullOrEmpty(value) || !Regex.IsMatch(value, pattern))
-        {
-            return false; 
-        }
-        return true; 
-    }
+    /// <summary>
+    /// On PropertyChanged is handled whenever the list is updated.
+    /// </summary>
     
     #endregion
     
+    #region Validation
+
+    private void RegisterFields()
+    {
+        _validationManager.RegisterFields(new[]
+        {
+            nameof(TextBoxFirstName),
+            nameof(TextBoxLastName),
+            nameof(TextBoxEmail),
+            nameof(TextBoxPhoneCode),
+            nameof(TextBoxPhoneNumber),
+            nameof(TextBoxUsername),
+            nameof(TextBoxPassword1),
+            nameof(TextBoxPassword2),
+            nameof(TextBoxRole),
+            nameof(TextBoxStatus),
+            nameof(TextBoxDepartment),
+            nameof(TextBoxComment)
+        });
+    }
+
+    private void InitializeErrors()
+    {
+        foreach (var field in _textBoxes)
+        {
+            _validationManager.AddError(field, "Field is required.");
+        }
+    }
+
+    public IEnumerable GetErrors(string propertyName)
+    {
+        return _validationManager.GetErrors(propertyName);
+    }
+
+    public bool HasErrors
+    {
+        get
+        {
+            return _validationManager.HasErrors;
+        }
+    }
+    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged
+    {
+        add => _validationManager.ErrorsChanged += value;
+        remove => _validationManager.ErrorsChanged -= value;
+    }
     
-    
+    #endregion
 }
