@@ -8,4 +8,9 @@ public partial class ManageUsersView : UserControl
     {
         InitializeComponent();
     }
+
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
 }

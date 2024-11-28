@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
              xmlns:DTO="clr-namespace:WPF_MVVM_TEMPLATE.DTO"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="800" d:DesignWidth="1300">
     
     <!--> 
     <UserControl.Resources>
@@ -27,55 +27,84 @@
             Margin="20 20 20 20">
     
         <Grid  
-          Margin="20 20 20 20">
+          Margin="20 20 20 20"
+          ShowGridLines="True">
         
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" ></RowDefinition>
                 <RowDefinition Height="*" ></RowDefinition>
             </Grid.RowDefinitions>
             
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <Label Content="Medarbejder" Grid.Row="0"
+            
+            <!-- Header -->
+            <Grid Grid.Row="0" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    
+                </Grid.ColumnDefinitions>
+                
+                <Label Content="Medarbejder" Grid.Row="0" 
                        FontSize="22"
-                       FontWeight="SemiBold"/>
+                       FontWeight="SemiBold"
+                       Grid.Column="0"/>
                 
-                <TextBox Text="søg" Width="200"></TextBox>
-                
-            </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" 
+                            HorizontalAlignment="Right">
+                    
+                    
+                    
+                    <Button x:Name="Refresh"  Tag="Refresh" 
+                            Style="{StaticResource ButtonBaseIcon}"
+                            ToolTip="Genindlæs medarbejder"
+                            Command="{Binding LoadUsers}"
+                            />
+                    <Button x:Name="Add"  Tag="Plus"
+                            Style="{StaticResource ButtonBaseIcon}"
+                            ToolTip="Opret en medarbejder"
+                            />
+                    
+                    <TextBox Width="200" VerticalAlignment="Center"
+                             HorizontalAlignment="Right" 
+                             Margin="0 0 16 0"
+                             />
+                    
+                    <Button x:Name = "Search"
+                            Style="{StaticResource ButtonBaseIcon}" Tag="Search"
+                            ToolTip="Søg"
+                            />
+                    
+                </StackPanel>
+            </Grid>
             
-            
-            <StackPanel
-                Grid.Row="1">
-                
-                
-                <ListView ItemsSource="{Binding Users}">
-                    <ListView.View>
-                        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Medarbejder information">
+        <!-- Body --> 
+            <ListView ItemsSource="{Binding Users}" Grid.Row="1">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Medarbejder information">
 
-                            <!-- Context menu -->
-                            <GridView.ColumnHeaderContextMenu>  
-                                <ContextMenu>  
-                                    <MenuItem Header="Ascending" />  
-                                    <MenuItem Header="Descending"/>  
-                                </ContextMenu>  
-                            </GridView.ColumnHeaderContextMenu>                            
-                            
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
-                                            Header="Brugernavn" Width="100" />
-                            
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Email}" 
-                                            Header="Email" Width="200"/>
-                            
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Role}" 
-                                            Header="Rolle" Width="100"/>
-                            
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Status}" 
-                                            Header="Status" Width="100"/>
-                        </GridView>
+                        <!-- Context menu -->
+                        <GridView.ColumnHeaderContextMenu>  
+                            <ContextMenu>  
+                                <MenuItem Header="Ascending" />  
+                                <MenuItem Header="Descending"/>  
+                            </ContextMenu>  
+                        </GridView.ColumnHeaderContextMenu>                            
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
+                                        Header="Brugernavn" Width="100" />
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Email}" 
+                                        Header="Email" Width="200"/>
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Role}" 
+                                        Header="Rolle" Width="100"/>
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Status}" 
+                                        Header="Status" Width="100"/>
+                    </GridView>
 
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
+                </ListView.View>
+            </ListView>
             
         
     </Grid>

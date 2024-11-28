@@ -30,8 +30,17 @@ public class LoadUsers
             // Above three lines can be replaced with new helper method below
             // string responseBody = await client.GetStringAsync(uri);
             
+            Console.WriteLine($"Response: {response.StatusCode}");
+            
+            // in case of sucessfull requst, but no contet found. 
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return new List<ManageUserDTO>();
+            
+            Console.WriteLine($"Response: Passed");
+            
+            // in case of content found.
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var userList = JsonSerializer.Deserialize<List<ManageUserDTO>>(responseBody, options);
+            Console.WriteLine($"UserList: {JsonSerializer.Serialize(userList, options)}");
             return userList;
             
         }
