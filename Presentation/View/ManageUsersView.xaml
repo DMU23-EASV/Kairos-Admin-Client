@@ -72,24 +72,28 @@
                     <Button x:Name = "Search"
                             Style="{StaticResource ButtonBaseIcon}" Tag="Search"
                             ToolTip="Søg"
-                            Command="{Binding SearchCommand}"
+                            Command="{Binding SortBySearchTextCommand}"
                             />
                     
                 </StackPanel>
             </Grid>
             
         <!-- Body --> 
-            <ListView ItemsSource="{Binding Users}" Grid.Row="1">
+            <ListView ItemsSource="{Binding Users}" Grid.Row="1"
+                      SelectedItem="{Binding SelectedObject}">
+                
                 <ListView.View>
-                    <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Medarbejder information">
-
+                    <GridView AllowsColumnReorder="true" 
+                              ColumnHeaderToolTip="Medarbejder information">
+                        
                         <!-- Context menu -->
                         <GridView.ColumnHeaderContextMenu>  
                             <ContextMenu>  
                                 <MenuItem Header="Ascending" Command="{Binding SortByUsernameAscending}"/>  
-                                <MenuItem Header="Descending" Command="{Binding SortByUsernameDecending}"/>  
+                                <MenuItem Header="Descending" Command="{Binding SortByUsernameDepending}"/>  
                             </ContextMenu>  
                         </GridView.ColumnHeaderContextMenu>                            
+                        
                         
                         <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
                                         Header="Brugernavn" Width="100" />
