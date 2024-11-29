@@ -64,6 +64,51 @@ public class UserRepoApi : IUserRepo
         throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
     }
 
-    
-    
+    public async Task<FullUserDTO?> GetUserByEmail(string email)
+    {
+        var response = await _webService.GetAsync("/api/userUsername/" + email);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception($"Server error: {response.ResponseBody}");
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent || response.ResponseBody == null || response.ResponseBody.Length <= 0)
+        {
+            throw new Exception($"No data or data empty");
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Created ||
+            response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<FullUserDTO>(response.ResponseBody, options);
+        }
+        // Handle unexpected response status codes by throwing an exception.
+        throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
+    }
+
+    public async Task<FullUserDTO?> GetUserByUsername(string username)
+    {
+        var response = await _webService.GetAsync("/api/userUsername/" + username);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception($"Server error: {response.ResponseBody}");
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent || response.ResponseBody == null || response.ResponseBody.Length <= 0)
+        {
+            throw new Exception($"No data or data empty");
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Created ||
+            response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<FullUserDTO>(response.ResponseBody, options);
+        }
+        // Handle unexpected response status codes by throwing an exception.
+        throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
+    }
 }

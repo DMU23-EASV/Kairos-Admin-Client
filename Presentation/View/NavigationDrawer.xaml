@@ -54,6 +54,13 @@
                     Width="180" 
                     Click="ManageUSersNav_OnClick"/>
                 
+                <RadioButton
+                    Content="Edit Debug"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Edit"
+                    Width="180" 
+                    Click="EditUserNav_OnClick"/>
+                
                 <Label Content="Misc"/>        
                 <RadioButton
                     Content="Settings"

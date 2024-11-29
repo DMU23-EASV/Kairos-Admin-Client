@@ -69,7 +69,7 @@ public class ManageUserViewModel : ViewModelBase
     public ICommand CreateNewUserCommand => new CommandBase(obj => ViewModelController.Instance.SetCurrentViewModel<CreateUserViewModel>());
     public ICommand SortByUsernameAscending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderBy(user => user.Username)));
     public ICommand SortByUsernameDecending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderByDescending(user => user.Username)));
-    
+    public ICommand SearchCommand => new CommandBase(obj => SearchText = obj.ToString() ?? string.Empty);
     #endregion Commands
 
 }

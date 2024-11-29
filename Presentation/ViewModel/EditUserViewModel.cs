@@ -1,25 +1,17 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
-using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Application;
-using WPF_MVVM_TEMPLATE.Application.Utility;
 using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
-using WPF_MVVM_TEMPLATE.Entitys;
+using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Infrastructure;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
-/*
- * View : CreateUserView
- * CreateUserViewModel Contains logic for the form used for creation of new users.
- * It handles validation on the user side and sends a User onwards to be handled by the API.
- */
-public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
+
+public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
     private readonly ValidationManager _validationManager = new();
     
@@ -31,74 +23,65 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         "TextBoxEmail",
         "TextBoxPhoneCode",
         "TextBoxPhoneNumber",
-        "TextBoxUsername",
-        "TextBoxPassword1",
-        "TextBoxPassword2",
         "TextBoxRole",
         "TextBoxStatus",
         "TextBoxDepartment",
         "TextBoxComment"
     };
+
+    public async void LoadUser(ManageUserDTO user)
+    {
+        FullUserDTO editUser;
+        try
+        {
+            var userRepo = new UserRepoApi(new WebService("http://localhost:8080"));
+            var loadedUser =  new GetUserByUsername(userRepo);
+            editUser = await loadedUser.GetUser(user.Username);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+            ViewModelController.Instance.SetCurrentViewModel<ManageUserViewModel>();
+            return;
+        }
+
+        TextBoxFirstName = editUser.firstName;
+        TextBoxLastName = editUser.lastName;
+        TextBoxEmail = editUser.email;
+        TextBoxPhoneNumber = editUser.phoneNumber.ToString();
+        TextBoxPhoneCode = editUser.contryCode;
+        TextBoxEmail = editUser.email;
+        TextBoxRole = editUser.role.ToString();
+        TextBoxStatus = editUser.status.ToString();
+        TextBoxDepartment = editUser.department;
+        TextBoxComment = editUser.comment;
+    }
     
     //Default Error Message, we want to return something sensible.
     private string _defaultError = "Field is required";
     public bool IsSubmitButtonEnabled => !_validationManager.HasErrors;
     
-    
-    
-    public CreateUserViewModel()
+    public EditUserViewModel()
     { 
         _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
         InitializeErrors(); // Call on startup to populate errors
     }
-    
-    //ICommand for Button CreateUser.
-    public ICommand CreateUserCommand => new CommandBase(CreateUserLogic);
-    
-    /// <summary>
-    /// Handles the logic for creating a user by gathering input data,
-    /// sending it to the API, and handling the response.
-    /// </summary>
-    /// <param name="o">Optional parameter passed by the caller (unused).</param>
-    private async void CreateUserLogic(object o)
+
+    public ICommand EditUserCommand => new CommandBase(EditUserLogic);
+
+    private async void EditUserLogic(object obj)
     {
-        try
-        {
-            CreateUserDTO userDTO = new()
-            {
-                username = TextBoxUsername,      
-                password = TextBoxPassword2,    
-                firstName = TextBoxFirstName,   
-                lastName = TextBoxLastName,     
-                phoneNumber = Convert.ToInt32(TextBoxPhoneNumber), 
-                contryCode = TextBoxPhoneCode,  
-                email = TextBoxEmail,           
-                status = Convert.ToInt32(TextBoxStatus), 
-                department = TextBoxDepartment, 
-                comment = TextBoxComment,       
-                role = Convert.ToInt32(TextBoxRole) 
-            };
-
-            var userRepo = new UserRepoApi(new WebService("http://localhost:8080"));
-            var createdUser =  new CreateUser(userRepo);
-            var result = await createdUser.CreateUserAsync(userDTO);
-
-            if (createdUser != null)
-            {
-                Console.WriteLine($"User {createdUser} created successfully!");
-            }
-            else
-            {
-                Console.WriteLine("User creation failed. No response received.");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred while creating the user: {ex.Message}");
-        }
+        
     }
 
+    public ICommand UpdatePassword => new CommandBase(UpdatePasswordLogic);
+
+    private async void UpdatePasswordLogic(object obj)
+    {
+        //TODO: Use-case 32
+        Console.WriteLine("UpdatePasswordLogic Missing : TODO UC-32");
+    }
     
     #region Getter & Setter
     
@@ -243,49 +226,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
-
-    private string _textBoxPassword1;
-    public string TextBoxPassword1
-    {
-        get { return _textBoxPassword1; }
-        set
-        {
-            _textBoxPassword1 = value;
-
-            OnPropertyChanged();
-
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                _validationManager.ClearErrors(nameof(TextBoxPassword1));
-            }
-            else
-            {
-                _validationManager.AddError(nameof(TextBoxPassword1), _defaultError);
-            }
-            
-        }
-    }
-    private string _textBoxPassword2;
-
-    public string TextBoxPassword2
-    {
-        get { return _textBoxPassword2; }
-        set
-        {
-            _textBoxPassword2 = value;
-
-            OnPropertyChanged();
-            if (!string.IsNullOrWhiteSpace(value) && TextBoxPassword1 == value)
-            {
-                _validationManager.ClearErrors(nameof(TextBoxPassword2));
-            }
-            else
-            {
-                _validationManager.AddError(nameof(TextBoxPassword2), _defaultError);
-            }
-        }
-        
-    }
+    
     private string _textBoxRole;
 
     public string TextBoxRole
@@ -379,4 +320,5 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     
     #endregion
+    
 }
