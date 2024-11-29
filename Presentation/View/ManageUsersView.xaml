@@ -72,7 +72,7 @@
                     <Button x:Name = "Search"
                             Style="{StaticResource ButtonBaseIcon}" Tag="Search"
                             ToolTip="Søg"
-                            Command="{Binding SearchCommand}"
+                            Command="{Binding SortBySearchTextCommand}"
                             />
                     
                 </StackPanel>
@@ -87,7 +87,7 @@
                         <GridView.ColumnHeaderContextMenu>  
                             <ContextMenu>  
                                 <MenuItem Header="Ascending" Command="{Binding SortByUsernameAscending}"/>  
-                                <MenuItem Header="Descending" Command="{Binding SortByUsernameDecending}"/>  
+                                <MenuItem Header="Descending" Command="{Binding SortByUsernameDepending}"/>  
                             </ContextMenu>  
                         </GridView.ColumnHeaderContextMenu>                            
                         

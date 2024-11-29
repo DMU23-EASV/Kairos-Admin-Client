@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.DirectoryServices;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors.Core;
 using WPF_MVVM_TEMPLATE.Application;
@@ -58,6 +59,26 @@ public class ManageUserViewModel : ViewModelBase
             if (user != null) _users.Add(user);
         });
     }
+
+    private ObservableCollection<T> SortUsersBySearch<T>(string searchText, ObservableCollection<T> collection )
+    {
+        
+        // We dont search if the string is empty
+        if (string.IsNullOrWhiteSpace(searchText)) return collection;
+        
+        // if collection length is 0 or 1 just return it
+        if (collection.Count <= 1) return collection;
+        
+        // Sorting collection by search text, then by the items alfa numeric value.
+        var sortedItems = collection
+            .Where(item => item != null)
+            .OrderBy(item => item.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ? 0 : 1)
+            .ThenBy(item => item.ToString())
+            .ToList();
+        
+        return new ObservableCollection<T>(sortedItems);
+        
+    }
     
     
     
@@ -68,7 +89,8 @@ public class ManageUserViewModel : ViewModelBase
     public ICommand LoadUsersCommand => new CommandBase(obj => LoadUsers());
     public ICommand CreateNewUserCommand => new CommandBase(obj => ViewModelController.Instance.SetCurrentViewModel<CreateUserViewModel>());
     public ICommand SortByUsernameAscending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderBy(user => user.Username)));
-    public ICommand SortByUsernameDecending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderByDescending(user => user.Username)));
+    public ICommand SortByUsernameDepending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderByDescending(user => user.Username)));
+    public ICommand SortBySearchTextCommand => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(SortUsersBySearch<ManageUserDTO>(SearchText, Users)));
     
     #endregion Commands
 
