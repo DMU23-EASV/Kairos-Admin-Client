@@ -27,29 +27,33 @@ public class ManageUserViewModel : ViewModelBase
         LoadUsers();
     }
 
-    public async void LoadUsers()
+    private async void LoadUsers()
     {
-        var ws = new WebService("http://localhost:8080/");
-        var lu = new LoadUsers(ws);
-        Console.WriteLine("Loading users...");
-        _users.Clear();
-        var users = await lu.FetchUsers();
 
-        // Validating respons from the API.
+        var webService = new WebService("http://localhost:8080/");
+        var userRepoApi = new UserRepoApi(webService);
+        var loadUsers = new LoadUsers(userRepoApi);
+
+        _users.Clear();
+        var users = await loadUsers.GetUsers();
+
+        // If no useres is returnd. return.
         if (users == null || users.Count <= 0) return;
 
+        // Adding useres to the obs. collection.
         users.ForEach(user =>
         {
             if (user != null) _users.Add(user);
         });
     }
-
-    public ICommand LoadUsersCommand => new CommandBase(o =>
-    {
-        LoadUsers();
-    }); 
     
     
+    #region Commands
+    public ICommand LoadUsersCommand => new CommandBase(obj => LoadUsers());
+    public ICommand CreateNewUserCommand => new CommandBase(obj => Console.WriteLine("Create new user"));
+    public ICommand SearchCommand => new CommandBase(obj => Console.WriteLine("Search user"));
+    
+    #endregion Commands
 
 }
 

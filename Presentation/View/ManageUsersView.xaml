@@ -62,6 +62,7 @@
                     <Button x:Name="Add"  Tag="Plus"
                             Style="{StaticResource ButtonBaseIcon}"
                             ToolTip="Opret en medarbejder"
+                            Command="{Binding CreateNewUserCommand}"
                             />
                     
                     <TextBox Width="200" VerticalAlignment="Center"
@@ -72,6 +73,7 @@
                     <Button x:Name = "Search"
                             Style="{StaticResource ButtonBaseIcon}" Tag="Search"
                             ToolTip="Søg"
+                            Command="{Binding SearchCommand}"
                             />
                     
                 </StackPanel>
