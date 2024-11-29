@@ -42,14 +42,20 @@
             </Setter.Value>
         </Setter>
         
-        <!-- Hover effect -->
+        
         <Style.Triggers>
+            <!-- Hover effect -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource MenuSelectColorBrush}"/>
                 <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColorBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="#FF1d4e8c"/>
+            </Trigger>
+            
+            <!-- New Trigger for IsEnabled == false -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.2"/>
             </Trigger>
         </Style.Triggers>
     </Style>

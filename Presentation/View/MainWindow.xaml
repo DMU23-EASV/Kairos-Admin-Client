@@ -27,6 +27,10 @@
         <DataTemplate DataType="{x:Type viewModels:HomeViewModel}" x:Name="HomeViewTemplate">
             <views:HomeView />
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModels:CreateUserViewModel}">
+            <views:CreateUserView />
+        </DataTemplate>
 
     </Window.Resources>
 
@@ -52,6 +56,7 @@
             <views:NavigationDrawer/>
 
             <ContentControl
+                Margin="10,0,10,0"
                 Grid.Column="1"
                 Content="{Binding CurrentViewModel}" 
                 HorizontalAlignment="Stretch" />
