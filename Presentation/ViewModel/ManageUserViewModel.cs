@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.DirectoryServices;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors.Core;
 using WPF_MVVM_TEMPLATE.Application;
@@ -23,7 +24,6 @@ public class ManageUserViewModel : ViewModelBase
     private ObservableCollection<ManageUserDTO> _users;
     
     public string SearchText { get; set; }
-
     private string _searchText
     {
         get { return SearchText; }
@@ -33,6 +33,17 @@ public class ManageUserViewModel : ViewModelBase
             
         }
     }
+    
+    public Object SelectedObject {
+        get { return _selectedObject; }
+        set
+        {
+            _selectedObject = value;
+            Console.WriteLine(_selectedObject);
+        }
+    }
+    private Object _selectedObject { get; set; }
+    
 
     public ManageUserViewModel()
     {
@@ -89,7 +100,25 @@ public class ManageUserViewModel : ViewModelBase
             .ToList();
         
         return new ObservableCollection<T>(sortedItems);
+    }
+
+    public void OnItemSelect(Object item)
+    {
         
+        // Ensuring the item is of type ManageUserDTO
+        if (item is not ManageUserDTO || SelectedObject == null)
+        {
+            Console.WriteLine("Selected item is Not of type ManageUserDTO");
+            return;
+        }
+        
+        // Transfering data to edit user and chaning view. 
+        // TODO: IMPLEMENT. 
+        //var vm = ViewModelController.Instance.GetAllViewModels()[typeof(ManageUserViewModel)];
+        //vm.givedata(item);
+        //ViewModelController.Instance.SetCurrentViewModel<EditUserViewmodel>();
+        
+        Console.WriteLine("OnItemSelect");
     }
     
     
