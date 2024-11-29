@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
 
@@ -66,17 +68,51 @@ public class WebService : IWebService
         
     }
 
-    public Task PostAsync(string url)
+    /// <summary>
+    /// Method for calling an endpoint with POST request.
+    /// </summary>
+    /// <param name="endpoint">The API endpoint to post data to.</param>
+    /// <param name="payload">The data to send in the request body.</param>
+    /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
+    public async Task<ResponsPackage> PostAsync(string endpoint, object payload)
+    {
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        try
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload), 
+                Encoding.UTF8, 
+                "application/json"
+            );
+
+            using HttpResponseMessage response = await _httpClient.PostAsync(endpoint, content);
+            response.EnsureSuccessStatusCode();
+
+            return new ResponsPackage
+            {
+                StatusCode = response.StatusCode,
+                ResponseBody = await response.Content.ReadAsStringAsync(),
+                Headers = response.Headers
+            };
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return new ResponsPackage
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                ResponseBody = $"Error: {err.Message}"
+            };
+        }
+    }
+
+
+    public Task<ResponsPackage> PutAsync(string url, object payload)
     {
         throw new NotImplementedException();
     }
 
-    public Task PutAsync(string url)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(string url)
+    public Task<ResponsPackage> DeleteAsync(string url)
     {
         throw new NotImplementedException();
     }
