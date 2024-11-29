@@ -32,6 +32,11 @@
             <views:CreateUserView />
         </DataTemplate>
         
+        <DataTemplate DataType="{x:Type viewModels:ManageUserViewModel}" x:Name="ManageUsersViewTemplate">
+            <views:ManageUsersView/>
+        </DataTemplate>
+        
+        
         <DataTemplate DataType="{x:Type viewModels:LoginViewModel}" x:Name="LoginViewTemplate">
             <views:LoginView />
         </DataTemplate>

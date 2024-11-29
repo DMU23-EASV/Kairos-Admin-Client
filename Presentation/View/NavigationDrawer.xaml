@@ -48,10 +48,11 @@
                     Click="CreateUserNav_OnClick"/>
 
                 <RadioButton
-                    Content="manage"
+                    Content="Medlemmer"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Users"
-                    Width="180" />
+                    Width="180" 
+                    Click="ManageUSersNav_OnClick"/>
                 
                 <Label Content="Misc"/>        
                 <RadioButton

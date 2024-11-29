@@ -35,7 +35,6 @@
                                 Margin="20,0,10,0"
                                 Foreground="{StaticResource SecondaryForegroundColorBrush}"
                                 VerticalAlignment="Center" />
-                            
 
                             <!--  Label Content with FontSize bound to Button's FontSize  -->
                             <Label
