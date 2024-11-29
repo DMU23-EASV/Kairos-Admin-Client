@@ -1,5 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using WPF_MVVM_TEMPLATE.DTO;
+using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
 
 namespace WPF_MVVM_TEMPLATE.Infrastructure;
@@ -36,6 +39,31 @@ public class UserRepoApi : IUserRepo
         var userList = JsonSerializer.Deserialize<List<ManageUserDTO>>(response.ResponseBody, options);
         return userList;
     }
+    
+    public async Task<CreateUserDTO?> CreateUser(CreateUserDTO user)
+    {
+        // Sending the user data as payload via the POST request.
+        var response = await _webService.PostAsync("/api/create", user);
+
+        // Handling different response scenarios.
+
+        // If the server responds with an internal server error, throw an exception.
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception($"Server error: {response.ResponseBody}");
+        }
+
+        // If the request is successful and returns content, deserialize the response body.
+        if (response.StatusCode == System.Net.HttpStatusCode.Created || response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<CreateUserDTO>(response.ResponseBody, options);
+        }
+
+        // Handle unexpected response status codes by throwing an exception.
+        throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
+    }
+
     
     
 }
