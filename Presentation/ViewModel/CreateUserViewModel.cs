@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.Application.Utility;
+using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Infrastructure;
@@ -174,7 +175,6 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             {
                 _validationManager.AddError(nameof(TextBoxPhoneCode), validationResult.ErrorContent.ToString());
             }
-            
         }
     }
     private string _textBoxPhoneNumber;
