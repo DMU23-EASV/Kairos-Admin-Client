@@ -28,7 +28,7 @@
     
         <Grid  
           Margin="20 20 20 20"
-          ShowGridLines="True">
+          >
         
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" ></RowDefinition>
@@ -37,7 +37,7 @@
             
             
             <!-- Header -->
-            <Grid Grid.Row="0" ShowGridLines="True">
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -51,8 +51,6 @@
                 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" 
                             HorizontalAlignment="Right">
-                    
-                    
                     
                     <Button x:Name="Refresh"  Tag="Refresh" 
                             Style="{StaticResource ButtonBaseIcon}"
@@ -68,6 +66,7 @@
                     <TextBox Width="200" VerticalAlignment="Center"
                              HorizontalAlignment="Right" 
                              Margin="0 0 16 0"
+                             Text = "{Binding SearchText}"
                              />
                     
                     <Button x:Name = "Search"
@@ -87,8 +86,8 @@
                         <!-- Context menu -->
                         <GridView.ColumnHeaderContextMenu>  
                             <ContextMenu>  
-                                <MenuItem Header="Ascending" />  
-                                <MenuItem Header="Descending"/>  
+                                <MenuItem Header="Ascending" Command="{Binding SortByUsernameAscending}"/>  
+                                <MenuItem Header="Descending" Command="{Binding SortByUsernameDecending}"/>  
                             </ContextMenu>  
                         </GridView.ColumnHeaderContextMenu>                            
                         

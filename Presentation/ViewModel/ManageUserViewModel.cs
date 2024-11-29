@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors.Core;
 using WPF_MVVM_TEMPLATE.Application;
@@ -18,8 +19,19 @@ public class ManageUserViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-
     private ObservableCollection<ManageUserDTO> _users;
+    
+    public string SearchText { get; set; }
+
+    private string _searchText
+    {
+        get { return SearchText; }
+        set {
+            SearchText = value; 
+            OnPropertyChanged();
+            
+        }
+    }
 
     public ManageUserViewModel()
     {
@@ -48,10 +60,15 @@ public class ManageUserViewModel : ViewModelBase
     }
     
     
+    
+    
+    
+    
     #region Commands
     public ICommand LoadUsersCommand => new CommandBase(obj => LoadUsers());
-    public ICommand CreateNewUserCommand => new CommandBase(obj => Console.WriteLine("Create new user"));
-    public ICommand SearchCommand => new CommandBase(obj => Console.WriteLine("Search user"));
+    public ICommand CreateNewUserCommand => new CommandBase(obj => ViewModelController.Instance.SetCurrentViewModel<CreateUserViewModel>());
+    public ICommand SortByUsernameAscending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderBy(user => user.Username)));
+    public ICommand SortByUsernameDecending => new CommandBase(obj => Users = new ObservableCollection<ManageUserDTO>(Users.OrderByDescending(user => user.Username)));
     
     #endregion Commands
 
