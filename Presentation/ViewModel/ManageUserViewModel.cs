@@ -40,6 +40,10 @@ public class ManageUserViewModel : ViewModelBase
         LoadUsers();
     }
 
+    
+    /// <summary>
+    /// Method for loading useres from API endpoint into OBS. collection.
+    /// </summary>
     private async void LoadUsers()
     {
 
@@ -59,7 +63,15 @@ public class ManageUserViewModel : ViewModelBase
             if (user != null) _users.Add(user);
         });
     }
-
+    
+    /// <summary>
+    /// Method for sorting an array by search text, Items witch does not contain the
+    /// search text will be ordered alphanumerically. 
+    /// </summary>
+    /// <param name="searchText"> string searchtext</param>
+    /// <param name="collection"> collection to sort.</param>
+    /// <typeparam name="T">collection item source type</typeparam>
+    /// <returns>sorted collection</returns>
     private ObservableCollection<T> SortUsersBySearch<T>(string searchText, ObservableCollection<T> collection )
     {
         
