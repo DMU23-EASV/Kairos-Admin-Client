@@ -20,6 +20,7 @@
         <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColorBrush}"/>
         
         
+        
         <!-- Sets Label within WrapPanel -->
         <Setter Property="Template">
             <Setter.Value>
@@ -35,6 +36,7 @@
                                    HorizontalAlignment="Right" 
                                    Foreground="{StaticResource SecondaryForegroundColorBrush}"
                                    FontSize="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontSize}"
+                                   HorizontalContentAlignment="Center"
                                    />
                         </WrapPanel>
                     </Border>

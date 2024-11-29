@@ -74,7 +74,7 @@ public class WebService : IWebService
     /// <param name="endpoint">The API endpoint to post data to.</param>
     /// <param name="payload">The data to send in the request body.</param>
     /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
-    public async Task<ResponsPackage> PostAsync(string endpoint, object payload)
+    public async Task<ResponsPackage> PostAsync(string endpoint, object payload) 
     {
         _httpClient.DefaultRequestHeaders.Accept.Clear();
         try
@@ -86,7 +86,6 @@ public class WebService : IWebService
             );
 
             using HttpResponseMessage response = await _httpClient.PostAsync(endpoint, content);
-            response.EnsureSuccessStatusCode();
 
             return new ResponsPackage
             {

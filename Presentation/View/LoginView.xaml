@@ -6,13 +6,36 @@
              xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Background="Aqua"
+    <StackPanel 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
         
         <Label Content="ArbejdPlus"
                FontSize="52">
         </Label> 
+        
+        <TextBox x:Name = "TbUsername" 
+                Style="{StaticResource LabeledTextBoxStyle}"
+                Text="{Binding TbUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Tag="Username"
+                Width="200"
+                Margin="0,0,0,5"/>
+        
+        <TextBox x:Name = "TbPassword" 
+                Style="{StaticResource LabeledTextBoxStyle}"
+                Text="{Binding TbPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Tag="Password"
+                Width="200"
+                Margin="0,0,0,10"/>
+        
+        <Button x:Name = "BtnLogin" 
+                Style="{StaticResource ButtonBase}"
+                Command= "{Binding LoginCommand}"
+                Width="100"
+                >
+                Login
+        </Button>
+                
         
     </StackPanel>
 </UserControl>

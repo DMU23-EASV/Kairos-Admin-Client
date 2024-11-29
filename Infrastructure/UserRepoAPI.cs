@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using WPF_MVVM_TEMPLATE.DTO;
+using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
 
@@ -44,7 +45,7 @@ public class UserRepoApi : IUserRepo
     {
         // Sending the user data as payload via the POST request.
         var response = await _webService.PostAsync("/api/create", user);
-
+        
         // Handling different response scenarios.
 
         // If the server responds with an internal server error, throw an exception.
@@ -64,6 +65,37 @@ public class UserRepoApi : IUserRepo
         throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
     }
 
-    
-    
+    public async Task<ResponsPackage?> Login(LoginRequestDTO request)
+    {
+        var response = await _webService.PostAsync("/api/login", request);
+        
+        // If the response is null
+        if (response == null)
+        {
+            throw new Exception("Response is null");
+        }
+
+        // If the server responds with an internal server error, throw an exception.
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception($"Server error: {response.ResponseBody}");
+        }
+        
+        // If the server responds with unauthorized, throw an exception.
+        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        {
+            throw new Exception($"Unauthorized: {response.ResponseBody}");
+        }
+
+        // If the request is successful and returns content, deserialize the response body.
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            return response;
+        }
+        
+        // Handle unexpected response status codes by throwing an exception.
+        throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
+    }
+
+
 }
