@@ -11,12 +11,12 @@
     
     
 
-    <Style TargetType="Label">
+    <Style TargetType="Label" x:Key="LabelBase">
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundColorBrush}"></Setter>
     </Style>
     
-    <Style TargetType="TextBox">
+    <Style TargetType="TextBox" x:Key="TextBoxBase">
         <!--  Basic settings for alignment and height  -->
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Height" Value="28" />
@@ -53,7 +53,7 @@
                             <Setter Property="BorderBrush" TargetName="Border" Value="#005A9E" />
                             <Setter Property="BorderThickness" TargetName="Border" Value="2" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
+                        <Trigger Property="IsEnabled" Value="True">
                             <Setter Property="Background" TargetName="Border" Value="#EEEEEE" />
                             <Setter Property="BorderBrush" TargetName="Border" Value="#AAAAAA" />
                             <Setter Property="Foreground" Value="#888888" />
@@ -63,10 +63,33 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style x:Key="LabeledTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <StackPanel Orientation="Vertical" MinWidth="120">
+                        <!-- Label -->
+                        <Label Content="{TemplateBinding Tag}"
+                               FontSize="12"
+                               Foreground="LightSlateGray"
+                               FontWeight="Medium" />
 
-
-
-
+                        <!-- TextBox -->
+                        <TextBox Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Style="{StaticResource TextBoxBase}"
+                                 BorderThickness="0"
+                                 Margin="3,0,0,0"
+                                 Background="Transparent" 
+                                 Focusable="True"
+                                 TabIndex="0"
+                                 CaretBrush="Black"
+                                 />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>   
