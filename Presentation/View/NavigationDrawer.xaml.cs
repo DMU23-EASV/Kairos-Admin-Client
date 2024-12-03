@@ -30,4 +30,9 @@ public partial class NavigationDrawer : UserControl
     {
         ViewModelController.Instance.SetCurrentViewModel<ManageUserViewModel>();
     }
+
+    private void EditUserNav_Onclick(object sender, RoutedEventArgs e)
+    {
+        ViewModelController.Instance.SetCurrentViewModel<EditTaskViewModel>();
+    }
 }

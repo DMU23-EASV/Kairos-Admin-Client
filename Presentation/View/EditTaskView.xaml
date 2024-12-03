@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="WPF_MVVM_TEMPLATE.Presentation.View.EditTaskView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+             mc:Ignorable="d"
+             d:DesignHeight="720" d:DesignWidth="1080">
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Column="0" 
+                    HorizontalAlignment="Center">
+            <Button 
+                Content="Afventer godkendelse" 
+                Width="200" 
+                Command="{Binding SortByAwaitingApproval}"
+                Style="{StaticResource ButtonBaseIcon}"
+                Tag="Home"/>
+            
+            <Button 
+                Content="Godkendt" 
+                Width="200" 
+                Command="{Binding SortByApproved}"
+                Style="{StaticResource ButtonBaseIcon}"
+                Tag="Home"/>
+            
+            <Button 
+                Content="Afvist"
+                Width="200"
+                Command="{Binding SortByRejected}"
+                Style="{StaticResource ButtonBaseIcon}"
+                Tag="Home"/>
+            
+            <Button 
+                Content="Arkiveret"
+                Width="200"
+                Command="{Binding SortByArchived}"
+                Style="{StaticResource ButtonBaseIcon}"
+                Tag="Home"/>
+            
+        </StackPanel>
+        
+        <!-- Body --> 
+        <ListView ItemsSource="{Binding TaskCollection}" Grid.Row="1"
+                  SelectedItem="{Binding SelectedTask}">
+                
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" 
+                          ColumnHeaderToolTip="Task information">
+                    
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
+                                    Header="Brugernavn" Width="200"/>
+                    
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Status}" 
+                                    Header="Status" Width="100"/>
+                    
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        
+    </Grid>
+</UserControl>

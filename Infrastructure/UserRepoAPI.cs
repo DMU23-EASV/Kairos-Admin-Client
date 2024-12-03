@@ -23,10 +23,18 @@ public class UserRepoApi : IUserRepo
         var response = await _webService.GetAsync("/api/users");
 
         // In case of server error, return empty string. 
-        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError) return new List<ManageUserDTO?>();
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            Console.WriteLine($"Internal Server Error {response.StatusCode}, {response.ResponseBody}" );
+            return new List<ManageUserDTO?>();
+        };
         
         // in case of sucessfull requst, but no contet found. 
-        if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return new List<ManageUserDTO?>();
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+        {
+            Console.WriteLine($"No Content {response.StatusCode}, {response.ResponseBody}" );
+            return new List<ManageUserDTO?>();
+        };
         
         // checking if responsbody has data. 
         if (response.ResponseBody == null || response.ResponseBody.Length <= 0) return new List<ManageUserDTO?>();

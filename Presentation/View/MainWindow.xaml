@@ -36,6 +36,10 @@
             <views:ManageUsersView/>
         </DataTemplate>
         
+        <DataTemplate DataType="{x:Type viewModels:EditTaskViewModel}" x:Name="EditTaskViewTemplate">
+            <views:EditTaskView/>
+        </DataTemplate>
+        
 
     </Window.Resources>
 

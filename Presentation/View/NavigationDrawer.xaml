@@ -36,7 +36,8 @@
                     Content="Edit"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Edit"
-                    Width="180" />
+                    Width="180" 
+                    Click="EditUserNav_Onclick"/>
                 
                 
                 <Label Content="Users"/>        
