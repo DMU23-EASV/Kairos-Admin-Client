@@ -14,10 +14,21 @@ public class WebService : IWebService
     private readonly string _baseUrl;
     private const int DefaultTimeoutInSeconds = 30;
     
+    private static WebService _instance;
+    
     public WebService(string baseUrl)
     {
         _baseUrl = baseUrl;
         _httpClient = GetHttpClient(_baseUrl);
+    }
+
+    public static WebService GetInstance(string baseUrl)
+    {
+        if (_instance == null)
+        {
+            _instance = new WebService(baseUrl);   
+        }
+        return _instance;   
     }
 
     private HttpClient GetHttpClient(string baseUrl)
@@ -44,7 +55,6 @@ public class WebService : IWebService
         try
         {
             using HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode();
             return new ResponsPackage
             {
                 StatusCode = response.StatusCode,
@@ -70,7 +80,7 @@ public class WebService : IWebService
     /// <param name="endpoint">The API endpoint to post data to.</param>
     /// <param name="payload">The data to send in the request body.</param>
     /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
-    public async Task<ResponsPackage> PostAsync(string endpoint, object payload)
+    public async Task<ResponsPackage> PostAsync(string endpoint, object payload) 
     {
         _httpClient.DefaultRequestHeaders.Accept.Clear();
         try
@@ -82,7 +92,6 @@ public class WebService : IWebService
             );
 
             using HttpResponseMessage response = await _httpClient.PostAsync(endpoint, content);
-            response.EnsureSuccessStatusCode();
 
             return new ResponsPackage
             {
