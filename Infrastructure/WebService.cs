@@ -103,13 +103,61 @@ public class WebService : IWebService
     }
 
 
-    public Task<ResponsPackage> PutAsync(string url, object payload)
+    public async Task<ResponsPackage> PutAsync(string endpoint, object payload)
     {
-        throw new NotImplementedException();
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        try
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload), 
+                Encoding.UTF8, 
+                "application/json"
+            );
+
+            using HttpResponseMessage response = await _httpClient.PutAsync(endpoint, content);
+            response.EnsureSuccessStatusCode();
+
+            return new ResponsPackage
+            {
+                StatusCode = response.StatusCode,
+                ResponseBody = await response.Content.ReadAsStringAsync(),
+                Headers = response.Headers
+            };
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return new ResponsPackage
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                ResponseBody = $"Error: {err.Message}"
+            };
+        }
     }
 
-    public Task<ResponsPackage> DeleteAsync(string url)
+    public async Task<ResponsPackage> DeleteAsync(string endpoint)
     {
-        throw new NotImplementedException();
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        try
+        {
+            using HttpResponseMessage response = await _httpClient.DeleteAsync(endpoint);
+            response.EnsureSuccessStatusCode();
+            return new ResponsPackage
+            {
+                StatusCode = response.StatusCode,
+                ResponseBody = await response.Content.ReadAsStringAsync(),
+                Headers = response.Headers
+            };
+
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return new ResponsPackage
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                ResponseBody = $"Error: {err.Message}"
+            };
+        }
     }
 }
