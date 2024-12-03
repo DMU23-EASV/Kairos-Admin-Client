@@ -38,8 +38,8 @@ public class LoginViewModel : ViewModelBase
             Console.WriteLine(loginResponse?.StatusCode);
             Console.WriteLine(loginResponse?.Headers);
 
-            TbUsername = "";
-            TbPassword = "";
+            TbUsername = String.Empty;
+            TbPassword = String.Empty;
             
             ViewModelController.Instance.SetCurrentViewModel<HomeViewModel>();
             
