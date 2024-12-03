@@ -16,6 +16,7 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
     private readonly ValidationManager _validationManager = new();
     private bool _validation = true;
+    private int userid;
     
     // List of all text box property names
     private readonly List<string> _textBoxes = new List<string>
@@ -48,6 +49,7 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
             return;
         }
 
+        userid = editUser.Id;
         TextBoxFirstName = editUser.firstName;
         TextBoxLastName = editUser.lastName;
         TextBoxUsername = editUser.username;
@@ -76,10 +78,56 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     public ICommand EditUserCommand => new CommandBase(EditUserLogic);
-
+    
+    public void ClearFields()
+    {
+        _validation = false;
+        
+        userid = -1;
+        TextBoxFirstName = string.Empty;
+        TextBoxLastName = string.Empty;
+        TextBoxEmail = string.Empty;
+        TextBoxPhoneCode = string.Empty;
+        TextBoxPhoneNumber = string.Empty;
+        TextBoxUsername = string.Empty;
+        TextBoxRole = string.Empty;
+        TextBoxStatus = string.Empty;
+        TextBoxDepartment = string.Empty;
+        TextBoxComment = string.Empty;
+        
+        _validation = true;
+    }
     private async void EditUserLogic(object obj)
     {
+        FullUserDTO editUser = new()
+        {
+            Id = userid,
+            username = TextBoxUsername,
+            firstName = TextBoxFirstName,
+            lastName = TextBoxLastName,
+            phoneNumber = Convert.ToInt32(TextBoxPhoneNumber),
+            phoneNumberLandCode = TextBoxPhoneCode,
+            email = TextBoxEmail,
+            role = Convert.ToInt32(TextBoxRole),
+            status = Convert.ToInt32(TextBoxStatus),
+            department = TextBoxDepartment,
+            comment = TextBoxComment,
+        };
         
+        var userRepo = new UserRepoApi(WebService.GetInstance("http://localhost:8080"));
+        var editUserUseCase =  new EditUser(userRepo);
+        var result = await editUserUseCase.UpdateUserAsync(editUser);
+
+        if (result != null)
+        {
+            ClearFields();
+            Console.WriteLine($"User changed successfully!");
+            ViewModelController.Instance.SetCurrentViewModel<ManageUserViewModel>();
+        }
+        else
+        {
+            Console.WriteLine($"Didn't work!");
+        }
     }
 
     public ICommand UpdatePassword => new CommandBase(UpdatePasswordLogic);

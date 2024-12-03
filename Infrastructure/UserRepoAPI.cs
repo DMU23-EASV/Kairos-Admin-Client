@@ -158,4 +158,28 @@ public class UserRepoApi : IUserRepo
         // Handle unexpected response status codes by throwing an exception.
         throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
     }
+
+    public async Task<FullUserDTO?> EditUser(FullUserDTO user)
+    {
+        var response = await _webService.PutAsync("/user/" + user.Id, user);
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception($"Server error: {response.ResponseBody}");
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent || response.ResponseBody == null ||
+            response.ResponseBody.Length <= 0)
+        {
+            throw new Exception($"No data or data empty");
+        }
+
+        if (response.StatusCode is System.Net.HttpStatusCode.OK or System.Net.HttpStatusCode.Created)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<FullUserDTO>(response.ResponseBody, options) ?? throw new InvalidOperationException();
+        }
+        
+        throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
+    }
+
 }

@@ -14,4 +14,5 @@ public interface IUserRepo
     Task<CreateUserDTO?> CreateUser(CreateUserDTO user);
     Task<FullUserDTO?> GetUserByEmail(string email);
     Task<FullUserDTO?> GetUserByUsername(string username);
+    Task<FullUserDTO?> EditUser(FullUserDTO user);
 }
