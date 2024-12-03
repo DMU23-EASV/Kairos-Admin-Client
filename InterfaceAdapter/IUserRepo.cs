@@ -9,6 +9,7 @@ public interface IUserRepo
 {
     Task<List<ManageUserDTO?>> GetUsers();
     Task<ResponsPackage?> Login(LoginRequestDTO loginRequest);
+    Task<ResponsPackage?> Logout();
 
     Task<CreateUserDTO?> CreateUser(CreateUserDTO user);
     Task<FullUserDTO?> GetUserByEmail(string email);

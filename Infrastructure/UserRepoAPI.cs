@@ -46,7 +46,15 @@ public class UserRepoApi : IUserRepo
         var userList = JsonSerializer.Deserialize<List<ManageUserDTO>>(response.ResponseBody, options);
         return userList;
     }
-    
+
+    public async Task<ResponsPackage?> Logout()
+    {
+        // Logging the user out
+        var response = await _webService.GetAsync("/api/logout");
+        
+        return response;
+    }
+
     public async Task<CreateUserDTO?> CreateUser(CreateUserDTO user)
     {
         // Sending the user data as payload via the POST request.
@@ -150,5 +158,4 @@ public class UserRepoApi : IUserRepo
         // Handle unexpected response status codes by throwing an exception.
         throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
     }
-
 }
