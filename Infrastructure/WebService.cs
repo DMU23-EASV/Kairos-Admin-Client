@@ -14,7 +14,6 @@ public class WebService : IWebService
     private readonly string _baseUrl;
     private const int DefaultTimeoutInSeconds = 30;
     
-    
     public WebService(string baseUrl)
     {
         _baseUrl = baseUrl;
@@ -63,9 +62,6 @@ public class WebService : IWebService
                 ResponseBody = $"Error: {err.Message}"
             };
         }
-        
-       
-        
     }
 
     /// <summary>

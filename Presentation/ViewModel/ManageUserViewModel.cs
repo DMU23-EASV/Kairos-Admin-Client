@@ -1,9 +1,5 @@
-﻿using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.DirectoryServices;
-using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Microsoft.Xaml.Behaviors.Core;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Infrastructure;
@@ -39,6 +35,7 @@ public class ManageUserViewModel : ViewModelBase
         set
         {
             _selectedObject = value;
+            OnItemSelect(value);
             Console.WriteLine(_selectedObject);
         }
     }
@@ -104,7 +101,7 @@ public class ManageUserViewModel : ViewModelBase
 
     public void OnItemSelect(Object item)
     {
-        
+        Console.WriteLine($"OnItemSelect {item}");
         // Ensuring the item is of type ManageUserDTO
         if (item is not ManageUserDTO || SelectedObject == null)
         {
@@ -114,9 +111,17 @@ public class ManageUserViewModel : ViewModelBase
         
         // Transfering data to edit user and chaning view. 
         // TODO: IMPLEMENT. 
-        //var vm = ViewModelController.Instance.GetAllViewModels()[typeof(ManageUserViewModel)];
-        //vm.givedata(item);
-        //ViewModelController.Instance.SetCurrentViewModel<EditUserViewmodel>();
+        var vm = ViewModelController.Instance.GetAllViewModels()[typeof(EditUserViewModel)];
+        var vm2 = vm as EditUserViewModel;
+        if (vm2 == null)
+        {
+            Console.WriteLine("Selected item is Not of type EditUserViewModel");
+            return;
+        }
+        Console.WriteLine($"Selected Item: {vm2}");
+        ViewModelController.Instance.SetCurrentViewModel<EditUserViewModel>();
+
+        vm2.LoadUser(item as ManageUserDTO);
         
         Console.WriteLine("OnItemSelect");
     }
