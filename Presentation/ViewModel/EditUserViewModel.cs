@@ -38,7 +38,7 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
         FullUserDTO editUser;
         try
         {
-            var userRepo = new UserRepoApi(new WebService("http://localhost:8080"));
+            var userRepo = new UserRepoApi(WebService.GetInstance("http://localhost:8080"));
             var loadedUser =  new GetUserByUsername(userRepo);
             editUser = await loadedUser.GetUser(user.Username);
         }
