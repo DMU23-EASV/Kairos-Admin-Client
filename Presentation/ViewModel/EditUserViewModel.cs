@@ -28,7 +28,6 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
         "TextBoxRole",
         "TextBoxStatus",
         "TextBoxDepartment",
-        "TextBoxComment"
     };
 
     public async void LoadUser(ManageUserDTO user)
