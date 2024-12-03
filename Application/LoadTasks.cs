@@ -11,8 +11,6 @@ public class LoadTasks
     {
         _repo = taskRepo;
     }
-
     public async Task<IEnumerable<TaskModel?>?> GetAllTasks() => await _repo.GetAllTasks(); 
-
-
+    
 }

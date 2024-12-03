@@ -37,7 +37,7 @@ public class UserRepoApi : IUserRepo
         };
         
         // checking if responsbody has data. 
-        if (response.ResponseBody == null || response.ResponseBody.Length <= 0) return new List<ManageUserDTO?>();
+        if (response.ResponseBody == null || response.ResponseBody.Length <= 0 || string.IsNullOrWhiteSpace(response.ResponseBody)) return new List<ManageUserDTO?>();
         
         // in case of content found.
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

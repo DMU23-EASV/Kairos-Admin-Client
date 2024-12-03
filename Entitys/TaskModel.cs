@@ -11,7 +11,7 @@ public class TaskModel
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int StartKilometers { get; set; }
-    public ETaskModelStatus? ModelStatus { get; set; }
+    public ETaskModelStatus ModelStatus { get; set; }
     public int EndKilometers { get; set; }
     
 }

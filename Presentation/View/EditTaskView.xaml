@@ -47,6 +47,12 @@
                 Style="{StaticResource ButtonBaseIcon}"
                 Tag="Home"/>
             
+            <Button 
+                Width="200"
+                Command="{Binding ReloadTasksCommand}"
+                Style="{StaticResource ButtonBaseIcon}"
+                Tag="Refresh"/>
+            
         </StackPanel>
         
         <!-- Body --> 
@@ -57,14 +63,64 @@
                 <GridView AllowsColumnReorder="true" 
                           ColumnHeaderToolTip="Task information">
                     
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Owner}" 
                                     Header="Brugernavn" Width="200"/>
                     
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Status}" 
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ModelStatus}" 
                                     Header="Status" Width="100"/>
                     
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Margin="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource ButtonBaseIcon}"
+                                    Tag="Check"
+                                    
+                                    Command="{Binding DataContext.ApproveTaskCommand, 
+                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"/>
+                                
+                                
+                                
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Margin="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource ButtonBaseIcon}"
+                                    Tag="Remove"
+                                    Command="{Binding DataContext.RejectTaskCommand, 
+                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"/>
+                                
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn> 
+                    
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Margin="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource ButtonBaseIcon}"
+                                    Tag="Comment"
+                                    Command="{Binding DataContext.AddTaskComment, 
+                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
                 </GridView>
-
             </ListView.View>
         </ListView>
         

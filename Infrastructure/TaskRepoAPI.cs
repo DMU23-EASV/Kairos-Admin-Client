@@ -17,6 +17,10 @@ public class TaskRepoApi : ITaskRepo
         _webService = webService;
     }
     
+    /// <summary>
+    /// Method for fetching all tasks from the api.
+    /// </summary>
+    /// <returns>collection of tasks or an empty collection if no tasks was found.</returns>
     public async Task<IEnumerable<TaskModel?>?> GetAllTasks()
     {
         // Fetcing all tasks from the api. 
@@ -37,11 +41,25 @@ public class TaskRepoApi : ITaskRepo
             Console.WriteLine($"API returned body {response.ResponseBody}");
             return new List<TaskModel?>(); 
         }
+        
+        // if respons is OK, but no content. 
+        if (response.StatusCode == HttpStatusCode.NoContent) return new List<TaskModel?>();
 
         // Deserializing response body. in case of content found.
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         var taskList = JsonSerializer.Deserialize<List<TaskModel>>(response.ResponseBody, options);
         return taskList;
+    }
+
+    /// <summary>
+    /// Method for updating a task
+    /// </summary>
+    /// <param name="task"></param>
+    public async Task UpdateTask(TaskModel task)
+    {
+        
+        
         
     }
+    
 }
