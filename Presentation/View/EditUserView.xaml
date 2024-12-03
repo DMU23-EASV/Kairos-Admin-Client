@@ -1,0 +1,129 @@
+<UserControl x:Class="WPF_MVVM_TEMPLATE.Presentation.View.EditUserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="600">
+    
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- ROW 0 -->
+            <Label Grid.Row="0" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="5"
+                   FontSize="24"
+                   Content="{Binding TextBoxUsername,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
+            </Label>
+
+            <!-- ROW 1 -->
+            <TextBox Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Fornavn" 
+                            Text="{Binding TextBoxFirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Efternavn" 
+                            Text="{Binding TextBoxLastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 2 -->
+            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Email">
+                            <TextBox.Text>
+                                <Binding Path="TextBoxEmail" 
+                                         Mode="TwoWay" 
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         >
+                                </Binding>
+                            </TextBox.Text>
+            </TextBox>
+            <!-- ROW 3 -->
+            <TextBox Grid.Row="3" Grid.Column="0"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Lande Kode" 
+                            Text="{Binding TextBoxPhoneCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Telefon Nr." 
+                            Text="{Binding TextBoxPhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 4 -->
+            <Label Grid.Row="4" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="5"
+                   FontSize="24">
+                Medarbejder Information
+            </Label>
+
+            <!-- ROW 5 -->
+            <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Brugernavn" 
+                            Text="{Binding TextBoxUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="False"/>
+            <Button Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"
+                    Style="{StaticResource ButtonBaseIcon}" 
+                    Tag="Key"
+                    Command="{Binding UpdatePassword}"
+                    Width="180">
+                Update Password
+            </Button>
+
+            <!-- ROW 6 -->
+            <TextBox Grid.Row="6" Grid.Column="0"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Role" 
+                            Text="{Binding TextBoxRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Row="6" Grid.Column="1"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Status" 
+                            Text="{Binding TextBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Row="6" Grid.Column="2"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Afdeling" 
+                            Text="{Binding TextBoxDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- ROW 7 -->
+            <TextBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5"
+                            Style="{StaticResource LabeledTextBoxStyle}" 
+                            Tag="Kommentar" 
+                            Text="{Binding TextBoxComment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <!-- Button Section -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Style="{StaticResource ButtonBaseIcon}" 
+                    Tag="check"
+                    Command="{Binding EditUserCommand}"
+                    IsEnabled="{Binding IsSubmitButtonEnabled}"                    
+                    Width="130">
+                Updater User
+            </Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

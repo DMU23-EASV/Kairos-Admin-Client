@@ -16,6 +16,11 @@ public partial class NavigationDrawer : UserControl
         ViewModelController.Instance.SetCurrentViewModel<SettingsViewModel>();
     }
 
+    private void LoginNav_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModelController.Instance.SetCurrentViewModel<LoginViewModel>();
+    }
+
     private void HomeNav_OnClick(object sender, RoutedEventArgs e)
     {
         ViewModelController.Instance.SetCurrentViewModel<HomeViewModel>();
@@ -29,5 +34,10 @@ public partial class NavigationDrawer : UserControl
     private void ManageUSersNav_OnClick(object sender, RoutedEventArgs e)
     {
         ViewModelController.Instance.SetCurrentViewModel<ManageUserViewModel>();
+    }
+    
+    private void EditUserNav_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModelController.Instance.SetCurrentViewModel<EditUserViewModel>();
     }
 }

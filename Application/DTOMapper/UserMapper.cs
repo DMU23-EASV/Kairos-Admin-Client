@@ -5,22 +5,22 @@ namespace WPF_MVVM_TEMPLATE.Application.DTOMapper;
 
 public static class UserMapper
 {
-    //Returns FullPerson without Password.
-    //Example, probably useless on front-end
+    //Returns FullUserDTO without Password.
     public static FullUserDTO MapToFullUserDto(User user)
     {
         return new FullUserDTO
         {
-            Id = user.Id,
-            Email = user.Email,
-            Role = user.Role,
-            Status = user.Status,
-            Username = user.Username,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            PhoneNumber = user.PhoneNumber,
-            Department = user.Department,
-            Comment = user.Comment
+            Id = Convert.ToInt32(user.Id),
+            username = user.Username,
+            firstName = user.FirstName,
+            lastName = user.LastName,
+            phoneNumber = Convert.ToInt32(user.PhoneNumber),
+            phoneNumberLandCode = user.PhoneNumberLandCode,
+            email = user.Email,
+            role = Convert.ToInt32(user.Role),
+            status = Convert.ToInt32(user.Status),
+            department = user.Department,
+            comment = user.Comment
         };
     }
 }

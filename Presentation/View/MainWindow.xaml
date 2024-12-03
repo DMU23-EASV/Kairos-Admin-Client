@@ -36,6 +36,13 @@
             <views:ManageUsersView/>
         </DataTemplate>
         
+        <DataTemplate DataType="{x:Type viewModels:EditUserViewModel}">
+            <views:EditUserView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModels:LoginViewModel}" x:Name="LoginViewTemplate">
+            <views:LoginView />
+        </DataTemplate>
 
     </Window.Resources>
 

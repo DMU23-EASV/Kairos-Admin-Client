@@ -21,9 +21,9 @@
                 
                 <Label Content="Tasks"/>     
                 <RadioButton
-                    Content="Dashboard"
+                    Content="Manage"
                     Style="{StaticResource MenuButtonTheme}"
-                    Tag="Dashboard"
+                    Tag="Navicon"
                     Width="180" />
                 
                 <RadioButton
@@ -54,6 +54,13 @@
                     Width="180" 
                     Click="ManageUSersNav_OnClick"/>
                 
+                <RadioButton
+                    Content="Edit Debug"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Edit"
+                    Width="180" 
+                    Click="EditUserNav_OnClick"/>
+                
                 <Label Content="Misc"/>        
                 <RadioButton
                     Content="Settings"
@@ -66,7 +73,8 @@
                     Content="Export"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Upload"
-                    Width="180" />
+                    Width="180" 
+                    Click="LoginNav_OnClick"/>
                 
             </StackPanel>
         </Border>
