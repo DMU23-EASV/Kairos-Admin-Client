@@ -31,7 +31,7 @@ public class LoginViewModel : ViewModelBase
         
         try
         {
-            var webService = new WebService("http://localhost:8080/");
+            var webService = WebService.GetInstance("http://localhost:8080/");
             var loginRepoApi = new UserRepoApi(webService);
             var login = new LoginAdmin(loginRepoApi);
 

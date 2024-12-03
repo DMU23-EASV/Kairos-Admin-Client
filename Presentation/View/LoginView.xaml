@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <StackPanel 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
@@ -15,18 +16,32 @@
         </Label> 
         
         <TextBox x:Name = "TbUsername" 
-                Style="{StaticResource LabeledTextBoxStyle}"
-                Text="{Binding TbUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Tag="Username"
-                Width="200"
-                Margin="0,0,0,5"/>
+                 Style="{StaticResource LabeledTextBoxStyle}"
+                 Text="{Binding TbUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Tag="Username"
+                 Width="200"
+                 Margin="0,0,0,5"/>
         
         <TextBox x:Name = "TbPassword" 
-                Style="{StaticResource LabeledTextBoxStyle}"
-                Text="{Binding TbPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Tag="Password"
-                Width="200"
-                Margin="0,0,0,10"/>
+                 FontFamily="pack://application:,,,/Presentation/Resources/Fonts/#password" 
+                 Style="{StaticResource LabeledTextBoxStyle}"
+                 Text="{Binding TbPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Tag="Password"
+                 Width="200"
+                 Margin="0,0,0,10">
+            <TextBox.InputBindings>
+                <!--Disable CTRL+C (COPY) -->
+                <KeyBinding Command="ApplicationCommands.NotACommand"
+                            Key="C"
+                            Modifiers="Control" />
+                <!--Disable CTRL+X (CUT) -->
+                <KeyBinding Command="ApplicationCommands.NotACommand"
+                            Key="X"
+                            Modifiers="Control" />
+            </TextBox.InputBindings>
+            
+        </TextBox>
+        
         
         <Button x:Name = "BtnLogin" 
                 Style="{StaticResource ButtonBase}"

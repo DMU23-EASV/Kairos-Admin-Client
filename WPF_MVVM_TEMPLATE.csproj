@@ -40,6 +40,12 @@
 
     <ItemGroup>
       <Resource Include="Presentation\Resources\images\appIcon.png" />
+      <None Remove="Presentation\Resources\Fonts\password.ttf" />
+      <Resource Include="Presentation\Resources\Fonts\password.ttf" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Presentation\Resources\Fonts\" />
     </ItemGroup>
 
 </Project>

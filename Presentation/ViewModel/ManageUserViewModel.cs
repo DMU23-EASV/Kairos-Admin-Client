@@ -42,7 +42,7 @@ public class ManageUserViewModel : ViewModelBase
     private async void LoadUsers()
     {
 
-        var webService = new WebService("http://localhost:8080/");
+        var webService = WebService.GetInstance("http://localhost:8080/");
         var userRepoApi = new UserRepoApi(webService);
         var loadUsers = new LoadUsers(userRepoApi);
 
@@ -50,7 +50,11 @@ public class ManageUserViewModel : ViewModelBase
         var users = await loadUsers.GetUsers();
 
         // If no useres is returnd. return.
-        if (users == null || users.Count <= 0) return;
+        if (users == null || users.Count <= 0)
+        {
+            Console.WriteLine("Users not found");
+            return;
+        }
 
         // Adding useres to the obs. collection.
         users.ForEach(user =>

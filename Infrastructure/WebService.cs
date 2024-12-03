@@ -14,11 +14,21 @@ public class WebService : IWebService
     private readonly string _baseUrl;
     private const int DefaultTimeoutInSeconds = 30;
     
+    private static WebService _instance;
     
     public WebService(string baseUrl)
     {
         _baseUrl = baseUrl;
         _httpClient = GetHttpClient(_baseUrl);
+    }
+
+    public static WebService GetInstance(string baseUrl)
+    {
+        if (_instance == null)
+        {
+            _instance = new WebService(baseUrl);   
+        }
+        return _instance;   
     }
 
     private HttpClient GetHttpClient(string baseUrl)
@@ -45,7 +55,6 @@ public class WebService : IWebService
         try
         {
             using HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode();
             return new ResponsPackage
             {
                 StatusCode = response.StatusCode,
