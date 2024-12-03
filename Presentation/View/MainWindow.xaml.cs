@@ -12,6 +12,8 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = ViewModelController.Instance.App; 
+        
+        ViewModelController.Instance.RegistryViewModel(new EditUserViewModel());
     }
     
     private void SettingsNav_OnClick(object sender, RoutedEventArgs e)

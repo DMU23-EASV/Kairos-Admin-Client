@@ -16,5 +16,4 @@ public class EmailRule : ValidationRule
         }
         return new ValidationResult(false, "Email is invalid");
     }
-    
 }

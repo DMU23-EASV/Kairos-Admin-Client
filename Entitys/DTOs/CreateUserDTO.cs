@@ -7,7 +7,7 @@ public class CreateUserDTO
     public string firstName { get; set; }
     public string lastName { get; set; }
     public int phoneNumber { get; set; }
-    public string contryCode { get; set; }
+    public string PhoneNumberLandCode { get; set; }
     public string email { get; set; }
     public int role { get; set; }
     public int status { get; set; }

@@ -24,7 +24,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     private readonly ValidationManager _validationManager = new();
     
     // List of all text box property names
-    private List<string> _textBoxes = new List<string>
+    private readonly List<string> _textBoxes = new List<string>
     {
         "TextBoxFirstName",
         "TextBoxLastName",
@@ -37,11 +37,10 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         "TextBoxRole",
         "TextBoxStatus",
         "TextBoxDepartment",
-        "TextBoxComment"
     };
     
-    
-    private string defaultError = "Field is required";
+    //Default Error Message, we want to return something sensible.
+    private string _defaultError = "Field is required";
     public bool IsSubmitButtonEnabled => !_validationManager.HasErrors;
     
     
@@ -52,28 +51,53 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
         InitializeErrors(); // Call on startup to populate errors
     }
+    
+    //ICommand for Button CreateUser.
     public ICommand CreateUserCommand => new CommandBase(CreateUserLogic);
-    private void CreateUserLogic(object o)
+    
+    /// <summary>
+    /// Handles the logic for creating a user by gathering input data,
+    /// sending it to the API, and handling the response.
+    /// </summary>
+    /// <param name="o">Optional parameter passed by the caller (unused).</param>
+    private async void CreateUserLogic(object o)
     {
-        Console.WriteLine("HELLO WORLD??!?");
-        CreateUserDTO userDTO = new();
-        userDTO.username = TextBoxUsername;
-        userDTO.password = TextBoxPassword2;
-        userDTO.firstName = TextBoxFirstName;
-        userDTO.lastName = TextBoxLastName;
-        userDTO.phoneNumber = Convert.ToInt32(TextBoxPhoneNumber);
-        userDTO.contryCode = TextBoxPhoneCode;
-        userDTO.email = TextBoxEmail;
-        userDTO.status = Convert.ToInt32(TextBoxStatus);
-        userDTO.department = TextBoxDepartment;
-        userDTO.comment = TextBoxComment;
-        userDTO.role = Convert.ToInt32(TextBoxRole);
-        
-        CreateUserUseCase create = new CreateUserUseCase(new ApiService(new HttpClient()));
-        
-        //TODO: Handle response?
-        Console.WriteLine(create.CreateUser(userDTO));
+        try
+        {
+            CreateUserDTO userDTO = new()
+            {
+                username = TextBoxUsername,      
+                password = TextBoxPassword2,    
+                firstName = TextBoxFirstName,   
+                lastName = TextBoxLastName,     
+                phoneNumber = Convert.ToInt32(TextBoxPhoneNumber), 
+                PhoneNumberLandCode = TextBoxPhoneCode,  
+                email = TextBoxEmail,           
+                status = Convert.ToInt32(TextBoxStatus), 
+                department = TextBoxDepartment, 
+                comment = TextBoxComment,       
+                role = Convert.ToInt32(TextBoxRole) 
+            };
+
+            var userRepo = new UserRepoApi(new WebService("http://localhost:8080"));
+            var createdUser =  new CreateUser(userRepo);
+            var result = await createdUser.CreateUserAsync(userDTO);
+
+            if (createdUser != null)
+            {
+                Console.WriteLine($"User {createdUser} created successfully!");
+            }
+            else
+            {
+                Console.WriteLine("User creation failed. No response received.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while creating the user: {ex.Message}");
+        }
     }
+
     
     #region Getter & Setter
     
@@ -214,7 +238,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             }
             else
             {
-                _validationManager.AddError(nameof(TextBoxUsername), defaultError);
+                _validationManager.AddError(nameof(TextBoxUsername), _defaultError);
             }
         }
     }
@@ -235,7 +259,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             }
             else
             {
-                _validationManager.AddError(nameof(TextBoxPassword1), defaultError);
+                _validationManager.AddError(nameof(TextBoxPassword1), _defaultError);
             }
             
         }
@@ -256,7 +280,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             }
             else
             {
-                _validationManager.AddError(nameof(TextBoxPassword2), defaultError);
+                _validationManager.AddError(nameof(TextBoxPassword2), _defaultError);
             }
         }
         
@@ -326,25 +350,6 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     #endregion
     
     #region Validation
-
-    private void RegisterFields()
-    {
-        _validationManager.RegisterFields(new[]
-        {
-            nameof(TextBoxFirstName),
-            nameof(TextBoxLastName),
-            nameof(TextBoxEmail),
-            nameof(TextBoxPhoneCode),
-            nameof(TextBoxPhoneNumber),
-            nameof(TextBoxUsername),
-            nameof(TextBoxPassword1),
-            nameof(TextBoxPassword2),
-            nameof(TextBoxRole),
-            nameof(TextBoxStatus),
-            nameof(TextBoxDepartment),
-            nameof(TextBoxComment)
-        });
-    }
 
     private void InitializeErrors()
     {

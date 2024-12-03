@@ -2,10 +2,10 @@
 
 public class ManageUserDTO : IComparable<ManageUserDTO>
 {
-    public required string Username { get; set; }
-    public required string Email { get; set; }
-    public required int Role { get; set; }
-    public required int Status { get; set; }
+    public string? Username { get; set; }
+    public string? Email { get; set; }
+    public int? Role { get; set; }
+    public int? Status { get; set; }
 
     public int CompareTo(ManageUserDTO? other)
     {

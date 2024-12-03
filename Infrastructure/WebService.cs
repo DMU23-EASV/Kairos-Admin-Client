@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
 
@@ -12,11 +14,21 @@ public class WebService : IWebService
     private readonly string _baseUrl;
     private const int DefaultTimeoutInSeconds = 30;
     
+    private static WebService _instance;
     
     public WebService(string baseUrl)
     {
         _baseUrl = baseUrl;
         _httpClient = GetHttpClient(_baseUrl);
+    }
+
+    public static WebService GetInstance(string baseUrl)
+    {
+        if (_instance == null)
+        {
+            _instance = new WebService(baseUrl);   
+        }
+        return _instance;   
     }
 
     private HttpClient GetHttpClient(string baseUrl)
@@ -43,6 +55,101 @@ public class WebService : IWebService
         try
         {
             using HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+            return new ResponsPackage
+            {
+                StatusCode = response.StatusCode,
+                ResponseBody = await response.Content.ReadAsStringAsync(),
+                Headers = response.Headers
+            };
+
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return new ResponsPackage
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                ResponseBody = $"Error: {err.Message}"
+            };
+        }
+    }
+
+    /// <summary>
+    /// Method for calling an endpoint with POST request.
+    /// </summary>
+    /// <param name="endpoint">The API endpoint to post data to.</param>
+    /// <param name="payload">The data to send in the request body.</param>
+    /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
+    public async Task<ResponsPackage> PostAsync(string endpoint, object payload) 
+    {
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        try
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload), 
+                Encoding.UTF8, 
+                "application/json"
+            );
+
+            using HttpResponseMessage response = await _httpClient.PostAsync(endpoint, content);
+
+            return new ResponsPackage
+            {
+                StatusCode = response.StatusCode,
+                ResponseBody = await response.Content.ReadAsStringAsync(),
+                Headers = response.Headers
+            };
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return new ResponsPackage
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                ResponseBody = $"Error: {err.Message}"
+            };
+        }
+    }
+
+
+    public async Task<ResponsPackage> PutAsync(string endpoint, object payload)
+    {
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        try
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload), 
+                Encoding.UTF8, 
+                "application/json"
+            );
+
+            using HttpResponseMessage response = await _httpClient.PutAsync(endpoint, content);
+            response.EnsureSuccessStatusCode();
+
+            return new ResponsPackage
+            {
+                StatusCode = response.StatusCode,
+                ResponseBody = await response.Content.ReadAsStringAsync(),
+                Headers = response.Headers
+            };
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return new ResponsPackage
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                ResponseBody = $"Error: {err.Message}"
+            };
+        }
+    }
+
+    public async Task<ResponsPackage> DeleteAsync(string endpoint)
+    {
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        try
+        {
+            using HttpResponseMessage response = await _httpClient.DeleteAsync(endpoint);
             response.EnsureSuccessStatusCode();
             return new ResponsPackage
             {
@@ -61,23 +168,5 @@ public class WebService : IWebService
                 ResponseBody = $"Error: {err.Message}"
             };
         }
-        
-       
-        
-    }
-
-    public Task PostAsync(string url)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task PutAsync(string url)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(string url)
-    {
-        throw new NotImplementedException();
     }
 }

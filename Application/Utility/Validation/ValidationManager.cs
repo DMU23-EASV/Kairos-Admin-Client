@@ -70,6 +70,11 @@ public class ValidationManager : INotifyDataErrorInfo
             OnErrorsChanged(fieldName);
     }
 
+    public void ClearAllErrors()
+    {
+        _errors.Clear();
+    }
+
     /// <summary>
     /// Retrieves all validation errors for a specific property or field.
     /// This method is part of the INotifyDataErrorInfo interface and allows consumers, 
