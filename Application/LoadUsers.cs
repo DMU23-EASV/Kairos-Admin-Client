@@ -15,6 +15,6 @@ public class LoadUsers
     /// Method for loading all users
     /// </summary>
     /// <returns>Returns a list of users, or a empty list if no useres is found</returns>
-    public async Task<List<ManageUserDTO?>> GetUsers() => await _userRepo.GetUsers();
+    public async Task<List<ManageUserDTO?>?> GetUsers() => await _userRepo.GetUsers();
     
 }

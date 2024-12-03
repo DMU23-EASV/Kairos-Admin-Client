@@ -32,7 +32,13 @@ public class UserRepoApi : IUserRepo
         if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return new List<ManageUserDTO?>();
         
         // checking if responsbody has data. 
-        if (response.ResponseBody == null || response.ResponseBody.Length <= 0) return new List<ManageUserDTO?>();
+        if (response.ResponseBody == null || response.ResponseBody.Length <= 0 || string.IsNullOrWhiteSpace(response.ResponseBody)) return new List<ManageUserDTO?>();
+        
+        
+        Console.WriteLine($"Response body: {response.ResponseBody}");
+        Console.WriteLine($"Response Header: {response.Headers}");
+        Console.WriteLine($"Response code: {response.StatusCode}");
+        
         
         // in case of content found.
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

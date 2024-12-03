@@ -61,6 +61,8 @@ public class ManageUserViewModel : ViewModelBase
 
         _users.Clear();
         var users = await loadUsers.GetUsers();
+        
+        Console.WriteLine("Got all users");
 
         // If no useres is returnd. return.
         if (users == null || users.Count <= 0) return;
@@ -102,6 +104,7 @@ public class ManageUserViewModel : ViewModelBase
     public void OnItemSelect(Object item)
     {
         Console.WriteLine($"OnItemSelect {item}");
+        
         // Ensuring the item is of type ManageUserDTO
         if (item is not ManageUserDTO || SelectedObject == null)
         {
