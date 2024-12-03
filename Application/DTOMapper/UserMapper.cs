@@ -15,7 +15,7 @@ public static class UserMapper
             firstName = user.FirstName,
             lastName = user.LastName,
             phoneNumber = Convert.ToInt32(user.PhoneNumber),
-            contryCode = user.PhoneNumberLandCode, // Assuming you have a CountryCode property in User
+            phoneNumberLandCode = user.PhoneNumberLandCode,
             email = user.Email,
             role = Convert.ToInt32(user.Role),
             status = Convert.ToInt32(user.Status),

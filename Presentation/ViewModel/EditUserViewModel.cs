@@ -6,6 +6,7 @@ using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
 using WPF_MVVM_TEMPLATE.DTO;
+using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Infrastructure;
 
@@ -14,6 +15,7 @@ namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
     private readonly ValidationManager _validationManager = new();
+    private bool _validation = true;
     
     // List of all text box property names
     private readonly List<string> _textBoxes = new List<string>
@@ -31,6 +33,8 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public async void LoadUser(ManageUserDTO user)
     {
+        Console.WriteLine($"Loading User details {user}");
+        _validation = false;
         FullUserDTO editUser;
         try
         {
@@ -47,14 +51,19 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
         TextBoxFirstName = editUser.firstName;
         TextBoxLastName = editUser.lastName;
+        TextBoxUsername = editUser.username;
         TextBoxEmail = editUser.email;
         TextBoxPhoneNumber = editUser.phoneNumber.ToString();
-        TextBoxPhoneCode = editUser.contryCode;
+        TextBoxPhoneCode = editUser.phoneNumberLandCode;
         TextBoxEmail = editUser.email;
         TextBoxRole = editUser.role.ToString();
         TextBoxStatus = editUser.status.ToString();
         TextBoxDepartment = editUser.department;
         TextBoxComment = editUser.comment;
+
+        InitializeErrors(); // Call on startup to populate errors
+        _validation = true;
+        Console.WriteLine($"Loaded User details {editUser}");
     }
     
     //Default Error Message, we want to return something sensible.
@@ -65,7 +74,6 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
     { 
         _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
-        InitializeErrors(); // Call on startup to populate errors
     }
 
     public ICommand EditUserCommand => new CommandBase(EditUserLogic);
@@ -94,16 +102,21 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
             _textBoxFirstName = value; 
             
             OnPropertyChanged();
-            
-            var validationResult = new LettersAndSpacesRule().Validate(value, CultureInfo.CurrentCulture);
+            if (_validation)
+            {
+                var validationResult = new LettersAndSpacesRule().Validate(value, CultureInfo.CurrentCulture);
 
-            if (validationResult.IsValid)
+                if (validationResult.IsValid)
+                {
+                    _validationManager.ClearErrors(nameof(TextBoxFirstName));
+                }
+                else
+                {
+                    _validationManager.AddError(nameof(TextBoxFirstName), validationResult.ErrorContent.ToString());
+                }  
+            } else
             {
-                _validationManager.ClearErrors(nameof(TextBoxFirstName));
-            }
-            else
-            {
-                _validationManager.AddError(nameof(TextBoxFirstName), validationResult.ErrorContent.ToString());
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
             }
         }
     }
@@ -116,16 +129,21 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
             _textBoxLastName = value;
 
             OnPropertyChanged();
-            
-            var validationResult = new LettersAndSpacesRule().Validate(value, CultureInfo.CurrentCulture);
+            if (_validation)
+            {
+                var validationResult = new LettersAndSpacesRule().Validate(value, CultureInfo.CurrentCulture);
 
-            if (validationResult.IsValid)
+                if (validationResult.IsValid)
+                {
+                    _validationManager.ClearErrors(nameof(TextBoxLastName));
+                }
+                else
+                {
+                    _validationManager.AddError(nameof(TextBoxLastName), validationResult.ErrorContent.ToString());
+                }                
+            } else
             {
-                _validationManager.ClearErrors(nameof(TextBoxLastName));
-            }
-            else
-            {
-                _validationManager.AddError(nameof(TextBoxLastName), validationResult.ErrorContent.ToString());
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
             }
         }
     }
@@ -141,24 +159,30 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
             _textBoxEmail = value;
             OnPropertyChanged();
 
-            // Clear any previous errors
-            Console.WriteLine("Clearing previous errors for TextBoxEmail.");
-            _validationManager.ClearErrors(nameof(TextBoxEmail));
-
-            // Perform validation (Email validation in this case)
-            var validationResult = new EmailRule().Validate(value, CultureInfo.CurrentCulture);
-            Console.WriteLine($"Validation result: IsValid = {validationResult.IsValid}, ErrorContent = {validationResult.ErrorContent}");
-
-            if (!validationResult.IsValid)
+            if (_validation)
             {
-                // Add error if validation fails
-                Console.WriteLine($"Adding error for TextBoxEmail: {validationResult.ErrorContent}"); 
-                _validationManager.AddError(nameof(TextBoxEmail), validationResult.ErrorContent.ToString());            }
-            else
-            {
-                // Ensure the error is cleared if the validation passes
-                Console.WriteLine("Validation passed. No errors for TextBoxEmail.");
+                // Clear any previous errors
+                Console.WriteLine("Clearing previous errors for TextBoxEmail.");
                 _validationManager.ClearErrors(nameof(TextBoxEmail));
+
+                // Perform validation (Email validation in this case)
+                var validationResult = new EmailRule().Validate(value, CultureInfo.CurrentCulture);
+                Console.WriteLine($"Validation result: IsValid = {validationResult.IsValid}, ErrorContent = {validationResult.ErrorContent}");
+
+                if (!validationResult.IsValid)
+                {
+                    // Add error if validation fails
+                    Console.WriteLine($"Adding error for TextBoxEmail: {validationResult.ErrorContent}"); 
+                    _validationManager.AddError(nameof(TextBoxEmail), validationResult.ErrorContent.ToString());            }
+                else
+                {
+                    // Ensure the error is cleared if the validation passes
+                    Console.WriteLine("Validation passed. No errors for TextBoxEmail.");
+                    _validationManager.ClearErrors(nameof(TextBoxEmail));
+                }
+            } else
+            {
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
             }
         }
     }
@@ -173,15 +197,22 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
             _textBoxPhoneCode = value;
 
             OnPropertyChanged();
-            var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
 
-            if (validationResult.IsValid)
+            if (_validation)
             {
-                _validationManager.ClearErrors(nameof(TextBoxPhoneCode));
-            }
-            else
+                var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
+
+                if (validationResult.IsValid)
+                {
+                    _validationManager.ClearErrors(nameof(TextBoxPhoneCode));
+                }
+                else
+                {
+                    _validationManager.AddError(nameof(TextBoxPhoneCode), validationResult.ErrorContent.ToString());
+                }
+            } else
             {
-                _validationManager.AddError(nameof(TextBoxPhoneCode), validationResult.ErrorContent.ToString());
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
             }
         }
     }
@@ -194,16 +225,24 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
             _textBoxPhoneNumber = value;
 
             OnPropertyChanged();
-            var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
 
-            if (validationResult.IsValid)
+            if (_validation)
             {
-                _validationManager.ClearErrors(nameof(TextBoxPhoneNumber));
-            }
-            else
+                var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
+
+                if (validationResult.IsValid)
+                {
+                    _validationManager.ClearErrors(nameof(TextBoxPhoneNumber));
+                }
+                else
+                {
+                    _validationManager.AddError(nameof(TextBoxPhoneNumber), validationResult.ErrorContent.ToString());
+                }
+            } else
             {
-                _validationManager.AddError(nameof(TextBoxPhoneNumber), validationResult.ErrorContent.ToString());
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
             }
+
         }
     }
     private string _textBoxUsername;
@@ -216,13 +255,20 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
             OnPropertyChanged();
 
-            if (!string.IsNullOrWhiteSpace(value))
+            if (_validation)
             {
-                _validationManager.ClearErrors(nameof(TextBoxUsername));
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    _validationManager.ClearErrors(nameof(TextBoxUsername));
+                }
+                else
+                {
+                    _validationManager.AddError(nameof(TextBoxUsername), _defaultError);
+                }
             }
             else
             {
-                _validationManager.AddError(nameof(TextBoxUsername), _defaultError);
+                _validationManager.ClearErrors(nameof(TextBoxUsername));
             }
         }
     }
@@ -295,10 +341,27 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void InitializeErrors()
     {
-        foreach (var field in _textBoxes)
+        Console.WriteLine("Initializing Errors");
+        foreach (var fieldName in _textBoxes)
         {
-            _validationManager.AddError(field, "Field is required.");
+            // Use reflection to get the property value dynamically
+            var property = GetType().GetProperty(fieldName);
+            if (property != null)
+            {
+                var value = property.GetValue(this) as string;
+
+                // Check if the value is null or whitespace
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _validationManager.AddError(fieldName, _defaultError);
+                }
+                else
+                {
+                    _validationManager.ClearErrors(fieldName); // Clear any existing errors if valid
+                }
+            }
         }
+        Console.WriteLine("Errors Initialized");
     }
 
     public IEnumerable GetErrors(string propertyName)

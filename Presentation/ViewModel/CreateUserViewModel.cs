@@ -37,7 +37,6 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         "TextBoxRole",
         "TextBoxStatus",
         "TextBoxDepartment",
-        "TextBoxComment"
     };
     
     //Default Error Message, we want to return something sensible.
@@ -72,7 +71,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
                 firstName = TextBoxFirstName,   
                 lastName = TextBoxLastName,     
                 phoneNumber = Convert.ToInt32(TextBoxPhoneNumber), 
-                contryCode = TextBoxPhoneCode,  
+                PhoneNumberLandCode = TextBoxPhoneCode,  
                 email = TextBoxEmail,           
                 status = Convert.ToInt32(TextBoxStatus), 
                 department = TextBoxDepartment, 

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using WPF_MVVM_TEMPLATE.DTO;
+using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
 
