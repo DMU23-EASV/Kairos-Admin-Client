@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Json;
 using System.Text.Json;
 using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Entitys;
@@ -55,10 +56,24 @@ public class TaskRepoApi : ITaskRepo
     /// Method for updating a task
     /// </summary>
     /// <param name="task"></param>
-    public async Task UpdateTask(TaskModel task)
+    /// <param name="endpoint"></param>
+    public async Task UpdateTask(TaskModel task, string endpoint)
     {
         
+        var response = await _webService.PutAsync(endpoint, task);
         
+        // evaluating response. 
+        if (response == null || response.ResponseBody == null || !response.ResponseBody.Any())
+        {
+            Console.WriteLine("API returned null, cannot update task");
+        }
+
+        if (response?.StatusCode != HttpStatusCode.OK)
+        {
+            Console.WriteLine($"API returned status code {response?.StatusCode}, cannot update task");
+        }
+        
+        Console.WriteLine($"API returned body {response?.ResponseBody}");
         
     }
     
