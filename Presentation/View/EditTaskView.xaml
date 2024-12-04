@@ -3,126 +3,157 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
              mc:Ignorable="d"
              d:DesignHeight="720" d:DesignWidth="1080">
-    <Grid>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <StackPanel Orientation="Horizontal" Grid.Column="0" 
-                    HorizontalAlignment="Center">
-            <Button 
-                Content="Afventer godkendelse" 
-                Width="200" 
-                Command="{Binding SortByAwaitingApproval}"
-                Style="{StaticResource ButtonBaseIcon}"
-                Tag="Home"/>
+    
+    <Border CornerRadius="30"
+            Background = "{StaticResource HeaderColorBrush}"
+            Margin="20 20 20 20">
             
-            <Button 
-                Content="Godkendt" 
-                Width="200" 
-                Command="{Binding SortByApproved}"
-                Style="{StaticResource ButtonBaseIcon}"
-                Tag="Home"/>
+        <Grid
+            Margin="20 20 20 20">
             
-            <Button 
-                Content="Afvist"
-                Width="200"
-                Command="{Binding SortByRejected}"
-                Style="{StaticResource ButtonBaseIcon}"
-                Tag="Home"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
             
-            <Button 
-                Content="Arkiveret"
-                Width="200"
-                Command="{Binding SortByArchived}"
-                Style="{StaticResource ButtonBaseIcon}"
-                Tag="Home"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
             
-            <Button 
-                Width="200"
-                Command="{Binding ReloadTasksCommand}"
-                Style="{StaticResource ButtonBaseIcon}"
-                Tag="Refresh"/>
-            
-        </StackPanel>
-        
-        <!-- Body --> 
-        <ListView ItemsSource="{Binding TaskCollection}" Grid.Row="1"
-                  SelectedItem="{Binding SelectedTask}">
+            <Grid ShowGridLines="True" Grid.Row="0">
                 
-            <ListView.View>
-                <GridView AllowsColumnReorder="true" 
-                          ColumnHeaderToolTip="Task information">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            
+                <Label Grid.Column="0"
+                       Content="Opgaver" FontSize="22"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+                
+            </Grid>
+            
+            <!-- Body --> 
+            <ListView ItemsSource="{Binding TaskCollection}" Grid.Row="1"
+                      SelectedItem="{Binding SelectedTask}">
                     
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Owner}" 
-                                    Header="Brugernavn" Width="200"/>
-                    
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ModelStatus}" 
-                                    Header="Status" Width="100"/>
-                    
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
-                                    Margin="0"
-                                    VerticalAlignment="Center"
-                                    Style="{StaticResource ButtonBaseIcon}"
-                                    Tag="Check"
+                <ListView.View>
+                    <GridView AllowsColumnReorder="true" 
+                              ColumnHeaderToolTip="Opgave information">
+                        
+                        <!-- Context menu -->
+                        <GridView.ColumnHeaderContextMenu>  
+                            <ContextMenu>  
+                                <MenuItem Header="Godkend" Command="{Binding SortByApproved}">
+                                    <MenuItem.Icon>
+                                        <fa:FontAwesome Icon="Check"></fa:FontAwesome>
+                                    </MenuItem.Icon>
+                                </MenuItem>  
+                                
+                                <MenuItem Header="Afvist" Command="{Binding SortByRejected}">
+                                    <MenuItem.Icon>
+                                        <fa:FontAwesome Icon="Remove"></fa:FontAwesome>
+                                    </MenuItem.Icon>
+                                </MenuItem>  
+                                
+                                <MenuItem Header="Afventer" Command="{Binding SortByAwaitingApproval}">
+                                    <MenuItem.Icon>
+                                        <fa:FontAwesome Icon="Hourglass"></fa:FontAwesome>
+                                    </MenuItem.Icon>
+                                </MenuItem>  
+                                
+                                <MenuItem Header="Klade" Command="{Binding SortByArchived}">
+                                    <MenuItem.Icon>
+                                        <fa:FontAwesome Icon="Archive"></fa:FontAwesome>
+                                    </MenuItem.Icon>
+                                </MenuItem>  
+                                
+                                <MenuItem Header="Genindlæs" Command="{Binding LoadTaskCommand}">
+                                    <MenuItem.Icon>
+                                        <fa:FontAwesome Icon="Refresh" HorizontalAlignment="Center" VerticalAlignment="Center"></fa:FontAwesome>
+                                    </MenuItem.Icon>
+                                </MenuItem>  
+                                
+                            </ContextMenu>  
+                            
+                        </GridView.ColumnHeaderContextMenu>       
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Owner}" 
+                                        Header="Brugernavnꜜ" Width="200"/>
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" 
+                                        Header="Opgave" Width="300"/>
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ModelStatus}" 
+                                        Header="Status" Width="150"/>
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=StartKilometers}" 
+                                        Header="Start KM" Width="100"/> 
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=EndKilometers}" 
+                                        Header="Slut KM" Width="100"/>   
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=StartTime}" 
+                                        Header="Start Tid" Width="150"/>   
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=EndTime}" 
+                                        Header="Slut Tid" Width="150"/>
+                        
+                        <GridViewColumn Header="Kommentar" Width="300">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Focusable="True" Text="{Binding Comment}" 
+                                             HorizontalAlignment="Stretch" MinLines="3" MinWidth="280">
+                                    </TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Margin="0"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource ButtonBaseIcon}"
+                                        Tag="Check"
+                                        
+                                        Command="{Binding DataContext.ApproveTaskCommand, 
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="Godkend opgaven"
+                                        />
                                     
-                                    Command="{Binding DataContext.ApproveTaskCommand, 
-                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"/>
-                                
-                                
-                                
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
-                                    Margin="0"
-                                    VerticalAlignment="Center"
-                                    Style="{StaticResource ButtonBaseIcon}"
-                                    Tag="Remove"
-                                    Command="{Binding DataContext.RejectTaskCommand, 
-                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"/>
-                                
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn> 
-                    
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
-                                    Margin="0"
-                                    VerticalAlignment="Center"
-                                    Style="{StaticResource ButtonBaseIcon}"
-                                    Tag="Comment"
-                                    Command="{Binding DataContext.AddTaskComment, 
-                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"
-                                    />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
-                </GridView>
-            </ListView.View>
-        </ListView>
-        
-    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <GridViewColumn >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Margin="0"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource ButtonBaseIcon}"
+                                        Tag="Remove"
+                                        Command="{Binding DataContext.RejectTaskCommand, 
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="Afvis opgaven"
+                                        />
+                                    
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn> 
+                        
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            
+        </Grid>
+    </Border>
 </UserControl>
