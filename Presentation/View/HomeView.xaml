@@ -9,6 +9,6 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Background="Lime" MinWidth="200" MinHeight="200">
-        <fa:FontAwesome Icon="Navicon"></fa:FontAwesome>
+        <fa:FontAwesome Icon="SignOut"></fa:FontAwesome>
     </StackPanel>
 </UserControl>

@@ -74,8 +74,14 @@
                     Content="Export"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Upload"
+                    Width="180" />
+                
+                <RadioButton
+                    Content="Logout"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="SignOut"
                     Width="180" 
-                    Click="LoginNav_OnClick"/>
+                    Click="Logout_OnClick"/>
                 
             </StackPanel>
         </Border>
