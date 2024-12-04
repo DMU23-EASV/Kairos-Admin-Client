@@ -126,7 +126,7 @@ public class ManageUserViewModel : ViewModelBase
             return;
         }
         Console.WriteLine($"Selected Item: {vm2}");
-        LoadUsers();
+        LoadUsers(); //Refresh the users view to clear selected.
         ViewModelController.Instance.SetCurrentViewModel<EditUserViewModel>();
 
         vm2.LoadUser(item as ManageUserDTO);
