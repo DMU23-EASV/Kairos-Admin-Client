@@ -104,7 +104,12 @@ public class ManageUserViewModel : ViewModelBase
         
         return new ObservableCollection<T>(sortedItems);
     }
-
+    
+    /// <summary>
+    /// Handles the selection of an item and transitions to the Edit User view model 
+    /// while transferring the selected item's data.
+    /// </summary>
+    /// <param name="item">The selected item, expected to be of type <see cref="ManageUserDTO"/>.</param>
     public void OnItemSelect(Object item)
     {
         Console.WriteLine($"OnItemSelect {item}");
