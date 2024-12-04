@@ -104,7 +104,12 @@ public class ManageUserViewModel : ViewModelBase
         
         return new ObservableCollection<T>(sortedItems);
     }
-
+    
+    /// <summary>
+    /// Handles the selection of an item and transitions to the Edit User view model 
+    /// while transferring the selected item's data.
+    /// </summary>
+    /// <param name="item">The selected item, expected to be of type <see cref="ManageUserDTO"/>.</param>
     public void OnItemSelect(Object item)
     {
         Console.WriteLine($"OnItemSelect {item}");
@@ -126,17 +131,13 @@ public class ManageUserViewModel : ViewModelBase
             return;
         }
         Console.WriteLine($"Selected Item: {vm2}");
+        LoadUsers(); //Refresh the users view to clear selected.
         ViewModelController.Instance.SetCurrentViewModel<EditUserViewModel>();
 
         vm2.LoadUser(item as ManageUserDTO);
         
         Console.WriteLine("OnItemSelect");
     }
-    
-    
-    
-    
-    
     
     #region Commands
     public ICommand LoadUsersCommand => new CommandBase(obj => LoadUsers());

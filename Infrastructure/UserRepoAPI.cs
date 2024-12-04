@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
@@ -27,12 +25,21 @@ public class UserRepoApi : IUserRepo
         var response = await _webService.GetAsync("/api/users");
 
         // In case of server error, return empty string. 
-        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError) return new List<ManageUserDTO?>();
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            Console.WriteLine($"Internal Server Error {response.StatusCode}, {response.ResponseBody}" );
+            return new List<ManageUserDTO?>();
+        };
         
         // in case of sucessfull requst, but no contet found. 
-        if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return new List<ManageUserDTO?>();
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+        {
+            Console.WriteLine($"No Content {response.StatusCode}, {response.ResponseBody}" );
+            return new List<ManageUserDTO?>();
+        };
         
         // checking if responsbody has data. 
+        if (response.ResponseBody == null || response.ResponseBody.Length <= 0 || string.IsNullOrWhiteSpace(response.ResponseBody)) return new List<ManageUserDTO?>();
         if (response.ResponseBody == null || response.ResponseBody.Length <= 0 || string.IsNullOrWhiteSpace(response.ResponseBody)) return new List<ManageUserDTO?>();
         
         
@@ -46,7 +53,15 @@ public class UserRepoApi : IUserRepo
         var userList = JsonSerializer.Deserialize<List<ManageUserDTO>>(response.ResponseBody, options);
         return userList;
     }
-    
+
+    public async Task<ResponsPackage?> Logout()
+    {
+        // Logging the user out
+        var response = await _webService.GetAsync("/api/logout");
+        
+        return response;
+    }
+
     public async Task<CreateUserDTO?> CreateUser(CreateUserDTO user)
     {
         // Sending the user data as payload via the POST request.
@@ -148,6 +163,29 @@ public class UserRepoApi : IUserRepo
             return JsonSerializer.Deserialize<FullUserDTO>(response.ResponseBody, options);
         }
         // Handle unexpected response status codes by throwing an exception.
+        throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
+    }
+
+    public async Task<FullUserDTO?> EditUser(FullUserDTO user)
+    {
+        var response = await _webService.PutAsync("/user", user);
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception($"Server error: {response.ResponseBody}");
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NoContent || response.ResponseBody == null ||
+            response.ResponseBody.Length <= 0)
+        {
+            throw new Exception($"No data or data empty");
+        }
+
+        if (response.StatusCode is System.Net.HttpStatusCode.OK or System.Net.HttpStatusCode.Created)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<FullUserDTO>(response.ResponseBody, options) ?? throw new InvalidOperationException();
+        }
+        
         throw new Exception($"Unexpected response: {response.StatusCode}, {response.ResponseBody}");
     }
 

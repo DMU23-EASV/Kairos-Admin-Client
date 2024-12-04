@@ -81,6 +81,8 @@
                                             HorizontalAlignment="Center" 
                                             Margin="0,0,10,0"/>
                             
+                            
+                            
                             <!-- Label Content with FontSize bound to Button's FontSize -->
                             <Label Content="{TemplateBinding Content}" 
                                    HorizontalAlignment="Right" 

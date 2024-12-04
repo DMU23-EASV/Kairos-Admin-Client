@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Windows;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
 
@@ -168,5 +169,8 @@ public class WebService : IWebService
                 ResponseBody = $"Error: {err.Message}"
             };
         }
+
     }
+    
+    
 }
