@@ -119,15 +119,6 @@ public class EditTaskViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// Method for adding a comment to a task. 
-    /// </summary>
-    /// <param name="task"></param>
-    private void AddCommentTask(object task)
-    {
-        Console.WriteLine("Task comment Added");
-    }
-
-    /// <summary>
     /// Method for validating a task.
     /// </summary>
     /// <param name="task"></param>
@@ -232,7 +223,6 @@ public class EditTaskViewModel : ViewModelBase
     public ICommand SortByApproved => new CommandBase(SortCollectionByApproved);
     public ICommand SortByRejected => new CommandBase(SortCollectionByRejected);
     public ICommand RejectTaskCommand => new CommandBase(RejectTask);
-    public ICommand AddTaskComment => new CommandBase(AddCommentTask);
     public ICommand ApproveTaskCommand => new CommandBase(ApproveTask);
     public ICommand LoadTaskCommand => new CommandBase(obj => LoadAllTasks(_webService, _taskRepo));
     
