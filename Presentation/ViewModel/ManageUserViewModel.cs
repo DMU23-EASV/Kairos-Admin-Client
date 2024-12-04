@@ -126,6 +126,7 @@ public class ManageUserViewModel : ViewModelBase
             return;
         }
         Console.WriteLine($"Selected Item: {vm2}");
+        LoadUsers();
         ViewModelController.Instance.SetCurrentViewModel<EditUserViewModel>();
 
         vm2.LoadUser(item as ManageUserDTO);

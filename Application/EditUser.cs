@@ -30,14 +30,14 @@ public class EditUser
             }
             else
             {
-                Console.WriteLine($"UpdateUserAsync: Failed to update user. No response received for user {userDTO.Id}.");
+                Console.WriteLine($"UpdateUserAsync: Failed to update user. No response received for user ID: {userDTO.Id}, Username: {userDTO.username}.");
                 return null;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"UpdateUserAsync: Error while updating user {userDTO.Id}. Exception: {ex.Message}");
-            throw new Exception($"Error updating user {userDTO.Id}: {ex.Message}", ex);
+            Console.WriteLine($"UpdateUserAsync: Error while updating user ID: {userDTO.Id}, Username: {userDTO.username}. Exception: {ex.Message}");
+            throw new Exception($"Error updating user ID: {userDTO.Id}, Username: {userDTO.username}. Exception: {ex.Message}", ex);
         }
     }
 

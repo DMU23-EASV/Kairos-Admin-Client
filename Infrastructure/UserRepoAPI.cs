@@ -161,7 +161,7 @@ public class UserRepoApi : IUserRepo
 
     public async Task<FullUserDTO?> EditUser(FullUserDTO user)
     {
-        var response = await _webService.PutAsync("/user/" + user.Id, user);
+        var response = await _webService.PutAsync("/user", user);
         if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
         {
             throw new Exception($"Server error: {response.ResponseBody}");
