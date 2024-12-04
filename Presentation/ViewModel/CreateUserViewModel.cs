@@ -79,7 +79,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
                 role = Convert.ToInt32(TextBoxRole) 
             };
 
-            var userRepo = new UserRepoApi(new WebService("http://localhost:8080"));
+            var userRepo = new UserRepoApi(WebService.GetInstance("http://localhost:8080"));
             var createdUser =  new CreateUser(userRepo);
             var result = await createdUser.CreateUserAsync(userDTO);
 

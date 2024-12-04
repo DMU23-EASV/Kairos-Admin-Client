@@ -14,6 +14,9 @@ public partial class MainWindow : Window
         DataContext = ViewModelController.Instance.App; 
         
         ViewModelController.Instance.RegistryViewModel(new EditUserViewModel());
+        
+        ViewModelController.Instance.RegistryViewModel(new LoginViewModel());
+        ViewModelController.Instance.SetCurrentViewModel<LoginViewModel>();
     }
     
     private void SettingsNav_OnClick(object sender, RoutedEventArgs e)

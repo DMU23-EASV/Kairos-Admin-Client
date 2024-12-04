@@ -13,8 +13,8 @@ public class LoginViewModel : ViewModelBase
 
     public LoginViewModel()
     {
-        _validationManager.RegisterField(TbUsername);
-        _validationManager.RegisterField(TbPassword);
+        _validationManager.RegisterField(nameof(TbUsername));
+        _validationManager.RegisterField(nameof(TbPassword));
     }
 
     public ICommand LoginCommand => new CommandBase(LoginLogic);
@@ -25,9 +25,6 @@ public class LoginViewModel : ViewModelBase
         loginRequestDto.username = TbUsername;
         loginRequestDto.password = TbPassword;
         
-        // TODO: Debugging
-        Console.WriteLine(loginRequestDto.username);
-        Console.WriteLine(loginRequestDto.password);
         
         try
         {
@@ -40,6 +37,12 @@ public class LoginViewModel : ViewModelBase
             Console.WriteLine(loginResponse?.ResponseBody);
             Console.WriteLine(loginResponse?.StatusCode);
             Console.WriteLine(loginResponse?.Headers);
+
+            TbUsername = String.Empty;
+            TbPassword = String.Empty;
+            
+            ViewModelController.Instance.SetCurrentViewModel<HomeViewModel>();
+            
         }
         catch (Exception e)
         {
@@ -51,9 +54,9 @@ public class LoginViewModel : ViewModelBase
 
     #region Getter & Setter
 
-    private string _tbUsername;
+    private string? _tbUsername;
 
-    public string TbUsername
+    public string? TbUsername
     {
         get { return _tbUsername; }
         set 
@@ -69,14 +72,14 @@ public class LoginViewModel : ViewModelBase
             }
             else
             {
-                _validationManager.AddError(nameof(TbUsername), validationResult.ErrorContent.ToString());
+                _validationManager.AddError(nameof(TbUsername), validationResult.ErrorContent?.ToString() ?? "Unknown error");
             }
         }
     }
     
-    private string _tbPassword;
+    private string? _tbPassword;
 
-    public string TbPassword
+    public string? TbPassword
     {
         get { return _tbPassword; }
         set
@@ -92,7 +95,7 @@ public class LoginViewModel : ViewModelBase
             }
             else
             {
-                _validationManager.AddError(nameof(TbPassword), validationResult.ErrorContent.ToString());
+                _validationManager.AddError(nameof(TbPassword), validationResult.ErrorContent?.ToString() ?? "Unknown error");
             }
         }
     }
