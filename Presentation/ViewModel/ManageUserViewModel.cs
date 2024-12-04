@@ -139,11 +139,6 @@ public class ManageUserViewModel : ViewModelBase
         Console.WriteLine("OnItemSelect");
     }
     
-    
-    
-    
-    
-    
     #region Commands
     public ICommand LoadUsersCommand => new CommandBase(obj => LoadUsers());
     public ICommand CreateNewUserCommand => new CommandBase(obj => ViewModelController.Instance.SetCurrentViewModel<CreateUserViewModel>());

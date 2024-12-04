@@ -18,7 +18,9 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
     private bool _validation = true;
     private int userid;
     
-    // List of all text box property names
+    /// <summary>
+    /// List of text box property names to register with the validation manager.
+    /// </summary>
     private readonly List<string> _textBoxes = new List<string>
     {
         "TextBoxFirstName",
@@ -31,6 +33,10 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
         "TextBoxDepartment",
     };
 
+    /// <summary>
+    /// Loads user details into the ViewModel for editing based on the provided <see cref="ManageUserDTO"/>.
+    /// </summary>
+    /// <param name="user">The user to be loaded.</param>
     public async void LoadUser(ManageUserDTO user)
     {
         Console.WriteLine($"Loading User details {user}");
@@ -69,6 +75,10 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
     
     //Default Error Message, we want to return something sensible.
     private string _defaultError = "Field is required";
+    
+    /// <summary>
+    /// Indicates whether the submit button is enabled, based on validation state.
+    /// </summary>
     public bool IsSubmitButtonEnabled => !_validationManager.HasErrors;
     
     public EditUserViewModel()
@@ -79,6 +89,9 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public ICommand EditUserCommand => new CommandBase(EditUserLogic);
     
+    /// <summary>
+    /// Clears all input fields, validation disabled during reset.
+    /// </summary>
     public void ClearFields()
     {
         _validation = false;
@@ -97,6 +110,10 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
         
         _validation = true;
     }
+    /// <summary>
+    /// Logic for editing a user. Sends updated data to the repository and refreshes the view.
+    /// </summary>
+    /// <param name="obj">Optional command parameter.</param>
     private async void EditUserLogic(object obj)
     {
         FullUserDTO editUser = new()
@@ -132,10 +149,18 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public ICommand UpdatePassword => new CommandBase(UpdatePasswordLogic);
 
+    /// <summary>
+    /// TODO: Make this!
+    /// Logic for updating a user's password.
+    /// </summary>
+    /// <param name="obj">Optional command parameter.</param>
     private async void UpdatePasswordLogic(object obj)
     {
         //TODO: Use-case 32
-        Console.WriteLine("UpdatePasswordLogic Missing : TODO UC-32");
+        for (int i = 0; i < 10; i++)
+        {
+            Console.WriteLine("! ! ! ! ! UpdatePasswordLogic Missing : TODO UC-32 ! ! ! ! !");
+        }
     }
     
     #region Getter & Setter
