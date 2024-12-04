@@ -74,7 +74,7 @@
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Upload"
                     Width="180" 
-                    Click="LoginNav_OnClick"/>
+                    Click="ExportDataNav_OnClick"/>
                 
             </StackPanel>
         </Border>
