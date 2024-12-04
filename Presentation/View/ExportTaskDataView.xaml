@@ -5,8 +5,87 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="600" d:DesignWidth="800">
+    
+    <Border CornerRadius="30"
+            Background = "{StaticResource HeaderColorBrush}"
+            Margin="20 20 20 20">
         
-    </Grid>
+        <Grid Margin="20 20 20 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Label Content="Export" Grid.Row="0" 
+                   FontSize="22"
+                   FontWeight="SemiBold"
+                   Grid.Column="0"/>
+            
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <Label Content="Filter" FontSize="16"/>
+                
+                <StackPanel Orientation="Horizontal" Margin="20  0 0 10">
+                    
+                    <StackPanel Orientation="Vertical" Margin="0 0 40 0">
+                        <Label Content="Start dag"/>
+                        <DatePicker/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Slut dag"/>
+                        <DatePicker/>
+                    </StackPanel>
+                    
+                </StackPanel>
+
+                
+                <StackPanel Orientation="Horizontal" Margin="20  0 0 10">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Medarbejder"></Label>
+                        <ListView Height="200" Width="100"></ListView>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10 0 10 0">
+                        <Button Content=">>"></Button>
+                        <Button Content="&lt;&lt;"></Button>
+                        <Button Content="&lt;"></Button>
+                        <Button Content=">"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Valgte"></Label>
+                        <ListView Height="200" Width="100"></ListView>
+                    </StackPanel>
+
+                    
+                </StackPanel>
+                
+                <Label Content="Indstilinger" FontSize="16"/>
+                <CheckBox Content="Anonymiser brugernavn" Margin="20  0 0 10"/>
+                <CheckBox Content="Anonymiser email" Margin="20  0 0 10"/>
+                    
+                <Label Content="Status" Margin="20  0 0 0"/>
+                <ComboBox Margin="20  0 0 0"/>
+                
+                <Label Content="Filtype" Margin="20  0 0 0"/>
+                <ComboBox Margin="20  0 0 0"/>
+                    
+                    
+                <Button 
+                    Content="EXPORT"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource ButtonBase}"
+                    Tag="Export"/>
+
+
+            </StackPanel>
+
+                
+            </Grid>
+            
+    </Border>
 </UserControl>
