@@ -12,6 +12,7 @@ using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 /*
@@ -86,14 +87,19 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             if (createdUser != null)
             {
                 Console.WriteLine($"User {createdUser} created successfully!");
+                MessageBoxService.Instance.ShowMessageInfo($"Medarbejderen {createdUser} blev oprettet med succes", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // TODO: clear view? or change view??
             }
             else
             {
                 Console.WriteLine("User creation failed. No response received.");
+                MessageBoxService.Instance.ShowMessageInfo("Kunne ikke oprette medarbejderen", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         catch (Exception ex)
         {
+            MessageBoxService.Instance.ShowMessageInfo("Noget gik galt!\nPrøv venligst igen", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             Console.WriteLine($"An error occurred while creating the user: {ex.Message}");
         }
     }
