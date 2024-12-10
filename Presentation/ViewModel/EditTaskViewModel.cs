@@ -72,6 +72,7 @@ public class EditTaskViewModel : ViewModelBase
         if (taskModel.ModelStatus == ETaskModelStatus.Draft)
         {
             MessageBox.Show("Task is draft, and can therefor not be approved");
+            return;
         }
         
         // finding the index of the task in task collection. 
@@ -162,6 +163,28 @@ public class EditTaskViewModel : ViewModelBase
         Console.WriteLine("Task Updated");
 
     }
+    
+    /// <summary>
+    /// Method for explicit saving a task. 
+    /// </summary>
+    /// <param name="task"></param>
+    private async void SaveChanges(object task)
+    {
+        
+        var taskModel = ValidateObjectTaskModel(task);
+        // Validating. 
+        if (taskModel == null)
+        {
+            MessageBox.Show("Task is not valid");
+            return;
+        }
+        
+        var usecase = new UpdateTask(_taskRepo);
+        var url = $"{TaskEndpoint}{taskModel.Id}";
+        await usecase.UpdateTaskAsync(taskModel, url);
+        Console.WriteLine("Task saved");
+        
+    }
 
     #region Collectionsorting
     
@@ -225,7 +248,9 @@ public class EditTaskViewModel : ViewModelBase
     public ICommand RejectTaskCommand => new CommandBase(RejectTask);
     public ICommand ApproveTaskCommand => new CommandBase(ApproveTask);
     public ICommand LoadTaskCommand => new CommandBase(obj => LoadAllTasks(_webService, _taskRepo));
-    
+    public ICommand SaveChangesCommand => new CommandBase(SaveChanges);
+
+
     #endregion
 
 }

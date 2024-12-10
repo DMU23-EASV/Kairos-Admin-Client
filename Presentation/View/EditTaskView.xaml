@@ -106,9 +106,22 @@
                         <GridViewColumn Header="Kommentar" Width="300">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Focusable="True" Text="{Binding Comment}" 
-                                             HorizontalAlignment="Stretch" MinLines="3" MinWidth="280">
-                                    </TextBox>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                        <TextBox Focusable="True" Text="{Binding Comment}" 
+                                                 HorizontalAlignment="Stretch" MinLines="3" MinWidth="250" Margin="0 0 10 0">
+                                        </TextBox>
+                                        <Button
+                                            Margin="0"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource ButtonBaseIcon}"
+                                            Tag="Save"
+                                            
+                                            Command="{Binding DataContext.SaveChangesCommand, 
+                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            ToolTip="Gem Kommentar"
+                                        />
+                                    </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
