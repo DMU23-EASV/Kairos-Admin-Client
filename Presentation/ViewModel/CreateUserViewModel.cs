@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.Application.Utility;
 using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
@@ -25,6 +27,13 @@ namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
     private readonly ValidationManager _validationManager = new();
+    
+    public List<string> DialCodes { get; set; }
+    // path to the "XMLFiles" folder where the XML file are stored
+    private readonly string _directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\FileResources\XMLFiles");
+    
+
+
     
     // List of all text box property names
     private readonly List<string> _textBoxes = new List<string>
@@ -47,10 +56,36 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     
     
     public CreateUserViewModel()
-    { 
+    {
+        Console.WriteLine(_directoryPath);
+        
+        LoadDialCodes();
+        
         _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
         InitializeErrors(); // Call on startup to populate errors
+        
+    }
+
+    private void LoadDialCodes()
+    {
+        try
+        {
+            var path = _directoryPath + "/landCodes.xml";
+            var xmlDocument = XDocument.Load(path);
+            
+
+            // Uses LINQ to get all dial_codes
+            DialCodes = (from landCode in xmlDocument.Descendants("landCode")
+                select landCode.Element("dial_code")?.Value).ToList();
+        
+            CombBoxPhoneCodes = new ObservableCollection<string>(DialCodes);
+            
+        } catch (Exception e)
+        {
+            MessageBoxService.Instance.ShowMessageInfo("Noget gik galt, prøv igen", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            Console.WriteLine($"An error occur while loading Phone Codes {e}");
+        }
         
     }
     
@@ -213,10 +248,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private ObservableCollection<string> _combBoxPhoneCodes = new ObservableCollection<string>
     {
-        "+45",
-        "+46",
-        "+47",
-        "+49"
+       
     };
 
     public ObservableCollection<string> CombBoxPhoneCodes

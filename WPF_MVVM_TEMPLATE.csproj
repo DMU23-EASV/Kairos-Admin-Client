@@ -46,6 +46,7 @@
 
     <ItemGroup>
       <Folder Include="Presentation\Resources\Fonts\" />
+      <Folder Include="FileResources\" />
     </ItemGroup>
 
 </Project>

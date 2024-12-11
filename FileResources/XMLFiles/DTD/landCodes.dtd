@@ -1,0 +1,10 @@
+<!ELEMENT landCodes (landCode+)>
+
+        <!ELEMENT landCode (name, dial_code)>
+
+        <!ELEMENT name (#PCDATA)>
+        <!ELEMENT dial_code (#PCDATA)>
+
+        <!ATTLIST landCode countryCode CDATA #REQUIRED>
+
+
