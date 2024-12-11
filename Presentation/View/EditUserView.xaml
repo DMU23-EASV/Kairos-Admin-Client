@@ -98,7 +98,7 @@
             <TextBox Grid.Row="6" Grid.Column="1"
                             Style="{StaticResource LabeledTextBoxStyle}" 
                             Tag="Status" 
-                            Text="{Binding TextBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding CombBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox Grid.Row="6" Grid.Column="2"
                             Style="{StaticResource LabeledTextBoxStyle}" 
                             Tag="Afdeling" 

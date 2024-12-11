@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using WPF_MVVM_TEMPLATE.Application.Utility;
 using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
+using WPF_MVVM_TEMPLATE.Entitys.Enum;
 using WPF_MVVM_TEMPLATE.Infrastructure;
 using WPF_MVVM_TEMPLATE.Presentation.Service;
 
@@ -30,13 +32,11 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         "TextBoxFirstName",
         "TextBoxLastName",
         "TextBoxEmail",
-        "TextBoxPhoneCode",
+        "SelectedPhoneCode",
         "TextBoxPhoneNumber",
         "TextBoxUsername",
         "TextBoxPassword1",
         "TextBoxPassword2",
-        "TextBoxRole",
-        "TextBoxStatus",
         "TextBoxDepartment",
     };
     
@@ -51,6 +51,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
         InitializeErrors(); // Call on startup to populate errors
+        
     }
     
     //ICommand for Button CreateUser.
@@ -72,12 +73,12 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
                 firstName = TextBoxFirstName,   
                 lastName = TextBoxLastName,     
                 phoneNumber = Convert.ToInt32(TextBoxPhoneNumber), 
-                PhoneNumberLandCode = TextBoxPhoneCode,  
+                PhoneNumberLandCode = SelectedPhoneCode.Replace("+",""),  
                 email = TextBoxEmail,           
-                status = Convert.ToInt32(TextBoxStatus), 
+                status = Convert.ToInt32(CombBoxStatus), 
                 department = TextBoxDepartment, 
                 comment = TextBoxComment,       
-                role = Convert.ToInt32(TextBoxRole) 
+                role = Convert.ToInt32(SelectedRole) 
             };
 
             var userRepo = new UserRepoApi(WebService.GetInstance("http://localhost:8080"));
@@ -186,27 +187,49 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     //TODO: Change to something else? Drop down box??
-    private string _textBoxPhoneCode;
-    public string TextBoxPhoneCode
+    private string _selectedPhoneCode;
+    public string SelectedPhoneCode
     {
-        get { return _textBoxPhoneCode; }
+        get { return _selectedPhoneCode; }
         set
         {
-            _textBoxPhoneCode = value;
-
-            OnPropertyChanged();
-            var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
-
-            if (validationResult.IsValid)
+            if (_selectedPhoneCode != value)
             {
-                _validationManager.ClearErrors(nameof(TextBoxPhoneCode));
-            }
-            else
-            {
-                _validationManager.AddError(nameof(TextBoxPhoneCode), validationResult.ErrorContent.ToString());
+                _selectedPhoneCode = value;
+                OnPropertyChanged(); 
+                
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _validationManager.AddError(nameof(SelectedPhoneCode), "Landekode er påkrævet.");
+                }
+                else
+                {
+                    _validationManager.ClearErrors(nameof(SelectedPhoneCode));
+                }
+                
             }
         }
     }
+
+    private ObservableCollection<string> _combBoxPhoneCodes = new ObservableCollection<string>
+    {
+        "+45",
+        "+46",
+        "+47",
+        "+49"
+    };
+
+    public ObservableCollection<string> CombBoxPhoneCodes
+    {
+        get { return _combBoxPhoneCodes; }
+
+        set
+        {
+            _combBoxPhoneCodes = value;
+            OnPropertyChanged();
+        }
+    }
+    
     private string _textBoxPhoneNumber;
     public string TextBoxPhoneNumber
     {
@@ -291,35 +314,70 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         }
         
     }
-    private string _textBoxRole;
 
-    public string TextBoxRole
+    private ObservableCollection<EUserRoles> _combBoxRole = new ObservableCollection<EUserRoles>
     {
-        get { return _textBoxRole; }
+        EUserRoles.Admin,
+        EUserRoles.Bruger
+    };
+
+    public ObservableCollection<EUserRoles> CombBoxRole
+    {
+        get { return _combBoxRole; }
         set
         {
-            _textBoxRole = value;
+            _combBoxRole = value;
 
             OnPropertyChanged();
-            _validationManager.ClearErrors(nameof(TextBoxRole));
+        }
+    }
 
+    private EUserRoles _selectedRole;
+    public EUserRoles SelectedRole
+    {
+        get { return _selectedRole; }
+
+        set
+        {
+            if (_selectedRole != value)
+            {
+                _selectedRole = value;
+                OnPropertyChanged();
+            }
         }
     }
     
-    //TODO: NO VALIDATION, NEED TO KNOW WHAT WE WANT TO DO HERE
-    private string _textBoxStatus;
-    public string TextBoxStatus
+    private ObservableCollection<EUserStatus> _combBoxStatus = new ObservableCollection<EUserStatus>
+    { 
+        EUserStatus.Aktiv,
+        EUserStatus.Inaktiv,
+    };
+    
+    public ObservableCollection<EUserStatus> CombBoxStatus
     {
-        get { return _textBoxStatus; }
+        get { return _combBoxStatus; }
         set
         {
-            _textBoxStatus = value;
-
+            _combBoxStatus = value;
             OnPropertyChanged();
-            _validationManager.ClearErrors(nameof(TextBoxStatus));
-
         }
     }
+
+    private EUserStatus _selectedStatus;
+    public EUserStatus SelectedStatus
+    {
+        get { return _selectedStatus; }
+
+        set
+        {
+            if (_selectedStatus != value)
+            {
+                _selectedStatus = value;
+                OnPropertyChanged(); 
+            }
+        }
+    }
+    
     
     //TODO: NO VALIDATION NEED TO KNOW WHAT TO DO HERE
     private string _textBoxDepartment;
