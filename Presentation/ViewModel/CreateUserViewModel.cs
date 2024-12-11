@@ -57,7 +57,6 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     
     public CreateUserViewModel()
     {
-        Console.WriteLine(_directoryPath);
         
         LoadDialCodes();
         
@@ -364,7 +363,7 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    private EUserRoles _selectedRole;
+    private EUserRoles _selectedRole = EUserRoles.Bruger;
     public EUserRoles SelectedRole
     {
         get { return _selectedRole; }
