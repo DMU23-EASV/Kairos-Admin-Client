@@ -92,14 +92,30 @@
                             Style="{StaticResource LabeledTextBoxStyle}" 
                             Tag="Role" 
                             Text="{Binding TextBoxRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Grid.Row="6" Grid.Column="1"
-                            Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Status" 
-                            Text="{Binding TextBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            
+            
+            <StackPanel Grid.Row="6" Grid.Column="1" >
+                <Label Content="Status"
+                       FontSize="12"
+                       FontFamily="Arial"
+                       Foreground="LightSlateGray"
+                       FontWeight="Medium">
+                </Label>
+                
+                <ComboBox Width="120" 
+                          Height="28" 
+                          HorizontalAlignment="Center" 
+                          VerticalAlignment="Bottom"
+                          BorderBrush="#CCCCCC"
+                          BorderThickness="1"
+                          > <!-- Afrundede hjørner -->
+                          ></ComboBox>
+
+            </StackPanel>
             <TextBox Grid.Row="6" Grid.Column="2"
-                            Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Afdeling" 
-                            Text="{Binding TextBoxDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                               Style="{StaticResource LabeledTextBoxStyle}" 
+                                               Tag="Afdeling" 
+                                               Text="{Binding TextBoxDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
                             Style="{StaticResource LabeledTextBoxStyle}" 
                             Tag="Gentage Password" 
