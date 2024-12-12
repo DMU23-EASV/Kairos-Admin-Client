@@ -12,6 +12,8 @@ public class TaskRepoApi : ITaskRepo
 
     private readonly IWebService _webService;
     private const string ApiEndpoint = "api/Tasks"; 
+    private const string ApiEndpointAwatingAwating = "api/admin/tasks/active"; 
+    private const string ApiEndpointApproved = "api/admin/tasks/approved"; 
 
     public TaskRepoApi(IWebService webService)
     {
@@ -76,5 +78,54 @@ public class TaskRepoApi : ITaskRepo
         Console.WriteLine($"API returned body {response?.ResponseBody}");
         
     }
-    
+
+    public async Task<int> GetAllTasksAwaitingApproval()
+    {
+        var response = await _webService.GetAsync(ApiEndpointAwatingAwating);
+        
+        // evaluating response. 
+        if (response == null || response.ResponseBody == null || !response.ResponseBody.Any())
+        {
+            Console.WriteLine("API returned null");
+            return -1;
+        }
+
+        if (response?.StatusCode != HttpStatusCode.OK)
+        {
+            Console.WriteLine($"API returned status code {response?.StatusCode}");
+            return -1;
+        }
+        
+        if (int.TryParse(response.ResponseBody, out int taskCount)) {
+            return taskCount;
+        }; 
+        
+        Console.WriteLine($"API returned status code {response.StatusCode}");
+        return -1;
+    }
+
+    public async Task<int> GetAllTasksApproved()
+    {
+        var response = await _webService.GetAsync(ApiEndpointApproved);
+        
+        // evaluating response. 
+        if (response == null || response.ResponseBody == null || !response.ResponseBody.Any())
+        {
+            Console.WriteLine("API returned null");
+            return -1;
+        }
+
+        if (response?.StatusCode != HttpStatusCode.OK)
+        {
+            Console.WriteLine($"API returned status code {response?.StatusCode}");
+            return -1;
+        }
+        
+        if (int.TryParse(response.ResponseBody, out int taskCount)) {
+            return taskCount;
+        }; 
+        
+        Console.WriteLine($"API returned status code {response.StatusCode}");
+        return -1;
+    }
 }
