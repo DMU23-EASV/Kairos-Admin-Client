@@ -1,14 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq.Expressions;
-using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using MongoDB.Bson.IO;
-using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Entitys.Enum;
 using WPF_MVVM_TEMPLATE.Infrastructure;
@@ -309,7 +305,12 @@ public class ExportTaskViewModel : ViewModelBase
     /// <param name="obj"></param>
     private async void ExportTask(object obj)
     {
-        
+        if (SelectedUsers.Count == 0)
+        {
+            MessageBox.Show("Vælg venligst mindst en bruger.");
+            return;
+        }
+
         if (string.IsNullOrEmpty(SelectedFileType)) return;
 
         switch (SelectedStatus)
@@ -416,7 +417,7 @@ public class ExportTaskViewModel : ViewModelBase
         if (tasks.Count == 0)
         {
             // TODO: Replace with notification system
-            MessageBox.Show("There are no tasks to export.");
+            MessageBox.Show("Der er ingen opgaver at eksportere.");
             return;
         }
         
@@ -470,7 +471,7 @@ public class ExportTaskViewModel : ViewModelBase
     /// <exception cref="NotImplementedException"></exception>
     private void ExportAsXml(List<ExportableTaskDTO> tasks)
     {
-        MessageBox.Show("This is WIP");
+        MessageBox.Show("Under konstruktion");
     }
 
     #endregion
@@ -487,7 +488,7 @@ public class ExportTaskViewModel : ViewModelBase
         if (tasks.Count == 0)
         {
             // TODO: Replace with notification system
-            MessageBox.Show("There are no tasks to export.");
+            MessageBox.Show("Der er ingen opgaver at eksportere.");
             return;
         }
 
