@@ -111,7 +111,7 @@ public class TaskRepoApi : ITaskRepo
         try
         {
             // Deserializing response body. in case of content found.
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = false };
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             Console.WriteLine("Before deserializing");
             var taskList = JsonSerializer.Deserialize<List<TaskModel>>(response.ResponseBody, options);
             Console.WriteLine("After deserializing");

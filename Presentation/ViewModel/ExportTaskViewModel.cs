@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq.Expressions;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
+using MongoDB.Bson.IO;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Entitys.Enum;
@@ -63,8 +66,33 @@ public class ExportTaskViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-    public bool AnonymizeUsername { get; set; }
-    public bool AnonymizeEmail { get; set; }
+    public bool AnonymizeUsername
+    {
+        get
+        {
+            return _anonymizeUsername;
+        }
+        set
+        {
+            _anonymizeUsername = value;
+            OnPropertyChanged();
+        }
+    }
+    private bool _anonymizeUsername;
+    
+    public bool AnonymizeEmail {
+        get
+        {
+            return _anonymizeEmail;
+        }
+        set
+        {
+            _anonymizeEmail = value;
+            OnPropertyChanged();
+        }
+    }
+    private bool _anonymizeEmail;
+    
     public DateTime StartTime {
         get
         {
@@ -149,6 +177,9 @@ public class ExportTaskViewModel : ViewModelBase
 
     #region Populate on view load
     
+    /// <summary>
+    /// Method for populating the filetype combobox
+    /// </summary>
     private void PopulateFileTypes()
     {
         List<EFileTypes> fileTypeList = Enum.GetValues(typeof(EFileTypes)).Cast<EFileTypes>().ToList();
@@ -161,6 +192,9 @@ public class ExportTaskViewModel : ViewModelBase
         
     }
 
+    /// <summary>
+    /// Method for populating the task status combobox
+    /// </summary>
     private void PopulateStatusList()
     {
         List<ETaskModelStatus> statusList = Enum.GetValues(typeof(ETaskModelStatus)).Cast<ETaskModelStatus>().ToList();
@@ -172,6 +206,9 @@ public class ExportTaskViewModel : ViewModelBase
         _taskStatuses = tempCollection;
     }
 
+    /// <summary>
+    /// Method for populating the view list with selectable users.
+    /// </summary>
     private async void PopulateUserList()
     {
         try
@@ -200,6 +237,10 @@ public class ExportTaskViewModel : ViewModelBase
 
     public ICommand MoveAllUsersToSelectedCommand => new CommandBase(MoveAllUsersToSelected);
 
+    /// <summary>
+    /// Method for moving all selectable users to the selected list view.
+    /// </summary>
+    /// <param name="obj"></param>
     private void MoveAllUsersToSelected(object obj)
     {
         foreach (var user in _users)
@@ -211,6 +252,10 @@ public class ExportTaskViewModel : ViewModelBase
 
     public ICommand MoveAllSelectedUsersCommand => new CommandBase(MoveAllSelectedUsers);
 
+    /// <summary>
+    /// Method for moving all users in the selected view list to the view list containing selectable users.
+    /// </summary>
+    /// <param name="obj"></param>
     private void MoveAllSelectedUsers(object obj)
     {
         foreach (var user in _selectedUsers)
@@ -222,6 +267,10 @@ public class ExportTaskViewModel : ViewModelBase
 
     public ICommand SelectUserCommand => new CommandBase(MoveUserToSelected);
 
+    /// <summary>
+    /// Method for moving all selected user to the selected list view.
+    /// </summary>
+    /// <param name="obj"></param>
     private void MoveUserToSelected(object obj)
     {
         if (SelectedUser != null)
@@ -234,6 +283,11 @@ public class ExportTaskViewModel : ViewModelBase
     
     public ICommand FromSelectedToUserCommand => new CommandBase(MoveUserFromSelectedToUser);
 
+    
+    /// <summary>
+    /// Method for moving selected users from the selected list view to the selectable list view.
+    /// </summary>
+    /// <param name="obj"></param>
     private void MoveUserFromSelectedToUser(object obj)
     {
         if (UserSelected != null)
@@ -248,11 +302,13 @@ public class ExportTaskViewModel : ViewModelBase
 
     public ICommand ExportTaskCommand => new CommandBase(ExportTask);
 
+    
+    /// <summary>
+    /// Method for Exporting tasks from the selected users.
+    /// </summary>
+    /// <param name="obj"></param>
     private async void ExportTask(object obj)
     {
-        // Needs to be moved, this is just for testing
-        //await System.Windows.Application.Current.Dispatcher.InvokeAsync(() => ShowDialog());
-        //Console.WriteLine(FilePath);
         
         if (string.IsNullOrEmpty(SelectedFileType)) return;
 
@@ -281,7 +337,8 @@ public class ExportTaskViewModel : ViewModelBase
         
         foreach (var user in _selectedUsers)
         {
-            if (AnonymizeEmail)
+            string tempEmail = user.Email;
+            if (_anonymizeEmail)
             {
                 user.Email = "--";
             }
@@ -294,15 +351,24 @@ public class ExportTaskViewModel : ViewModelBase
             {
                 foreach (var task in taskList)
                 {
-                    if (AnonymizeUsername)
+                    if (_anonymizeUsername)
                     {
                         if (task != null) task.Owner = "-";
                     }
                 
-                    exportableTasks.Add(new ExportableTaskDTO{Task = task, User = user});
+                    exportableTasks.Add(new ExportableTaskDTO
+                    {
+                        Name = task.Name,
+                        Owner = task.Owner,
+                        Email = user.Email,
+                        StartTime = task.StartTime,
+                        EndTime = task.EndTime,
+                        StartKilometers = task.StartKilometers,
+                        EndKilometers = task.EndKilometers
+                    });
                 }
             }
-
+            user.Email = tempEmail;
         }
         
         switch (SelectedFileType)
@@ -338,11 +404,19 @@ public class ExportTaskViewModel : ViewModelBase
         }
     }
 
+    #region Export as CSV
+    
+    /// <summary>
+    /// Method for handling the export for when CSV filetype is selected.
+    /// </summary>
+    /// <param name="tasks"></param>
     private void ExportAsCSV(List<ExportableTaskDTO> tasks)
     {
 
         if (tasks.Count == 0)
         {
+            // TODO: Replace with notification system
+            MessageBox.Show("There are no tasks to export.");
             return;
         }
         
@@ -366,16 +440,15 @@ public class ExportTaskViewModel : ViewModelBase
 
                 foreach (var task in tasks)
                 {
-                    csvContent.AppendLine($"\"{task.Task.Name}\"," +
-                                          $"\"{task.User.Username}\"," +
-                                          $"\"{task.User.Email}\"," +
-                                          $"\"{task.Task.StartTime:yyyy-MM-dd HH:mm:ss}\"," + 
-                                          $"\"{task.Task.EndTime:yyyy-MM-dd HH:mm:ss}\"," +
-                                          $"\"{task.Task.StartKilometers}\"," +
-                                          $"\"{task.Task.EndKilometers}\"");
+                    csvContent.AppendLine($"\"{task.Name}\"," +
+                                          $"\"{task.Owner}\"," +
+                                          $"\"{task.Email}\"," +
+                                          $"\"{task.StartTime:yyyy-MM-dd HH:mm:ss}\"," + 
+                                          $"\"{task.EndTime:yyyy-MM-dd HH:mm:ss}\"," +
+                                          $"\"{task.StartKilometers}\"," +
+                                          $"\"{task.EndKilometers}\"");
                 }
-
-                Console.WriteLine(csvContent.ToString());
+                
                 File.WriteAllText(filePath, csvContent.ToString());
             }
             catch (Exception e)
@@ -386,13 +459,63 @@ public class ExportTaskViewModel : ViewModelBase
         
     }
     
+    #endregion
+
+    #region Export as XML
+    
+    /// <summary>
+    /// Method for handling the export when XML filetype is selected.
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <exception cref="NotImplementedException"></exception>
     private void ExportAsXml(List<ExportableTaskDTO> tasks)
     {
-        throw new NotImplementedException();
+        MessageBox.Show("This is WIP");
     }
 
+    #endregion
+
+    #region Export as JSON
+    
+    /// <summary>
+    /// Methof for handling the export when JSON filetype is selected.
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <exception cref="NotImplementedException"></exception>
     private void ExportAsJson(List<ExportableTaskDTO> tasks)
     {
-        throw new NotImplementedException();
+        if (tasks.Count == 0)
+        {
+            // TODO: Replace with notification system
+            MessageBox.Show("There are no tasks to export.");
+            return;
+        }
+
+        var saveFileDialog = new SaveFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json",
+            FileName = "Tasks.json",
+            Title = "Save Tasks as JSON"
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            string filePath = saveFileDialog.FileName;
+
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string jsonString = JsonSerializer.Serialize(tasks, options);
+                
+                File.WriteAllText(filePath, jsonString);
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error exporting tasks as Json: {e.Message}");
+            }
+        }
     }
+    
+    #endregion
 }

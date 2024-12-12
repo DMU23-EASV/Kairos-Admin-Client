@@ -87,8 +87,10 @@
                 </StackPanel>
                 
                 <Label Content="Indstilinger" FontSize="16"/>
-                <CheckBox Content="Anonymiser brugernavn" Margin="20  0 0 10"/>
-                <CheckBox Content="Anonymiser email" Margin="20  0 0 10"/>
+                <CheckBox Content="Anonymiser brugernavn" Margin="20  0 0 10"
+                          IsChecked="{Binding AnonymizeUsername}"/>
+                <CheckBox Content="Anonymiser email" Margin="20  0 0 10"
+                          IsChecked="{Binding AnonymizeEmail}"/>
                     
                 <Label Content="Status" Margin="20  0 0 0"/>
                 <ComboBox Margin="20  0 0 0" 
