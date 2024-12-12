@@ -34,7 +34,7 @@
                    Grid.Column="0"
                    Grid.ColumnSpan="5"
                    FontSize="24">
-                User Information
+                Person information
             </Label>
 
             <!-- ROW 1 -->
@@ -60,10 +60,22 @@
                             </TextBox.Text>
             </TextBox>
             <!-- ROW 3 -->
-            <TextBox Grid.Row="3" Grid.Column="0"
-                            Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Lande Kode" 
-                            Text="{Binding TextBoxPhoneCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Grid.Row="3" Grid.Column="0"
+                        Margin="3,0,3,0">
+                
+                <Label Content="Landekode"
+                       FontSize="12"
+                       FontFamily="Arial"
+                       Foreground="LightSlateGray"
+                       FontWeight="Medium">
+                </Label>    
+    
+                <ComboBox Width="120"
+                          Tag="Status"
+                          ItemsSource="{Binding CombBoxPhoneCodes}"
+                          SelectedItem="{Binding SelectedPhoneCode, Mode=TwoWay}"/>
+            </StackPanel>
+            
             <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
                             Style="{StaticResource LabeledTextBoxStyle}" 
                             Tag="Telefon Nr." 
@@ -88,21 +100,46 @@
                             Text="{Binding TextBoxPassword1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <!-- ROW 6 -->
-            <TextBox Grid.Row="6" Grid.Column="0"
-                            Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Role" 
-                            Text="{Binding TextBoxRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Grid.Row="6" Grid.Column="1"
-                            Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Status" 
-                            Text="{Binding TextBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Grid.Row="6" Grid.Column="0"
+                        Margin="3,0,3,0">
+                
+                <Label Content="Rolle"
+                       FontSize="12"
+                       FontFamily="Arial"
+                       Foreground="LightSlateGray"
+                       FontWeight="Medium">
+                </Label>    
+    
+                <ComboBox Width="120"
+                          Tag="Status"
+                          ItemsSource="{Binding CombBoxRole}"
+                          SelectedItem="{Binding SelectedRole, Mode=TwoWay}"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="6" Grid.Column="1"
+                        Margin="3,0,3,0">
+                
+                <Label Content="Status"
+                       FontSize="12"
+                       FontFamily="Arial"
+                       Foreground="LightSlateGray"
+                       FontWeight="Medium">
+                </Label>    
+    
+                <ComboBox Width="120"
+                            Tag="Status"
+                            ItemsSource="{Binding CombBoxStatus}"
+                            SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"/>
+            </StackPanel>
+            
             <TextBox Grid.Row="6" Grid.Column="2"
-                            Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Afdeling" 
-                            Text="{Binding TextBoxDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                               Style="{StaticResource LabeledTextBoxStyle}" 
+                                               Tag="Afdeling" 
+                                               Text="{Binding TextBoxDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            
             <TextBox Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
                             Style="{StaticResource LabeledTextBoxStyle}" 
-                            Tag="Gentage Password" 
+                            Tag="Gentag Password" 
                             Text="{Binding TextBoxPassword2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <!-- ROW 7 -->

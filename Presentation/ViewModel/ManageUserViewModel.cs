@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
@@ -64,9 +66,10 @@ public class ManageUserViewModel : ViewModelBase
         
         Console.WriteLine("Got all users");
 
-        // If no useres is returnd. return.
+        // If no users is returned. return.
         if (users == null || users.Count <= 0)
         {
+            MessageBoxService.Instance.ShowMessageInfo("Medarbejderne blev ikke fundet", "Fejl", MessageBoxButton.OK, MessageBoxImage.Information);
             Console.WriteLine("Users not found");
             return;
         }

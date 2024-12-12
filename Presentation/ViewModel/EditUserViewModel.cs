@@ -9,6 +9,7 @@ using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
@@ -74,7 +75,7 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     
     //Default Error Message, we want to return something sensible.
-    private string _defaultError = "Field is required";
+    private string _defaultError = "Feltet er påkrævet";
     
     /// <summary>
     /// Indicates whether the submit button is enabled, based on validation state.
@@ -138,12 +139,12 @@ public class EditUserViewModel : ViewModelBase, INotifyDataErrorInfo
         if (result != null)
         {
             ClearFields();
-            Console.WriteLine($"User changed successfully!");
+            MessageBoxService.Instance.ShowMessageInfo("Ændringerne er gemt med succes", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
             ViewModelController.Instance.SetCurrentViewModel<ManageUserViewModel>();
         }
         else
         {
-            Console.WriteLine($"Didn't work!");
+            MessageBoxService.Instance.ShowMessageInfo("Ændringerne blev ikke gemt", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

@@ -1,17 +1,22 @@
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.Application.Utility;
 using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
 using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
+using WPF_MVVM_TEMPLATE.Entitys.Enum;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 /*
@@ -23,19 +28,24 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
 {
     private readonly ValidationManager _validationManager = new();
     
+    public List<string> DialCodes { get; set; }
+    // path to the "XMLFiles" folder where the XML file are stored
+    private readonly string _directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\FileResources\XMLFiles");
+    
+
+
+    
     // List of all text box property names
     private readonly List<string> _textBoxes = new List<string>
     {
         "TextBoxFirstName",
         "TextBoxLastName",
         "TextBoxEmail",
-        "TextBoxPhoneCode",
+        "SelectedPhoneCode",
         "TextBoxPhoneNumber",
         "TextBoxUsername",
         "TextBoxPassword1",
         "TextBoxPassword2",
-        "TextBoxRole",
-        "TextBoxStatus",
         "TextBoxDepartment",
     };
     
@@ -46,10 +56,36 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     
     
     public CreateUserViewModel()
-    { 
+    {
+        
+        LoadDialCodes();
+        
         _validationManager.RegisterFields(_textBoxes); //Ensure you have added your fields to the validation manager
         _validationManager.ErrorsChanged += (sender, args) => OnPropertyChanged(nameof(IsSubmitButtonEnabled));
         InitializeErrors(); // Call on startup to populate errors
+        
+    }
+
+    private void LoadDialCodes()
+    {
+        try
+        {
+            var path = _directoryPath + "/landCodes.xml";
+            var xmlDocument = XDocument.Load(path);
+            
+
+            // Uses LINQ to get all dial_codes
+            DialCodes = (from landCode in xmlDocument.Descendants("landCode")
+                select landCode.Element("dial_code")?.Value).ToList();
+        
+            CombBoxPhoneCodes = new ObservableCollection<string>(DialCodes);
+            
+        } catch (Exception e)
+        {
+            MessageBoxService.Instance.ShowMessageInfo("Noget gik galt, prøv igen", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            Console.WriteLine($"An error occur while loading Phone Codes {e}");
+        }
+        
     }
     
     //ICommand for Button CreateUser.
@@ -71,12 +107,12 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
                 firstName = TextBoxFirstName,   
                 lastName = TextBoxLastName,     
                 phoneNumber = Convert.ToInt32(TextBoxPhoneNumber), 
-                PhoneNumberLandCode = TextBoxPhoneCode,  
+                PhoneNumberLandCode = SelectedPhoneCode.Replace("+",""),  
                 email = TextBoxEmail,           
-                status = Convert.ToInt32(TextBoxStatus), 
+                status = Convert.ToInt32(CombBoxStatus), 
                 department = TextBoxDepartment, 
                 comment = TextBoxComment,       
-                role = Convert.ToInt32(TextBoxRole) 
+                role = Convert.ToInt32(SelectedRole) 
             };
 
             var userRepo = new UserRepoApi(WebService.GetInstance("http://localhost:8080"));
@@ -86,14 +122,19 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             if (createdUser != null)
             {
                 Console.WriteLine($"User {createdUser} created successfully!");
+                MessageBoxService.Instance.ShowMessageInfo($"Medarbejderen {createdUser} blev oprettet med succes", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // TODO: clear view? or change view??
             }
             else
             {
                 Console.WriteLine("User creation failed. No response received.");
+                MessageBoxService.Instance.ShowMessageInfo("Kunne ikke oprette medarbejderen", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         catch (Exception ex)
         {
+            MessageBoxService.Instance.ShowMessageInfo("Noget gik galt!\nPrøv venligst igen", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             Console.WriteLine($"An error occurred while creating the user: {ex.Message}");
         }
     }
@@ -180,27 +221,46 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     //TODO: Change to something else? Drop down box??
-    private string _textBoxPhoneCode;
-    public string TextBoxPhoneCode
+    private string _selectedPhoneCode;
+    public string SelectedPhoneCode
     {
-        get { return _textBoxPhoneCode; }
+        get { return _selectedPhoneCode; }
         set
         {
-            _textBoxPhoneCode = value;
-
-            OnPropertyChanged();
-            var validationResult = new NumbersOnlyRule().Validate(value, CultureInfo.CurrentCulture);
-
-            if (validationResult.IsValid)
+            if (_selectedPhoneCode != value)
             {
-                _validationManager.ClearErrors(nameof(TextBoxPhoneCode));
-            }
-            else
-            {
-                _validationManager.AddError(nameof(TextBoxPhoneCode), validationResult.ErrorContent.ToString());
+                _selectedPhoneCode = value;
+                OnPropertyChanged(); 
+                
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _validationManager.AddError(nameof(SelectedPhoneCode), "Landekode er påkrævet.");
+                }
+                else
+                {
+                    _validationManager.ClearErrors(nameof(SelectedPhoneCode));
+                }
+                
             }
         }
     }
+
+    private ObservableCollection<string> _combBoxPhoneCodes = new ObservableCollection<string>
+    {
+       
+    };
+
+    public ObservableCollection<string> CombBoxPhoneCodes
+    {
+        get { return _combBoxPhoneCodes; }
+
+        set
+        {
+            _combBoxPhoneCodes = value;
+            OnPropertyChanged();
+        }
+    }
+    
     private string _textBoxPhoneNumber;
     public string TextBoxPhoneNumber
     {
@@ -285,35 +345,70 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
         }
         
     }
-    private string _textBoxRole;
 
-    public string TextBoxRole
+    private ObservableCollection<EUserRoles> _combBoxRole = new ObservableCollection<EUserRoles>
     {
-        get { return _textBoxRole; }
+        EUserRoles.Admin,
+        EUserRoles.Bruger
+    };
+
+    public ObservableCollection<EUserRoles> CombBoxRole
+    {
+        get { return _combBoxRole; }
         set
         {
-            _textBoxRole = value;
+            _combBoxRole = value;
 
             OnPropertyChanged();
-            _validationManager.ClearErrors(nameof(TextBoxRole));
+        }
+    }
 
+    private EUserRoles _selectedRole = EUserRoles.Bruger;
+    public EUserRoles SelectedRole
+    {
+        get { return _selectedRole; }
+
+        set
+        {
+            if (_selectedRole != value)
+            {
+                _selectedRole = value;
+                OnPropertyChanged();
+            }
         }
     }
     
-    //TODO: NO VALIDATION, NEED TO KNOW WHAT WE WANT TO DO HERE
-    private string _textBoxStatus;
-    public string TextBoxStatus
+    private ObservableCollection<EUserStatus> _combBoxStatus = new ObservableCollection<EUserStatus>
+    { 
+        EUserStatus.Aktiv,
+        EUserStatus.Inaktiv,
+    };
+    
+    public ObservableCollection<EUserStatus> CombBoxStatus
     {
-        get { return _textBoxStatus; }
+        get { return _combBoxStatus; }
         set
         {
-            _textBoxStatus = value;
-
+            _combBoxStatus = value;
             OnPropertyChanged();
-            _validationManager.ClearErrors(nameof(TextBoxStatus));
-
         }
     }
+
+    private EUserStatus _selectedStatus;
+    public EUserStatus SelectedStatus
+    {
+        get { return _selectedStatus; }
+
+        set
+        {
+            if (_selectedStatus != value)
+            {
+                _selectedStatus = value;
+                OnPropertyChanged(); 
+            }
+        }
+    }
+    
     
     //TODO: NO VALIDATION NEED TO KNOW WHAT TO DO HERE
     private string _textBoxDepartment;

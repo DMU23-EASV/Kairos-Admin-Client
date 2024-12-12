@@ -6,6 +6,7 @@ using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.Enum;
 using WPF_MVVM_TEMPLATE.Infrastructure;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
@@ -65,20 +66,20 @@ public class EditTaskViewModel : ViewModelBase
         // Validating. 
         if (taskModel == null)
         {
-            MessageBox.Show("Task is not valid");
+            MessageBoxService.Instance.ShowMessageInfo("Opgaven er ikke gyldig ", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
         if (taskModel.ModelStatus == ETaskModelStatus.Draft)
         {
-            MessageBox.Show("Task is draft, and can therefor not be approved");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave er en kladde, og kan derfor ikke godkendes", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         
         // finding the index of the task in task collection. 
         int? index = TaskCollection.IndexOf(taskModel);
         if (index == null)
         {
-            MessageBox.Show("The task is not a part of the collection");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave findes ikke", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
         
@@ -97,13 +98,13 @@ public class EditTaskViewModel : ViewModelBase
         // Validating. 
         if (taskModel == null)
         {
-            MessageBox.Show("Task is not valid");
+            MessageBoxService.Instance.ShowMessageInfo("Opgaven er ikke gyldig", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
         if (taskModel.ModelStatus == ETaskModelStatus.Draft)
         {
-            MessageBox.Show("Task is draft, and can not be rejected");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave er en kladde, og kan ikke afvises", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
         
@@ -111,7 +112,7 @@ public class EditTaskViewModel : ViewModelBase
         int? index = TaskCollection.IndexOf(taskModel);
         if (index == null)
         {
-            MessageBox.Show("The task is not a part of the collection");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave findes ikke", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
         
@@ -128,7 +129,7 @@ public class EditTaskViewModel : ViewModelBase
         // Validating parameter. is not null or not type of Taskmodel.
         if (task == null || task is not TaskModel)
         {
-            MessageBox.Show("Task is not a valid task");
+            MessageBoxService.Instance.ShowMessageInfo("Opgaven er ikke gyldig", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             return null;
         }
         
@@ -161,6 +162,28 @@ public class EditTaskViewModel : ViewModelBase
         await usecase.UpdateTaskAsync(task, url);
         Console.WriteLine("Task Updated");
 
+    }
+    
+    /// <summary>
+    /// Method for explicit saving a task. 
+    /// </summary>
+    /// <param name="task"></param>
+    private async void SaveChanges(object task)
+    {
+        
+        var taskModel = ValidateObjectTaskModel(task);
+        // Validating. 
+        if (taskModel == null)
+        {
+            MessageBox.Show("Task is not valid");
+            return;
+        }
+        
+        var usecase = new UpdateTask(_taskRepo);
+        var url = $"{TaskEndpoint}{taskModel.Id}";
+        await usecase.UpdateTaskAsync(taskModel, url);
+        Console.WriteLine("Task saved");
+        
     }
 
     #region Collectionsorting
@@ -225,7 +248,9 @@ public class EditTaskViewModel : ViewModelBase
     public ICommand RejectTaskCommand => new CommandBase(RejectTask);
     public ICommand ApproveTaskCommand => new CommandBase(ApproveTask);
     public ICommand LoadTaskCommand => new CommandBase(obj => LoadAllTasks(_webService, _taskRepo));
-    
+    public ICommand SaveChangesCommand => new CommandBase(SaveChanges);
+
+
     #endregion
 
 }
