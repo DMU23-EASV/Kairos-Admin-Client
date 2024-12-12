@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Entitys.Enum;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
@@ -307,7 +308,7 @@ public class ExportTaskViewModel : ViewModelBase
     {
         if (SelectedUsers.Count == 0)
         {
-            MessageBox.Show("Vælg venligst mindst en bruger.");
+            MessageBoxService.Instance.ShowMessageInfo("Vælg venligst mindst en bruger.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -416,8 +417,7 @@ public class ExportTaskViewModel : ViewModelBase
 
         if (tasks.Count == 0)
         {
-            // TODO: Replace with notification system
-            MessageBox.Show("Der er ingen opgaver at eksportere.");
+            MessageBoxService.Instance.ShowMessageInfo("Der er ingen opgaver at eksportere.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
         
@@ -487,8 +487,7 @@ public class ExportTaskViewModel : ViewModelBase
     {
         if (tasks.Count == 0)
         {
-            // TODO: Replace with notification system
-            MessageBox.Show("Der er ingen opgaver at eksportere.");
+            MessageBoxService.Instance.ShowMessageInfo("Der er ingen opgaver at eksportere.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
