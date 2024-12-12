@@ -33,12 +33,12 @@
                     
                     <StackPanel Orientation="Vertical" Margin="0 0 40 0">
                         <Label Content="Start dag"/>
-                        <DatePicker/>
+                        <DatePicker SelectedDate="{Binding StartTime}"/>
                     </StackPanel>
                     
                     <StackPanel Orientation="Vertical">
                         <Label Content="Slut dag"/>
-                        <DatePicker/>
+                        <DatePicker SelectedDate="{Binding EndTime}"/>
                     </StackPanel>
                     
                 </StackPanel>
@@ -47,18 +47,40 @@
                 <StackPanel Orientation="Horizontal" Margin="20  0 0 10">
                     <StackPanel Orientation="Vertical">
                         <Label Content="Medarbejder"></Label>
-                        <ListView Height="200" Width="100"></ListView>
-                    </StackPanel>
+                        <ListView Height="200" Width="100"
+                                  ItemsSource="{Binding Users}"
+                                  SelectedItem="{Binding SelectedUser}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Username}"
+                                                    Width="200"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>   
                     
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10 0 10 0">
-                        <Button Content=">>"></Button>
-                        <Button Content="&lt;&lt;"></Button>
-                        <Button Content="&lt;"></Button>
-                        <Button Content=">"></Button>
+                        <Button Content=">>"
+                                Command="{Binding MoveAllUsersToSelectedCommand}"></Button>
+                        <Button Content="&lt;&lt;"
+                                Command="{Binding MoveAllSelectedUsersCommand}"></Button>
+                        <Button Content="&lt;"
+                                Command="{Binding FromSelectedToUserCommand}"></Button>
+                        <Button Content=">"
+                                Command="{Binding SelectUserCommand}"></Button>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <Label Content="Valgte"></Label>
-                        <ListView Height="200" Width="100"></ListView>
+                        <ListView Height="200" Width="100"
+                                 ItemsSource="{Binding SelectedUsers}" 
+                                 SelectedItem="{Binding UserSelected}" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
+                                                    Width="200" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </StackPanel>
 
                     
@@ -69,17 +91,22 @@
                 <CheckBox Content="Anonymiser email" Margin="20  0 0 10"/>
                     
                 <Label Content="Status" Margin="20  0 0 0"/>
-                <ComboBox Margin="20  0 0 0"/>
+                <ComboBox Margin="20  0 0 0" 
+                          ItemsSource="{Binding TaskStatuses}"
+                          SelectedItem="{Binding SelectedStatus}"/>
                 
                 <Label Content="Filtype" Margin="20  0 0 0"/>
-                <ComboBox Margin="20  0 0 0"/>
+                <ComboBox Margin="20  0 0 0"
+                          ItemsSource="{Binding FileTypes}"
+                          SelectedItem="{Binding SelectedFileType}"/>
                     
                     
                 <Button 
                     Content="EXPORT"
                     HorizontalAlignment="Right"
                     Style="{StaticResource ButtonBase}"
-                    Tag="Export"/>
+                    Tag="Export"
+                    Command="{Binding ExportTaskCommand}"/>
 
 
             </StackPanel>

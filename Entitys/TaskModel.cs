@@ -1,10 +1,13 @@
 ﻿using WPF_MVVM_TEMPLATE.Entitys.Enum;
+using MongoDB.Bson;
+using System.Text.Json.Serialization;
 
 namespace WPF_MVVM_TEMPLATE.Entitys;
 
 public class TaskModel
 {
-    public string? Id { get; set; }
+    [JsonIgnore]
+    public ObjectId Id { get; set; }
     public string? Name { get; set; }
     public string? Owner { get; set; }
     public string? Comment { get; set; }

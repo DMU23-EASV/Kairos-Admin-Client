@@ -6,4 +6,6 @@ public interface ITaskRepo
 {
     public Task<IEnumerable<TaskModel?>?> GetAllTasks();
     public Task UpdateTask(TaskModel task, string endpoint);
+
+    public Task<IEnumerable<TaskModel>?> GetTasksForExport(string username, DateTime startDate, DateTime endDate, int statusInt);
 }
