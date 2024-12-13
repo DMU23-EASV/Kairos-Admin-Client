@@ -70,4 +70,9 @@ public partial class NavigationDrawer : UserControl
     {
         ViewModelController.Instance.SetCurrentViewModel<EditTaskViewModel>();
     }
+
+    private void LoginNav_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModelController.Instance.SetCurrentViewModel<LoginViewModel>();
+    }
 }

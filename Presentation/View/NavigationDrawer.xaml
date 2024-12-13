@@ -76,6 +76,14 @@
                     Width="180" 
                     Click="ExportDataNav_OnClick"/>
                 
+                <RadioButton
+                    Content="Login"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Signin"
+                    Width="180" 
+                    Click="LoginNav_OnClick"/>
+                
+                
             </StackPanel>
         </Border>
     </Grid>
