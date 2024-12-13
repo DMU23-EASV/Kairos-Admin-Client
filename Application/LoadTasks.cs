@@ -14,4 +14,9 @@ public class LoadTasks
     public async Task<IEnumerable<TaskModel?>?> GetAllTasks() => await _repo.GetAllTasks();
     public async Task<int> GetNumberTasksAwaitingApproval() => await _repo.GetAllTasksAwaitingApproval();
     public async Task<int> GetNumberTasksApproved() => await _repo.GetAllTasksApproved();
+
+    public async Task<IEnumerable<TaskModel?>?> GetTaskByUsername(string username)
+    {
+        return await _repo.GetTasksByUsername(username);
+    }
 }

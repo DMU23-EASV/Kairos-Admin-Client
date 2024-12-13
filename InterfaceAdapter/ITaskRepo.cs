@@ -8,4 +8,5 @@ public interface ITaskRepo
     public Task UpdateTask(TaskModel task, string endpoint);
     public Task<int> GetAllTasksAwaitingApproval();
     public Task<int> GetAllTasksApproved();
+    public Task<IEnumerable<TaskModel?>?> GetTasksByUsername(string username);
 }

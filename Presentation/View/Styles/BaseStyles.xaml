@@ -7,7 +7,6 @@
         <ResourceDictionary Source="Button.xaml" />
         <ResourceDictionary Source="Theme/MenuItem.xaml" />
         <ResourceDictionary Source="Theme/ComboboxTheme.xaml" />
-        <ResourceDictionary Source="Theme/StatisticCardTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
     

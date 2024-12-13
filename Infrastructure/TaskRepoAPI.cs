@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.CodeDom.Compiler;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using WPF_MVVM_TEMPLATE.DTO;
@@ -127,5 +128,35 @@ public class TaskRepoApi : ITaskRepo
         
         Console.WriteLine($"API returned status code {response.StatusCode}");
         return -1;
+    }
+
+    public async Task<IEnumerable<TaskModel?>?> GetTasksByUsername(string username)
+    {
+        var response = await _webService.GetAsync($"/api/taskbyusername/{username}");
+        
+        if (response == null || response.ResponseBody == null || !response.ResponseBody.Any())
+        {
+            Console.WriteLine("API returned null");
+            return new List<TaskModel?>();
+        }
+
+        if (response?.StatusCode != HttpStatusCode.OK)
+        {
+            Console.WriteLine($"API returned status code {response?.StatusCode}");
+            return new List<TaskModel?>();
+        }
+        
+        try
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            JsonSerializer.Deserialize<List<TaskModel>>(response.ResponseBody, options);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return new List<TaskModel?>();
+        }
+        Console.WriteLine("API returned status code " + response.StatusCode);
+        return new List<TaskModel?>();
     }
 }
