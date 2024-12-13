@@ -6,6 +6,7 @@ using WPF_MVVM_TEMPLATE.Entitys;
 using WPF_MVVM_TEMPLATE.Entitys.Enum;
 using WPF_MVVM_TEMPLATE.Infrastructure;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
@@ -65,21 +66,20 @@ public class EditTaskViewModel : ViewModelBase
         // Validating. 
         if (taskModel == null)
         {
-            MessageBox.Show("Task is not valid");
+            MessageBoxService.Instance.ShowMessageInfo("Opgaven er ikke gyldig ", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
         if (taskModel.ModelStatus == ETaskModelStatus.Draft)
         {
-            MessageBox.Show("Task is draft, and can therefor not be approved");
-            return;
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave er en kladde, og kan derfor ikke godkendes", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         
         // finding the index of the task in task collection. 
         int? index = TaskCollection.IndexOf(taskModel);
         if (index == null)
         {
-            MessageBox.Show("The task is not a part of the collection");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave findes ikke", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
         
@@ -98,13 +98,13 @@ public class EditTaskViewModel : ViewModelBase
         // Validating. 
         if (taskModel == null)
         {
-            MessageBox.Show("Task is not valid");
+            MessageBoxService.Instance.ShowMessageInfo("Opgaven er ikke gyldig", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
         if (taskModel.ModelStatus == ETaskModelStatus.Draft)
         {
-            MessageBox.Show("Task is draft, and can not be rejected");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave er en kladde, og kan ikke afvises", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
         
@@ -112,7 +112,7 @@ public class EditTaskViewModel : ViewModelBase
         int? index = TaskCollection.IndexOf(taskModel);
         if (index == null)
         {
-            MessageBox.Show("The task is not a part of the collection");
+            MessageBoxService.Instance.ShowMessageInfo("Den valgte opgave findes ikke", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
         
@@ -129,7 +129,7 @@ public class EditTaskViewModel : ViewModelBase
         // Validating parameter. is not null or not type of Taskmodel.
         if (task == null || task is not TaskModel)
         {
-            MessageBox.Show("Task is not a valid task");
+            MessageBoxService.Instance.ShowMessageInfo("Opgaven er ikke gyldig", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             return null;
         }
         

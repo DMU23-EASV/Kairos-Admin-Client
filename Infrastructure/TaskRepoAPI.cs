@@ -79,6 +79,54 @@ public class TaskRepoApi : ITaskRepo
         Console.WriteLine($"API returned body {response?.ResponseBody}");
         
     }
+    
+    /// <summary>
+    /// Method for getting all tasks from a username, start date and end date
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="startDate"></param>
+    /// <param name="endDate"></param>
+    /// <param name="endpoint"></param>
+    public async Task<IEnumerable<TaskModel?>?> GetTasksForExport(string username, DateTime startDate, DateTime endDate, int statusInt)
+    {
+        
+        // Format the dates in ISO 8601 format
+        string formattedStartDate = startDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+        string formattedEndDate = endDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+        
+        var response = await _webService.GetAsync($"/api/taskexport/{username}/{formattedStartDate}/{formattedEndDate}/{statusInt}");
+        Console.WriteLine(response?.ResponseBody);
+        Console.WriteLine(response.StatusCode);
+        Console.WriteLine(response?.Headers);
+        
+        if (response == null || response.ResponseBody == null || !response.ResponseBody.Any())
+        {
+            Console.WriteLine($"API returned null");
+            return new List<TaskModel?>();
+        }
+
+        if (!response.StatusCode.Equals(HttpStatusCode.OK))
+        {
+            Console.WriteLine($"API returned status code {response.StatusCode}, {response.ResponseBody}");
+            return new List<TaskModel?>(); 
+        }
+        
+        try
+        {
+            // Deserializing response body. in case of content found.
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            Console.WriteLine("Before deserializing");
+            var taskList = JsonSerializer.Deserialize<List<TaskModel>>(response.ResponseBody, options);
+            Console.WriteLine("After deserializing");
+            return taskList;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Deserialization error: {ex.Message}");
+            throw new Exception("Failed to deserialize the API response.", ex);
+        }
+    }
+
 
     public async Task<int> GetAllTasksAwaitingApproval()
     {

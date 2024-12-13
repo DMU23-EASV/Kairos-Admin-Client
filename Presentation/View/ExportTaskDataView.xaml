@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="WPF_MVVM_TEMPLATE.Presentation.View.ExportTaskDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPF_MVVM_TEMPLATE.Presentation.View"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+    
+    <Border CornerRadius="30"
+            Background = "{StaticResource HeaderColorBrush}"
+            Margin="20 20 20 20">
+        
+        <Grid Margin="20 20 20 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Label Content="Export" Grid.Row="0" 
+                   FontSize="22"
+                   FontWeight="SemiBold"
+                   Grid.Column="0"/>
+            
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <Label Content="Filter" FontSize="16"/>
+                
+                <StackPanel Orientation="Horizontal" Margin="20  0 0 10">
+                    
+                    <StackPanel Orientation="Vertical" Margin="0 0 40 0">
+                        <Label Content="Start dag"/>
+                        <DatePicker SelectedDate="{Binding StartTime}"/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Slut dag"/>
+                        <DatePicker SelectedDate="{Binding EndTime}"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+
+                
+                <StackPanel Orientation="Horizontal" Margin="20  0 0 10">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Medarbejder"></Label>
+                        <ListView Height="200" Width="100"
+                                  ItemsSource="{Binding Users}"
+                                  SelectedItem="{Binding SelectedUser}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Username}"
+                                                    Width="200"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>   
+                    
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10 0 10 0">
+                        <Button Content=">>"
+                                Command="{Binding MoveAllUsersToSelectedCommand}"></Button>
+                        <Button Content="&lt;&lt;"
+                                Command="{Binding MoveAllSelectedUsersCommand}"></Button>
+                        <Button Content="&lt;"
+                                Command="{Binding FromSelectedToUserCommand}"></Button>
+                        <Button Content=">"
+                                Command="{Binding SelectUserCommand}"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Valgte"></Label>
+                        <ListView Height="200" Width="100"
+                                 ItemsSource="{Binding SelectedUsers}" 
+                                 SelectedItem="{Binding UserSelected}" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Username}" 
+                                                    Width="200" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+
+                    
+                </StackPanel>
+                
+                <Label Content="Indstilinger" FontSize="16"/>
+                <CheckBox Content="Anonymiser brugernavn" Margin="20  0 0 10"
+                          IsChecked="{Binding AnonymizeUsername}"/>
+                <CheckBox Content="Anonymiser email" Margin="20  0 0 10"
+                          IsChecked="{Binding AnonymizeEmail}"/>
+                    
+                <Label Content="Status" Margin="20  0 0 0"/>
+                <ComboBox Margin="20  0 0 0" 
+                          ItemsSource="{Binding TaskStatuses}"
+                          SelectedItem="{Binding SelectedStatus}"/>
+                
+                <Label Content="Filtype" Margin="20  0 0 0"/>
+                <ComboBox Margin="20  0 0 0"
+                          ItemsSource="{Binding FileTypes}"
+                          SelectedItem="{Binding SelectedFileType}"/>
+                    
+                    
+                <Button 
+                    Content="EXPORT"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource ButtonBase}"
+                    Tag="Export"
+                    Command="{Binding ExportTaskCommand}"/>
+
+
+            </StackPanel>
+
+                
+            </Grid>
+            
+    </Border>
+</UserControl>

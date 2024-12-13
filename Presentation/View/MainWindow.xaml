@@ -43,6 +43,10 @@
         <DataTemplate DataType="{x:Type viewModels:LoginViewModel}" x:Name="LoginViewTemplate">
             <views:LoginView />
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModels:ExportTaskViewModel}" x:Name="ExportdataView">
+            <views:ExportTaskDataView />
+        </DataTemplate>
 
     </Window.Resources>
 

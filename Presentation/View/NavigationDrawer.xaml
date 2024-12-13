@@ -36,8 +36,7 @@
                     Content="Edit"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Edit"
-                    Width="180" 
-                    Click="EditUserNav_Onclick"/>
+                    Width="180" />
                 
                 
                 <Label Content="Users"/>        
@@ -74,14 +73,23 @@
                     Content="Export"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Upload"
-                    Width="180" />
+                    Width="180" 
+                    Click="ExportDataNav_OnClick"/>
+                
+                <RadioButton
+                    Content="Login"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Signin"
+                    Width="180" 
+                    Click="LoginNav_OnClick"/>
                 
                 <RadioButton
                     Content="Logout"
                     Style="{StaticResource MenuButtonTheme}"
-                    Tag="SignOut"
+                    Tag="Signout"
                     Width="180" 
                     Click="Logout_OnClick"/>
+                
                 
             </StackPanel>
         </Border>

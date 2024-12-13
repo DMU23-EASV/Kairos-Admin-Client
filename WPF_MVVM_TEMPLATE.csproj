@@ -34,6 +34,8 @@
       <PackageReference Include="LiveChartsCore" Version="2.0.0-rc4.5" />
       <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc4.5" />
       <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+      <PackageReference Include="MongoDB.Bson" Version="3.1.0" />
+      <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -48,6 +50,7 @@
 
     <ItemGroup>
       <Folder Include="Presentation\Resources\Fonts\" />
+      <Folder Include="FileResources\" />
     </ItemGroup>
 
 </Project>

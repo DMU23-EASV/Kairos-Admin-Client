@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 using WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.View;
@@ -21,7 +22,7 @@ public partial class NavigationDrawer : UserControl
         // In case logout falis, send error.
         if (response.StatusCode != System.Net.HttpStatusCode.OK)
         {
-            // Send error here
+            MessageBoxService.Instance.ShowMessageInfo("Logout failed", "Logout failed", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
@@ -38,6 +39,11 @@ public partial class NavigationDrawer : UserControl
     private void SettingsNav_OnClick(object sender, RoutedEventArgs e)
     {
         ViewModelController.Instance.SetCurrentViewModel<SettingsViewModel>();
+    }
+
+    private void ExportDataNav_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModelController.Instance.SetCurrentViewModel<ExportTaskViewModel>();
     }
 
     private void HomeNav_OnClick(object sender, RoutedEventArgs e)
@@ -63,5 +69,10 @@ public partial class NavigationDrawer : UserControl
     private void EditUserNav_Onclick(object sender, RoutedEventArgs e)
     {
         ViewModelController.Instance.SetCurrentViewModel<EditTaskViewModel>();
+    }
+
+    private void LoginNav_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModelController.Instance.SetCurrentViewModel<LoginViewModel>();
     }
 }

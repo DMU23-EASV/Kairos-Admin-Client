@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE landCodes SYSTEM "landCodes.dtd">
+
+<landCodes>
+    <landCode countryCode="DK">
+        <name>Danmark</name>
+        <dial_code>+45</dial_code>
+    </landCode>
+
+    <landCode countryCode ="DE">
+        <name>Tyskland</name>
+        <dial_code>+49</dial_code>
+    </landCode>
+
+    <landCode countryCode ="SE">
+        <name>Sverige</name>
+        <dial_code>+46</dial_code>
+    </landCode>
+
+    <landCode countryCode ="NO">
+        <name>Norge</name>
+        <dial_code>+47</dial_code>
+    </landCode>
+
+</landCodes>

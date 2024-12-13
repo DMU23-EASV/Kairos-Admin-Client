@@ -9,4 +9,6 @@ public interface ITaskRepo
     public Task<int> GetAllTasksAwaitingApproval();
     public Task<int> GetAllTasksApproved();
     public Task<IEnumerable<TaskModel?>?> GetTasksByUsername(string username);
+
+    public Task<IEnumerable<TaskModel>?> GetTasksForExport(string username, DateTime startDate, DateTime endDate, int statusInt);
 }

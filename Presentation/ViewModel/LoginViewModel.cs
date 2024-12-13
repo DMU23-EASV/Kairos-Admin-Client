@@ -1,9 +1,12 @@
 using System.Globalization;
+using System.Net;
+using System.Windows;
 using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Application;
 using WPF_MVVM_TEMPLATE.Application.Utility.Validation;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.Infrastructure;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Presentation.ViewModel;
 
@@ -33,7 +36,12 @@ public class LoginViewModel : ViewModelBase
             var login = new LoginAdmin(loginRepoApi);
 
             var loginResponse = await login.GetLoginRequest(loginRequestDto);
-            
+
+            if (loginResponse.StatusCode != HttpStatusCode.OK)
+            {
+                MessageBoxService.Instance.ShowMessageInfo("Login Mislykkedes.", "Login Mislykkedes", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             Console.WriteLine(loginResponse?.ResponseBody);
             Console.WriteLine(loginResponse?.StatusCode);
             Console.WriteLine(loginResponse?.Headers);
