@@ -15,11 +15,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <Window.Resources>
-
-        <DataTemplate DataType="{x:Type viewModels:AdminPanelViewModel}" x:Name="AdminPanelTemplate">
-            <views:AdminPanelView />
-        </DataTemplate>
-
+        
         <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}" x:Name="SettingsViewTemplate">
             <views:SettingsView />
         </DataTemplate>

@@ -19,6 +19,7 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Remove="Presentation\View\AdminPanelView.xaml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -49,6 +50,10 @@
     <ItemGroup>
       <Folder Include="Presentation\Resources\Fonts\" />
       <Folder Include="FileResources\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Presentation\View\AdminPanelView.xaml.cs" />
     </ItemGroup>
 
 </Project>
