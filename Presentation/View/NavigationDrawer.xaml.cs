@@ -22,7 +22,7 @@ public partial class NavigationDrawer : UserControl
         // In case logout falis, send error.
         if (response.StatusCode != System.Net.HttpStatusCode.OK)
         {
-            // Send error here
+            MessageBoxService.Instance.ShowMessageInfo("Logout failed", "Logout failed", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 

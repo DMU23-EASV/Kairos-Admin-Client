@@ -83,6 +83,13 @@
                     Width="180" 
                     Click="LoginNav_OnClick"/>
                 
+                <RadioButton
+                    Content="Logout"
+                    Style="{StaticResource MenuButtonTheme}"
+                    Tag="Signout"
+                    Width="180" 
+                    Click="Logout_OnClick"/>
+                
                 
             </StackPanel>
         </Border>
