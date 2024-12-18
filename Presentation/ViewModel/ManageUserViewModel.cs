@@ -65,6 +65,10 @@ public class ManageUserViewModel : ViewModelBase
         var users = await loadUsers.GetUsers();
         
         Console.WriteLine("Got all users");
+        foreach (var manageUserDto in users)
+        {
+            Console.WriteLine(manageUserDto.Username);
+        }
 
         // If no users is returned. return.
         if (users == null || users.Count <= 0)

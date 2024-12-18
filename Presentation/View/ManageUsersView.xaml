@@ -62,12 +62,15 @@
                             ToolTip="Opret en medarbejder"
                             Command="{Binding CreateNewUserCommand}"
                             />
-                    
-                    <TextBox Width="200" VerticalAlignment="Center"
-                             HorizontalAlignment="Right" 
-                             Margin="0 0 16 0"
-                             Text = "{Binding SearchText}"
-                             />
+                    <Border CornerRadius="20"> 
+                        <TextBox Width="200" VerticalAlignment="Center"
+                                 HorizontalAlignment="Right" 
+                                 Margin="0 0 16 0"
+                                 Height="20"
+                                 Text = "{Binding SearchText}"
+                        />
+
+                    </Border>
                     
                     <Button x:Name = "Search"
                             Style="{StaticResource ButtonBaseIcon}" Tag="Search"

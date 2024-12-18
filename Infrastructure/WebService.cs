@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using WPF_MVVM_TEMPLATE.Entitys;
@@ -13,7 +14,9 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
         private readonly HttpClient _httpClient;            
         private readonly string _baseUrl;                   
         private const int DefaultTimeoutInSeconds = 30; 
-        private static WebService _instance; 
+        private static WebService _instance;
+        private string _authenticationHeader; 
+        public string AuthenticationHeader {set { _authenticationHeader = value; } }
 
         public WebService(string baseUrl)
         {
@@ -51,6 +54,8 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
         public async Task<ResponsPackage> GetAsync(string endpoint)
         {
             _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Cookie", ".AspNetCore.Cookies="+_authenticationHeader);
+
             try
             {
                 using HttpResponseMessage response = await _httpClient.GetAsync(endpoint);

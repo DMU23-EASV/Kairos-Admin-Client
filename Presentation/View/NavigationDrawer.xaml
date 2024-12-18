@@ -13,62 +13,38 @@
                 
                 
                 <RadioButton
-                    Content="Home"
+                    Content="Hjem"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="home"
                     Width="180" 
                     Click="HomeNav_OnClick"/>
                 
-                <Label Content="Tasks"/>     
+                <Label Content="Opgaver"/>     
                 <RadioButton
-                    Content="Manage"
+                    Content="Oversigt"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Navicon"
                     Width="180" 
                     Click="ManageTask_OnClick"/>
                 
-                <RadioButton
-                    Content="Create"
-                    Style="{StaticResource MenuButtonTheme}"
-                    Tag="PlusCircle"
-                    Width="180" />
                 
+                <Label Content="Medlemmer"/>        
                 <RadioButton
-                    Content="Edit"
-                    Style="{StaticResource MenuButtonTheme}"
-                    Tag="Edit"
-                    Width="180" />
-                
-                
-                <Label Content="Users"/>        
-                <RadioButton
-                    Content="Create"
+                    Content="Opret"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="UserPlus"
                     Width="180"
                     Click="CreateUserNav_OnClick"/>
 
                 <RadioButton
-                    Content="Medlemmer"
+                    Content="Oversigt"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Users"
                     Width="180" 
                     Click="ManageUSersNav_OnClick"/>
                 
-                <RadioButton
-                    Content="Edit Debug"
-                    Style="{StaticResource MenuButtonTheme}"
-                    Tag="Edit"
-                    Width="180" 
-                    Click="EditUserNav_OnClick"/>
-                
                 <Label Content="Misc"/>        
-                <RadioButton
-                    Content="Settings"
-                    Style="{StaticResource MenuButtonTheme}"
-                    Tag="gear"
-                    Width="180" 
-                    Click="SettingsNav_OnClick"/>
+               
 
                 <RadioButton
                     Content="Export"

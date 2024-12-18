@@ -24,6 +24,7 @@ public class UserRepoApi : IUserRepo
         // Fetching all useres from api endpoint.
         var response = await _webService.GetAsync("/api/users");
 
+        
         // In case of server error, return empty string. 
         if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
         {
@@ -40,8 +41,6 @@ public class UserRepoApi : IUserRepo
         
         // checking if responsbody has data. 
         if (response.ResponseBody == null || response.ResponseBody.Length <= 0 || string.IsNullOrWhiteSpace(response.ResponseBody)) return new List<ManageUserDTO?>();
-        if (response.ResponseBody == null || response.ResponseBody.Length <= 0 || string.IsNullOrWhiteSpace(response.ResponseBody)) return new List<ManageUserDTO?>();
-        
         
         Console.WriteLine($"Response body: {response.ResponseBody}");
         Console.WriteLine($"Response Header: {response.Headers}");

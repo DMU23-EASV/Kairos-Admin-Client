@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Windows;
 using System.Windows.Input;
 using WPF_MVVM_TEMPLATE.Application;
@@ -42,12 +43,29 @@ public class LoginViewModel : ViewModelBase
                 MessageBoxService.Instance.ShowMessageInfo("Login Mislykkedes.", "Login Mislykkedes", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            Console.WriteLine(loginResponse?.ResponseBody);
-            Console.WriteLine(loginResponse?.StatusCode);
+            //Console.WriteLine(loginResponse?.ResponseBody);
+            //Console.WriteLine(loginResponse?.StatusCode);
             Console.WriteLine(loginResponse?.Headers);
+            
+            HttpHeaders headers = loginResponse.Headers;
+            IEnumerable<string> values;
+            if (headers.TryGetValues("Set-Cookie", out values))
+            {
+                Console.WriteLine("Please være cookie: " + values);
+                webService.AuthenticationHeader = values.First();
+            }
+            else
+            {
+                Console.WriteLine("NOT FOUND");
+            }
+            
+            
 
             TbUsername = String.Empty;
             TbPassword = String.Empty;
+
+            webService.AuthenticationHeader = ("CfDJ8L7C_ebAHjxIiKfmXr8uSyHJJ97TgLbX50KkQGJ282m7QRCEtczHBLV-nNS2Rqy7tPK2YnE4lfqrqIA1oI-IZuOSFfz29ADEE9lOsF8PZ10ou11L3G9tUcYspZjLKuV_CnOyh-przvzhC3nBorgw8P52ulmzdENomOxesug9Y5irHsBlrd7kVZnDUqJbypS4AumiwRJ55SzfAkVXKNsSHV4vTxvMMjM3C1i9ueoxclo3VrDmSP35dfXofAPXwnr_ksyQxZBWIAHD_UDAFO-XMVL1lQVm9rwnGF7DzOr6j7WBz_v-sjFY47VHoB_JqQ3cy8GELd_EQqiO-zNn44tnO-U");
+            
             
             ViewModelController.Instance.SetCurrentViewModel<HomeViewModel>();
             

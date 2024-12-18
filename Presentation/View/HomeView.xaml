@@ -12,7 +12,7 @@
     <Border Padding="20" CornerRadius="
     30" BorderBrush="Black" BorderThickness="2"
             Margin="20">
-        <Grid ShowGridLines="True">
+        <Grid ShowGridLines="False">
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -43,7 +43,7 @@
                 BorderThickness="2">
                 
                 
-                <Grid Margin="20 20 20 20" ShowGridLines="True" >
+                <Grid Margin="20 20 20 20" ShowGridLines="False" >
                     
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"></ColumnDefinition>
@@ -86,7 +86,8 @@
                             Content="Gå til"
                             Height="30"
                             VerticalAlignment="Bottom"
-                            HorizontalAlignment="Right"/>    
+                            HorizontalAlignment="Right"
+                            Click="NavigateToManageTasks"/>    
                     </Border>
                     
                 </Grid>
@@ -100,7 +101,7 @@
                 BorderThickness="2">
                 
                 
-                <Grid Margin="20 20 20 20" ShowGridLines="True" >
+                <Grid Margin="20 20 20 20" ShowGridLines="False" >
                     
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"></ColumnDefinition>
