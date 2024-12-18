@@ -24,7 +24,8 @@
                     Content="Manage"
                     Style="{StaticResource MenuButtonTheme}"
                     Tag="Navicon"
-                    Width="180" />
+                    Width="180" 
+                    Click="ManageTask_OnClick"/>
                 
                 <RadioButton
                     Content="Create"
