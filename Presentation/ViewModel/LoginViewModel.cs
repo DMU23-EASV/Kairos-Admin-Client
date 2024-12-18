@@ -42,16 +42,12 @@ public class LoginViewModel : ViewModelBase
             {
                 MessageBoxService.Instance.ShowMessageInfo("Login Mislykkedes.", "Login Mislykkedes", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            //Console.WriteLine(loginResponse?.ResponseBody);
-            //Console.WriteLine(loginResponse?.StatusCode);
-            Console.WriteLine(loginResponse?.Headers);
             
             HttpHeaders headers = loginResponse.Headers;
             IEnumerable<string> values;
+            
             if (headers.TryGetValues("Set-Cookie", out values))
             {
-                Console.WriteLine("Please være cookie: " + values);
                 webService.AuthenticationHeader = values.First();
             }
             else
