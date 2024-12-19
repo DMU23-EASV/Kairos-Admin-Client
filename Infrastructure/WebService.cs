@@ -53,7 +53,6 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
         /// <returns>A <see cref="ResponsPackage"/> containing the response details.</returns>
         public async Task<ResponsPackage> GetAsync(string endpoint)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
             AddCookie();
             
             try
@@ -85,7 +84,6 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
         /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
         public async Task<ResponsPackage> PostAsync(string endpoint, object payload)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
             AddCookie();
             try
             {
@@ -123,7 +121,6 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
         /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
         public async Task<ResponsPackage> PutAsync(string endpoint, object payload)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
             AddCookie();
             try
             {
@@ -161,7 +158,6 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
         /// <returns>A <see cref="ResponsPackage"/> with the response details.</returns>
         public async Task<ResponsPackage> DeleteAsync(string endpoint)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
             AddCookie();
             try
             {
@@ -187,6 +183,7 @@ namespace WPF_MVVM_TEMPLATE.Infrastructure
 
         public void AddCookie()
         {
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Add("Cookie", ".AspNetCore.Cookies="+_authenticationHeader);
         }
 
