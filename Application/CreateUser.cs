@@ -1,6 +1,8 @@
+using System.Windows;
 using WPF_MVVM_TEMPLATE.DTO;
 using WPF_MVVM_TEMPLATE.Entitys.DTOs;
 using WPF_MVVM_TEMPLATE.InterfaceAdapter;
+using WPF_MVVM_TEMPLATE.Presentation.Service;
 
 namespace WPF_MVVM_TEMPLATE.Application
 {
@@ -27,6 +29,7 @@ namespace WPF_MVVM_TEMPLATE.Application
                 if (createdUser != null)
                 {
                     Console.WriteLine($"CreateUser: User {createdUser.username} created successfully!");
+                    MessageBoxService.Instance.ShowMessageInfo($"Medarbejderen {createdUser.username} blev oprettet med succes", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                     return createdUser;
                 }
                 else

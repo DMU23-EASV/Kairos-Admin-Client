@@ -109,10 +109,10 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
                 phoneNumber = Convert.ToInt32(TextBoxPhoneNumber), 
                 PhoneNumberLandCode = SelectedPhoneCode.Replace("+",""),  
                 email = TextBoxEmail,           
-                status = Convert.ToInt32(CombBoxStatus), 
+                status = Convert.ToInt32(_selectedStatus), 
                 department = TextBoxDepartment, 
                 comment = TextBoxComment,       
-                role = Convert.ToInt32(SelectedRole) 
+                role = Convert.ToInt32(_selectedRole) 
             };
 
             var userRepo = new UserRepoApi(WebService.GetInstance("http://localhost:8080"));
@@ -122,7 +122,6 @@ public class CreateUserViewModel : ViewModelBase, INotifyDataErrorInfo
             if (createdUser != null)
             {
                 Console.WriteLine($"User {createdUser} created successfully!");
-                MessageBoxService.Instance.ShowMessageInfo($"Medarbejderen {createdUser} blev oprettet med succes", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 
                 // TODO: clear view? or change view??
             }
